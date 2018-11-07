@@ -1,6 +1,6 @@
 package cz.cvut.kbss.ear.brigade.dao;
 
-import cz.cvut.kbss.ear.eshop.exception.PersistenceException;
+import cz.cvut.kbss.ear.brigade.exception.PersistenceException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
