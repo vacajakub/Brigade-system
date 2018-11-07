@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EmployerDao extends BaseDao<Employer> {
 
-    protected EmployerDao(Class<Employer> type) {
-        super(type);
+    protected EmployerDao() {
+        super(Employer.class);
     }
 }

@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class BrigadeDao extends BaseDao<Brigade> {
 
-    protected BrigadeDao(Class<Brigade> type) {
-        super(type);
+    public BrigadeDao() {
+        super(Brigade.class);
     }
 
 }

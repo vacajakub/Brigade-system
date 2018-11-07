@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CategoryDao extends BaseDao<Category> {
 
-    protected CategoryDao(Class<Category> type) {
-        super(type);
+    protected CategoryDao() {
+        super(Category.class);
     }
 }

@@ -1,7 +1,6 @@
 package cz.cvut.kbss.ear.brigade.config;
 
 import com.jolbox.bonecp.BoneCPDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;

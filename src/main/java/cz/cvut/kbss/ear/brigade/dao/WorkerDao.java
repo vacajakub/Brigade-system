@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 public class WorkerDao extends BaseDao<Worker> {
 
 
-    protected WorkerDao(Class<Worker> type) {
-        super(type);
+    protected WorkerDao() {
+        super(Worker.class);
     }
 }
