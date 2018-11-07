@@ -16,7 +16,7 @@ import java.util.Properties;
 @PropertySources(
         {@PropertySource("classpath:jpa.properties"),
                 @PropertySource("classpath:jdbc.properties")})
-@ComponentScan(basePackages = "cz.cvut.kbss.ear.eshop.dao")
+@ComponentScan(basePackages = "cz.cvut.kbss.ear.brigade.dao")
 public class PersistenceConfig {
 
     private final Environment environment;
@@ -25,7 +25,7 @@ public class PersistenceConfig {
         this.environment = environment;
     }
 
-    @Bean(name = "ear-eshop-ds")
+    @Bean(name = "ear-brigade-ds")
     public DataSource dataSource() {
         final BoneCPDataSource ds = new BoneCPDataSource();
         ds.setDriverClass(environment.getRequiredProperty("jdbc.driverClassName"));
@@ -40,7 +40,7 @@ public class PersistenceConfig {
         final LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(ds);
         emf.setJpaVendorAdapter(new EclipseLinkJpaVendorAdapter());
-        emf.setPackagesToScan("cz.cvut.kbss.ear.eshop.model");
+        emf.setPackagesToScan("cz.cvut.kbss.ear.brigade.model");
 
         final Properties props = new Properties();
         props.setProperty("databasePlatform", environment.getRequiredProperty("jpa.platform"));

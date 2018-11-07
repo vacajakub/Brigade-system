@@ -7,6 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-@ComponentScan(basePackages =  "cz.cvut.kbss.ear.eshop.service")
+@ComponentScan(basePackages =  "cz.cvut.kbss.ear.brigade.service")
 public class ServiceConfig {
 }

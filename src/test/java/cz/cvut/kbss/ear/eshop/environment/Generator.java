@@ -1,6 +1,5 @@
 package cz.cvut.kbss.ear.eshop.environment;
 
-import cz.cvut.kbss.ear.eshop.model.Product;
 import cz.cvut.kbss.ear.brigade.model.User;
 
 import java.util.Random;
@@ -26,11 +25,5 @@ public class Generator {
         return user;
     }
 
-    public static Product generateProduct() {
-        final Product p = new Product();
-        p.setName("Product" + randomInt());
-        p.setAmount(1);
-        p.setPrice(1.0);
-        return p;
-    }
+
 }

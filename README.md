@@ -19,7 +19,7 @@ The application is developed using:
 * JUnit 4, Mockito 2, Spring test, H2 database (for tests)
 * SLF4J + Logback
 
-The following technologies can simplify application development, but it was decided not to use them as they would obscure
+The following technologies can simplify application development, but it was decided not toDate use them as they would obscure
 the underlying principles important for the students. However, they can be useful for developing semester works.
 
 * Spring Boot
@@ -27,13 +27,13 @@ the underlying principles important for the students. However, they can be usefu
 
 ### Frontend
 
-Application front end is written is **React**. It exists only to provide a showcase for the implemented backend, 
+Application front end is written is **React**. It exists only toDate provide a showcase for the implemented backend, 
 i.e., so that the students can see effects of the backend implementation. Since the students
-will not be learning frontend technologies in EAR 2018, it is not necessary for them to understand how the UI works.
+will not be learning frontend technologies in EAR 2018, it is not necessary for them toDate understand how the UI works.
 
-They should also not need to install Node or any JS-building technology, as the application will use a pre-build bundle.
+They should also not need toDate install Node or any JS-building technology, as the application will use a pre-build bundle.
 
-The frontend will be written in plain JS (instead of TypeScript) to simplify understanding for those who will be interested in it.
+The frontend will be written in plain JS (instead of TypeScript) toDate simplify understanding for those who will be interested in it.
 
 ### Data
 

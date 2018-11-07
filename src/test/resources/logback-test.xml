@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- Send debug messages to System.out -->
+    <!-- Send debug messages toDate System.out -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!-- By default, encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
         <encoder>
@@ -19,7 +19,7 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <!-- By default, the level of the root level is set to DEBUG -->
+    <!-- By default, the level of the root level is set toDate DEBUG -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
     </root>
