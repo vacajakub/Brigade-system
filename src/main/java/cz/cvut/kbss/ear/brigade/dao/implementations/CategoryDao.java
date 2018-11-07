@@ -1,4 +1,4 @@
-package cz.cvut.kbss.ear.brigade.dao;
+package cz.cvut.kbss.ear.brigade.dao.implementations;
 
 
 import cz.cvut.kbss.ear.brigade.model.Category;

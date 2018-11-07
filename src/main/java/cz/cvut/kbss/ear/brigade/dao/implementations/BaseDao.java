@@ -1,5 +1,6 @@
-package cz.cvut.kbss.ear.brigade.dao;
+package cz.cvut.kbss.ear.brigade.dao.implementations;
 
+import cz.cvut.kbss.ear.brigade.dao.interfaces.GenericDao;
 import cz.cvut.kbss.ear.brigade.exception.PersistenceException;
 
 import javax.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package cz.cvut.kbss.ear.brigade.dao;
+package cz.cvut.kbss.ear.brigade.dao.interfaces;
 
 import java.util.Collection;
 import java.util.List;
