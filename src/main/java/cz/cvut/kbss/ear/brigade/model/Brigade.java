@@ -12,9 +12,9 @@ public class Brigade extends AbstractEntity {
 
     private int salaryPerHour;
 
-    private DateTime from;
+    private DateTime fromDate;
 
-    private DateTime to;
+    private DateTime toDate;
 
     private int duration;
 
@@ -34,20 +34,20 @@ public class Brigade extends AbstractEntity {
         this.salaryPerHour = salaryPerHour;
     }
 
-    public DateTime getFrom() {
-        return from;
+    public DateTime getFromDate() {
+        return fromDate;
     }
 
-    public void setFrom(DateTime from) {
-        this.from = from;
+    public void setFromDate(DateTime fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public DateTime getTo() {
-        return to;
+    public DateTime getToDate() {
+        return toDate;
     }
 
-    public void setTo(DateTime to) {
-        this.to = to;
+    public void setToDate(DateTime toDate) {
+        this.toDate = toDate;
     }
 
     public int getDuration() {
