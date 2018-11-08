@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.brigade.dao;
 
+import cz.cvut.kbss.ear.brigade.dao.implementations.UserDao;
 import cz.cvut.kbss.ear.eshop.environment.Generator;
 import cz.cvut.kbss.ear.brigade.model.User;
 import org.junit.Test;
