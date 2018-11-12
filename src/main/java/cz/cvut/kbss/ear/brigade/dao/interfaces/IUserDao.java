@@ -6,5 +6,5 @@ import cz.cvut.kbss.ear.brigade.model.User;
 public interface IUserDao extends GenericDao<User> {
 
 
-    User findByUsername(String username);
+    User findByEmail(String email);
 }

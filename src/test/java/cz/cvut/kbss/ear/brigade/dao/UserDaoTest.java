@@ -24,8 +24,8 @@ public class UserDaoTest extends BaseDaoTestRunner {
         final User user = Generator.generateUser();
         em.persist(user);
 
-        final User result = sut.findByUsername(user.getUsername());
-       // assertNotNull(result);
+        final User result = sut.findByEmail(user.getEmail());
+        assertNotNull(result);
         //assertEquals(user.getId(), result.getId());
     }
 

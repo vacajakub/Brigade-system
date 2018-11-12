@@ -20,7 +20,7 @@ public class Generator {
         final User user = new User();
         user.setFirstName("FirstName" + randomInt());
         user.setLastName("LastName" + randomInt());
-        user.setUsername("username" + randomInt() + "@kbss.felk.cvut.cz");
+        user.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
         user.setPassword(Integer.toString(randomInt()));
         return user;
     }
