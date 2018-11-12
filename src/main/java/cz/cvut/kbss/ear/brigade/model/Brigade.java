@@ -1,8 +1,10 @@
 package cz.cvut.kbss.ear.brigade.model;
 
-import org.eclipse.persistence.jpa.jpql.parser.DateTime;
+
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Entity
@@ -11,9 +13,13 @@ public class Brigade extends AbstractEntity {
 
     private int salaryPerHour;
 
-    //private DateTime fromDate;
+    private Date dateFrom;
 
-    //private DateTime toDate;
+    private Date dateTo;
+
+    private Time timeFrom;
+
+    private Time timeTo;
 
     private int duration;
 
@@ -23,6 +29,9 @@ public class Brigade extends AbstractEntity {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "brigade_worker")
     private List<Worker> workers;
+
+    @ManyToOne
+    private Category category;
 
 
     public int getSalaryPerHour() {

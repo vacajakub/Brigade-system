@@ -19,11 +19,6 @@ public class User extends AbstractEntity {
 
     @Basic(optional = false)
     @Column(nullable = false, unique = true)
-    private String username;
-
-
-    @Basic(optional = false)
-    @Column(nullable = false, unique = true)
     //@Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "musí obsahovat validní email")
     private String email;
 
@@ -57,14 +52,6 @@ public class User extends AbstractEntity {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -75,6 +62,14 @@ public class User extends AbstractEntity {
 
     public void erasePassword() {
         this.password = null;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Role getRole() {
@@ -91,6 +86,6 @@ public class User extends AbstractEntity {
     public String toString() {
         return "User{" +
                 firstName + " " + lastName +
-                "(" + username + ")}";
+                "(" + email + ")}";
     }
 }
