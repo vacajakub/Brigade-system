@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "EAR_WORKER")
+@Table(name = "Workers")
 public class Worker extends User {
 
 

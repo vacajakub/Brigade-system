@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "EAR_EMPLOYER")
+@Table(name = "Employers")
 public class Employer extends User {
 
     @ManyToOne

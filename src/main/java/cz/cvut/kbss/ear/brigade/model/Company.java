@@ -1,14 +1,17 @@
 package cz.cvut.kbss.ear.brigade.model;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "EAR_COMPANY")
+@Table(name = "Companies")
 public class Company extends AbstractEntity {
 
+    @Basic(optional = false)
+    @Column(nullable = false)
     private String name;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
     private String ico;
 
 

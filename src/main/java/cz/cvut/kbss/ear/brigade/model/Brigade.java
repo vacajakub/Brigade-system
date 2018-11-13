@@ -8,16 +8,23 @@ import java.sql.Time;
 import java.util.List;
 
 @Entity
-@Table(name = "EAR_BRIGADE")
+@Table(name = "Brigades")
 public class Brigade extends AbstractEntity {
 
+    @Basic(optional = false)
+    @Column(nullable = false)
     private int salaryPerHour;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
     private Date dateFrom;
 
+    @Basic(optional = false)
+    @Column(nullable = false)
     private Date dateTo;
 
     private Time timeFrom;
+
 
     private Time timeTo;
 
