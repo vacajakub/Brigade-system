@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableAspectJAutoProxy(proxyTargetClass = true)    // Necessary for beans without interface
 @EnableTransactionManagement
-@Import( {PersistenceConfig.class, ServiceConfig.class})
+@Import({PersistenceConfig.class, ServiceConfig.class, WebAppConfig.class})
 public class AppConfig {
 
 }
