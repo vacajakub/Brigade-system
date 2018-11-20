@@ -1,8 +1,6 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Users")
@@ -13,17 +11,17 @@ public class User extends AbstractEntity {
 
     @Basic(optional = false)
     @Column(nullable = false)
-    @Pattern(regexp = "[A-Za-z ]*", message = "Must contain only letters and spaces.")
+    //@Pattern(regexp = "[A-Za-z ]*", message = "Must contain only letters and spaces.")
     private String firstName;
 
     @Basic(optional = false)
     @Column(nullable = false)
-    @Pattern(regexp = "[A-Za-z ]*", message = "Must contain only letters and spaces.")
+   // @Pattern(regexp = "[A-Za-z ]*", message = "Must contain only letters and spaces.")
     private String lastName;
 
     @Basic(optional = false)
     @Column(nullable = false, unique = true)
-    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Must contain valid email address.")
+   // @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Must contain valid email address.")
     private String email;
 
     @Basic(optional = false)

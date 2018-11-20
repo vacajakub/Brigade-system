@@ -15,7 +15,7 @@ import java.util.Properties;
 @PropertySources(
         {@PropertySource("classpath:jpa.properties"),
                 @PropertySource("classpath:jdbc.properties")})
-@ComponentScan(basePackages = "cz.cvut.kbss.ear.brigade.dao")
+@ComponentScan(basePackages = "cz.cvut.kbss.ear.brigade.dao.implementations")
 public class PersistenceConfig {
 
     private final Environment environment;
@@ -27,10 +27,10 @@ public class PersistenceConfig {
     @Bean(name = "ear-brigade-ds")
     public DataSource dataSource() {
         final BoneCPDataSource ds = new BoneCPDataSource();
-        ds.setDriverClass(environment.getRequiredProperty("jdbc.driverClassName"));
-        ds.setJdbcUrl(environment.getRequiredProperty("jdbc.url"));
-        ds.setUsername(environment.getRequiredProperty("jdbc.username"));
-        ds.setPassword(environment.getRequiredProperty("jdbc.password"));
+        ds.setDriverClass("org.postgresql.Driver");
+        ds.setJdbcUrl("jdbc:postgresql://kbss.felk.cvut.cz:5433/ear2018zs_10");
+        ds.setUsername("ear2018zs_10");
+        ds.setPassword("zirafa");
         return ds;
     }
 
