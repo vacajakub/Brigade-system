@@ -21,7 +21,7 @@ public class UserDaoTest extends BaseDaoTestRunner {
 
     @Test
     public void findByUsernameReturnsPersonWithMatchingUsername() {
-        final Worker user = Generator.generateUser();
+        final Worker user = Generator.generateWorker();
         em.persist(user);
 
         final Worker result = sut.findByEmail(user.getEmail());

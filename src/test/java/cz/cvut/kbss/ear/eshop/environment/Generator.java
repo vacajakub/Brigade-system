@@ -17,7 +17,7 @@ public class Generator {
         return RAND.nextBoolean();
     }
 
-    public static Worker generateUser() {
+    public static Worker generateWorker() {
         final Worker user = new Worker();
         user.setFirstName("FirstName" + randomInt());
         user.setLastName("LastName" + randomInt());

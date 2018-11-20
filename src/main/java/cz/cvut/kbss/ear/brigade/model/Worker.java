@@ -6,7 +6,9 @@ import java.util.List;
 @Entity
 @Table(name = "Workers")
 @NamedQueries({
-        @NamedQuery(name = "Worker.findByEmail", query = "SELECT u FROM Worker u WHERE u.email = :email")
+        @NamedQuery(name = "Worker.findAll", query = "SELECT w FROM Worker w"),
+        @NamedQuery(name = "Worker.findByEmail", query = "SELECT w FROM Worker w WHERE w.email = :email"),
+        @NamedQuery(name = "Worker.findByLastName", query = "SELECT w from Worker w WHERE w.lastName = :lastName")
 })
 public class Worker extends User {
 

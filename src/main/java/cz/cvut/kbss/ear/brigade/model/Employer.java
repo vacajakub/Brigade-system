@@ -1,20 +1,22 @@
 package cz.cvut.kbss.ear.brigade.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "Employers")
+@NamedQueries({
+        @NamedQuery(name = "Employer.findAll", query = "SELECT e FROM Employer e"),
+        @NamedQuery(name = "Employer.findByEmail", query = "SELECT e FROM Employer e WHERE e.email = :email"),
+        @NamedQuery(name = "Employer.findByLastName", query = "SELECT e from Employer e WHERE e.lastName = :lastName")
+})
 public class Employer extends User {
 
     @ManyToOne
     private Company company;
 
     @OneToMany(mappedBy = "employer")
-    List<Brigade> brigades;
+    private List<Brigade> brigades;
 
 
     public Company getCompany() {

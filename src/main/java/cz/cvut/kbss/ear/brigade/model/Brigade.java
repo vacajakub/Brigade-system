@@ -1,7 +1,6 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -9,6 +8,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "Brigades")
+@NamedQueries({
+        @NamedQuery(name = "Brigade.findAll", query = "SELECT b from Brigade b"),
+        @NamedQuery(name = "Brigade.findByDateFrom", query = "SELECT b from Brigade b where b.dateFrom = :dateFrom"),
+        @NamedQuery(name = "Brigade.findByDateTo", query = "SELECT b from Brigade b where b.dateTo = :dateTo"),
+        @NamedQuery(name = "Brigade.findByCategory", query = "SELECT b from Brigade b where b.category = :category"),
+        @NamedQuery(name = "Brigade.findByEmployer", query = "SELECT b from Brigade b where  b.employer = :employer")
+})
 public class Brigade extends AbstractEntity {
 
     @Basic(optional = false)
@@ -24,7 +30,6 @@ public class Brigade extends AbstractEntity {
     private Date dateTo;
 
     private Time timeFrom;
-
 
     private Time timeTo;
 
@@ -50,7 +55,6 @@ public class Brigade extends AbstractEntity {
     }
 
 
-
     public int getDuration() {
         return duration;
     }
@@ -73,5 +77,45 @@ public class Brigade extends AbstractEntity {
 
     public void setWorkers(List<Worker> workers) {
         this.workers = workers;
+    }
+
+    public Date getDateFrom() {
+        return dateFrom;
+    }
+
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
+    }
+
+    public Time getTimeFrom() {
+        return timeFrom;
+    }
+
+    public void setTimeFrom(Time timeFrom) {
+        this.timeFrom = timeFrom;
+    }
+
+    public Time getTimeTo() {
+        return timeTo;
+    }
+
+    public void setTimeTo(Time timeTo) {
+        this.timeTo = timeTo;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
