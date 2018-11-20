@@ -2,12 +2,8 @@ package cz.cvut.kbss.ear.brigade.model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "Users")
-@NamedQueries({
-        @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email")
-})
-public class User extends AbstractEntity {
+@MappedSuperclass
+public abstract class User extends AbstractEntity {
 
     @Basic(optional = false)
     @Column(nullable = false)

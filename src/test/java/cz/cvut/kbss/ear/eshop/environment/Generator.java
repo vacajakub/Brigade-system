@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.eshop.environment;
 
 import cz.cvut.kbss.ear.brigade.model.User;
+import cz.cvut.kbss.ear.brigade.model.Worker;
 
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class Generator {
     }
 
     public static User generateUser() {
-        final User user = new User();
+        final User user = new Worker();
         user.setFirstName("FirstName" + randomInt());
         user.setLastName("LastName" + randomInt());
         user.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");

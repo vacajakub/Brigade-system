@@ -16,5 +16,11 @@ public class Worker extends User {
     private List<Brigade> brigades;
 
 
+    public List<Brigade> getBrigades() {
+        return brigades;
+    }
 
+    public void setBrigades(List<Brigade> brigades) {
+        this.brigades = brigades;
+    }
 }
