@@ -1,8 +1,8 @@
 package cz.cvut.kbss.ear.brigade.dao;
 
-import cz.cvut.kbss.ear.brigade.dao.implementations.UserDao;
+import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
+import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.eshop.environment.Generator;
-import cz.cvut.kbss.ear.brigade.model.User;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,20 +17,20 @@ public class UserDaoTest extends BaseDaoTestRunner {
     private EntityManager em;
 
     @Autowired
-    private UserDao sut;
+    private WorkerDao sut;
 
     @Test
     public void findByUsernameReturnsPersonWithMatchingUsername() {
-      //  final User user = Generator.generateUser();
-      //  em.persist(user);
+        final Worker user = Generator.generateUser();
+        em.persist(user);
 
-        //final User result = sut.findByEmail(user.getEmail());
-       // assertNotNull(result);
-        //assertEquals(user.getId(), result.getId());
+        final Worker result = sut.findByEmail(user.getEmail());
+        assertNotNull(result);
+        assertEquals(user.getId(), result.getId());
     }
 
     @Test
     public void findByUsernameReturnsNullForUnknownUsername() {
-       // assertNull(sut.findByUsername("unknownUsername"));
+        assertNull(sut.findByEmail("unknownEmail"));
     }
 }

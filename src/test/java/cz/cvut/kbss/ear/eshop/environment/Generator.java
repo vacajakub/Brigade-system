@@ -17,8 +17,8 @@ public class Generator {
         return RAND.nextBoolean();
     }
 
-    public static User generateUser() {
-        final User user = new Worker();
+    public static Worker generateUser() {
+        final Worker user = new Worker();
         user.setFirstName("FirstName" + randomInt());
         user.setLastName("LastName" + randomInt());
         user.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
