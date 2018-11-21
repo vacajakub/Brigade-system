@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,4 +15,23 @@ public class Category extends AbstractEntity {
     @OneToMany (mappedBy = "category")
     private List<Brigade> brigades;
 
+    public Category() {
+        this.brigades = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Brigade> getBrigades() {
+        return brigades;
+    }
+
+    public void setBrigades(List<Brigade> brigades) {
+        this.brigades = brigades;
+    }
 }

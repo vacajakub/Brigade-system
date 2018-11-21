@@ -48,8 +48,8 @@ public class PersistenceConfig {
         props.setProperty("eclipselink.weaving", "static");
         props.setProperty("eclipselink.ddl-generation", environment.getRequiredProperty("eclipselink.ddl-generation"));
 //        props.setProperty("eclipselink.dll-generation", "create-tables");
-        props.setProperty("eclipselink.logging.level", "ALL");
-        props.setProperty("eclipselink.logging.parameters", "true");
+//        props.setProperty("eclipselink.logging.level", "ALL");
+//        props.setProperty("eclipselink.logging.parameters", "true");
         emf.setJpaProperties(props);
         return emf;
     }

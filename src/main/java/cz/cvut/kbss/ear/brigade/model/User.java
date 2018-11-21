@@ -27,8 +27,6 @@ public abstract class User extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    //private Cart cart;
 
     public User() {
         this.role = Role.GUEST;

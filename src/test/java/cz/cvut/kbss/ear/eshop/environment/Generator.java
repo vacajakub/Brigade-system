@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.eshop.environment;
 
+import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.model.User;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 
@@ -24,6 +25,15 @@ public class Generator {
         user.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
         user.setPassword(Integer.toString(randomInt()));
         return user;
+    }
+
+    public static Employer generateEmployer() {
+        final Employer employer = new Employer();
+        employer.setFirstName("FirstName" + randomInt());
+        employer.setLastName("LastName" + randomInt());
+        employer.setEmail("username" + randomInt() + "@brigade.cz");
+        employer.setPassword(Integer.toString(randomInt()));
+        return employer;
     }
 
 

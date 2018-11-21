@@ -45,7 +45,7 @@ public class BrigadeDao extends BaseDao<Brigade> {
         }
     }
 
-    public List<Brigade> findByDateCategory(Category category) {
+    public List<Brigade> findByCategory(Category category) {
         try {
             return em.createNamedQuery("Brigade.findByCategory", Brigade.class).setParameter("category", category)
                     .getResultList();
@@ -54,10 +54,10 @@ public class BrigadeDao extends BaseDao<Brigade> {
         }
     }
 
-    public List<Brigade> findByEmployer(Employer employer) {
+    public Brigade findByEmployer(Employer employer) {
         try {
             return em.createNamedQuery("Brigade.findByEmployer", Brigade.class).setParameter("employer", employer)
-                    .getResultList();
+                    .getSingleResult();
         } catch (NoResultException e) {
             return null;
         }

@@ -4,6 +4,7 @@ package cz.cvut.kbss.ear.brigade.model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -44,6 +45,10 @@ public class Brigade extends AbstractEntity {
 
     @ManyToOne
     private Category category;
+
+    public Brigade() {
+        this.workers = new ArrayList<>();
+    }
 
 
     public int getSalaryPerHour() {

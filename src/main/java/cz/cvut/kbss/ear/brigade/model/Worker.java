@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,6 +17,10 @@ public class Worker extends User {
 
     @ManyToMany (mappedBy = "workers")
     private List<Brigade> brigades;
+
+    public Worker() {
+        this.brigades = new ArrayList<>();
+    }
 
 
     public List<Brigade> getBrigades() {

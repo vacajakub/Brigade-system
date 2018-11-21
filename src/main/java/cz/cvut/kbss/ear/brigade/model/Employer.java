@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,10 @@ public class Employer extends User {
 
     @OneToMany(mappedBy = "employer")
     private List<Brigade> brigades;
+
+    public Employer() {
+        this.brigades = new ArrayList<>();
+    }
 
 
     public Company getCompany() {
