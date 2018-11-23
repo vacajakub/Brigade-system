@@ -1,6 +1,8 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 
+import cz.cvut.kbss.ear.brigade.exception.BrigadeIsFullException;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -41,6 +43,7 @@ public class Brigade extends AbstractEntity {
     private int duration;
 
     private int maxWorkers;
+    
 
     @OneToOne
     private Address address;
@@ -59,8 +62,11 @@ public class Brigade extends AbstractEntity {
         this.workers = new ArrayList<>();
     }
 
-    public void addWorker(Worker worker){
-        this.workers.add(worker);
+    public void addWorker(Worker worker) {
+        if (workers.size() < maxWorkers)
+            this.workers.add(worker);
+        else
+            throw new BrigadeIsFullException("Limit is " + maxWorkers + "!!!");
     }
 
 

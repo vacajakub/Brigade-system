@@ -1,13 +1,7 @@
 package cz.cvut.kbss.ear.brigade.service;
 
-import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
-import cz.cvut.kbss.ear.brigade.dao.implementations.CategoryDao;
-import cz.cvut.kbss.ear.brigade.dao.implementations.EmployerDao;
-import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
-import cz.cvut.kbss.ear.brigade.model.Brigade;
-import cz.cvut.kbss.ear.brigade.model.Category;
-import cz.cvut.kbss.ear.brigade.model.Employer;
-import cz.cvut.kbss.ear.brigade.model.Worker;
+import cz.cvut.kbss.ear.brigade.dao.implementations.*;
+import cz.cvut.kbss.ear.brigade.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,11 +47,12 @@ public class BrigadeService {
     }
 
     @Transactional
-    public void addBrigade(Employer employer, Brigade brigade, Category category) {
+    public void addBrigade(Employer employer, Brigade brigade, Category category, Address address) {
         brigade.setEmployer(employer);
         employer.addBrigade(brigade);
         brigade.setCategory(category);
         category.addBrigade(brigade);
+        brigade.setAddress(address);
         brigadeDao.update(brigade);
         employerDao.update(employer);
         categoryDao.update(category);
