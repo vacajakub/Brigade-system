@@ -1,8 +1,11 @@
 package cz.cvut.kbss.ear.brigade.service;
 
+import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
+import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
+import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +23,12 @@ import java.util.stream.Collectors;
 public class WorkerService {
 
     private final WorkerDao workerDao;
+    private final BrigadeDao brigadeDao;
 
     @Autowired
-    public WorkerService(WorkerDao workerDao) {
+    public WorkerService(WorkerDao workerDao, BrigadeDao brigadeDao) {
         this.workerDao = workerDao;
+        this.brigadeDao = brigadeDao;
     }
 
     @Transactional(readOnly = true)
@@ -64,12 +69,17 @@ public class WorkerService {
         return filterBrigades(worker.getBrigades(), true);
     }
 
-
-    @PostConstruct
-    public void initDb() {
-        // todo - pouze pro vygenerovani tabulek (LAZY init)
-        final List<Worker> workers = workerDao.findAll();
+    public void singOffFromBrigade(Worker worker, Brigade brigade) {
+        if (System.currentTimeMillis() < brigade.getDateFrom().getTime() - Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE) {
+            worker.getBrigades().remove(brigade);
+            brigade.getWorkers().remove(worker);
+            workerDao.update(worker);
+            brigadeDao.update(brigade);
+        } else {
+            throw new LateSignOffException("Too late to sign off!!!");
+        }
     }
+
 
     @Transactional(readOnly = true)
     public Pair<Integer, Integer> getWorkerScore(Worker worker) {
@@ -90,5 +100,12 @@ public class WorkerService {
                     return brigade.getDateTo().getTime() >= System.currentTimeMillis();
                 })
                 .collect(Collectors.toList());
+    }
+
+
+    @PostConstruct
+    public void initDb() {
+        // todo - pouze pro vygenerovani tabulek (LAZY init)
+        final List<Worker> workers = workerDao.findAll();
     }
 }

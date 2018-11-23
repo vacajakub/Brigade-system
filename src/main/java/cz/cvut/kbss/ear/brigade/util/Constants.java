@@ -21,6 +21,8 @@ public final class Constants {
      */
     public static final String UTF_8_ENCODING = "UTF-8";
 
+    public static final long LIMIT_FOR_SIGNING_OFF_OF_BRIGADE = 1000 * 60 * 60 * 24;
+
     /**
      * Default user role.
      */
