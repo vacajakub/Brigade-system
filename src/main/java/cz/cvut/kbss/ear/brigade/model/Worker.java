@@ -18,6 +18,9 @@ public class Worker extends User {
     @ManyToMany (mappedBy = "workers")
     private List<Brigade> brigades;
 
+    @ManyToMany (mappedBy = "noShowWorkers")
+    private List<Brigade> unvisitedBrigades;
+
     public Worker() {
         this.brigades = new ArrayList<>();
     }
@@ -33,5 +36,13 @@ public class Worker extends User {
 
     public void setBrigades(List<Brigade> brigades) {
         this.brigades = brigades;
+    }
+
+    public List<Brigade> getUnvisitedBrigades() {
+        return unvisitedBrigades;
+    }
+
+    public void setUnvisitedBrigades(List<Brigade> unvisitedBrigades) {
+        this.unvisitedBrigades = unvisitedBrigades;
     }
 }

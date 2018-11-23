@@ -1,7 +1,9 @@
 package cz.cvut.kbss.ear.brigade.service;
 
 
+import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.EmployerDao;
+import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.model.Worker;
@@ -17,11 +19,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EmployerService {
 
     private final EmployerDao employerDao;
+    private final BrigadeDao brigadeDao;
+    private final WorkerDao workerDao;
 
     @Autowired
-    public EmployerService(EmployerDao employerDao) {
+    public EmployerService(EmployerDao employerDao, BrigadeDao brigadeDao, WorkerDao workerDao) {
         this.employerDao = employerDao;
+        this.brigadeDao = brigadeDao;
+        this.workerDao = workerDao;
     }
+
+
 
     @Transactional(readOnly = true)
     public Employer find(Integer id) {
@@ -52,6 +60,26 @@ public class EmployerService {
     @Transactional
     public List<Brigade> getPastBrigades(Employer employer) {
         return WorkerService.filterBrigades(employer.getBrigades(), true);
+    }
+
+    @Transactional
+    public void moveWorkerToBlacklist(Brigade brigade, Worker worker){
+        brigade.getWorkers().remove(worker);
+        brigade.getNoShowWorkers().add(worker);
+
+        worker.getBrigades().remove(brigade);
+        worker.getUnvisitedBrigades().add(brigade);
+
+        brigadeDao.update(brigade);
+        workerDao.update(worker);
+    }
+
+    @Transactional
+    public void removeWorkerFromBrigade(Brigade brigade, Worker worker){
+        brigade.getWorkers().remove(worker);
+        worker.getBrigades().remove(brigade);
+        brigadeDao.update(brigade);
+        workerDao.update(worker);
     }
 
     @Transactional

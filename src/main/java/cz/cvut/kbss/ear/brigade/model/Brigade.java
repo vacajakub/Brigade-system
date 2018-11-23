@@ -58,6 +58,10 @@ public class Brigade extends AbstractEntity {
     @JoinTable(name = "brigade_worker")
     private List<Worker> workers;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "blacklist")
+    private List<Worker> noShowWorkers;
+
     @ManyToOne
     private Category category;
 
@@ -192,5 +196,13 @@ public class Brigade extends AbstractEntity {
 
     public void setThumbsDown(int thumbsDown) {
         this.thumbsDown = thumbsDown;
+    }
+
+    public List<Worker> getNoShowWorkers() {
+        return noShowWorkers;
+    }
+
+    public void setNoShowWorkers(List<Worker> noShowWorkers) {
+        this.noShowWorkers = noShowWorkers;
     }
 }

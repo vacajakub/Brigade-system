@@ -4,6 +4,7 @@ import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -66,7 +67,16 @@ public class WorkerService {
 
     @PostConstruct
     public void initDb() {
+        // todo - pouze pro vygenerovani tabulek (LAZY init)
         final List<Worker> workers = workerDao.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Pair<Integer, Integer> getWorkerScore(Worker worker) {
+        int countShow = filterBrigades(worker.getBrigades(), true).size();
+        int countNoShow = filterBrigades(worker.getUnvisitedBrigades(), true).size();
+
+        return new Pair<>(countShow, countNoShow);
     }
 
 
