@@ -93,6 +93,10 @@ public class EmployerService {
         return new Pair<>(countPositive, countNegative);
     }
 
+    public void sendEmailtoWorkersFromBrigade(Brigade brigade, String text){
+        //todo poslat email vsem prihlasenym brigadnikum nejaky email
+    }
+
     @Transactional
     public int getCountOfPastBrigades(Employer employer) {
         return getPastBrigades(employer).size();
