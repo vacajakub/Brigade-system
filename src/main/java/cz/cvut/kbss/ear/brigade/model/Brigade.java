@@ -43,7 +43,7 @@ public class Brigade extends AbstractEntity {
     private int duration;
 
     private int maxWorkers;
-    
+
 
     @OneToOne
     private Address address;
