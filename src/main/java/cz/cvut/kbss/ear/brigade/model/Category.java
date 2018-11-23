@@ -19,6 +19,10 @@ public class Category extends AbstractEntity {
         this.brigades = new ArrayList<>();
     }
 
+    public void addBrigade(Brigade brigade){
+        this.brigades.add(brigade);
+    }
+
     public String getName() {
         return name;
     }

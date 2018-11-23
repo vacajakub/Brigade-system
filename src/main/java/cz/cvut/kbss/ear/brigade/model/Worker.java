@@ -22,6 +22,10 @@ public class Worker extends User {
         this.brigades = new ArrayList<>();
     }
 
+    public void addBrigade(Brigade brigade){
+        this.brigades.add(brigade);
+    }
+
 
     public List<Brigade> getBrigades() {
         return brigades;

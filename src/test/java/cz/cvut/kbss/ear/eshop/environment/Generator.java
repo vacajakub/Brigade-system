@@ -1,8 +1,6 @@
 package cz.cvut.kbss.ear.eshop.environment;
 
-import cz.cvut.kbss.ear.brigade.model.Employer;
-import cz.cvut.kbss.ear.brigade.model.User;
-import cz.cvut.kbss.ear.brigade.model.Worker;
+import cz.cvut.kbss.ear.brigade.model.*;
 
 import java.util.Random;
 
@@ -19,12 +17,12 @@ public class Generator {
     }
 
     public static Worker generateWorker() {
-        final Worker user = new Worker();
-        user.setFirstName("FirstName" + randomInt());
-        user.setLastName("LastName" + randomInt());
-        user.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
-        user.setPassword(Integer.toString(randomInt()));
-        return user;
+        final Worker worker = new Worker();
+        worker.setFirstName("FirstName" + randomInt());
+        worker.setLastName("LastName" + randomInt());
+        worker.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
+        worker.setPassword(Integer.toString(randomInt()));
+        return worker;
     }
 
     public static Employer generateEmployer() {
@@ -35,6 +33,20 @@ public class Generator {
         employer.setPassword(Integer.toString(randomInt()));
         return employer;
     }
+
+    public static Company generateCompany(){
+        final Address address = new Address();
+        address.setCity("City" + randomInt());
+        address.setStreet("Street" + randomInt());
+        address.setZipCode("ZipCode" + randomInt());
+
+        final Company company = new Company();
+        company.setName("Name" + randomInt());
+        company.setIco("ICO" + randomInt());
+        company.setAddress(address);
+        return company;
+    }
+
 
 
 }

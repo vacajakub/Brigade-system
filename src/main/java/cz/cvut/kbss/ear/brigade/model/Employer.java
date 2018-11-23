@@ -24,6 +24,10 @@ public class Employer extends User {
     }
 
 
+    public void addBrigade(Brigade brigade){
+        this.brigades.add(brigade);
+    }
+
     public Company getCompany() {
         return company;
     }

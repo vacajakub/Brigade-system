@@ -50,6 +50,10 @@ public class Brigade extends AbstractEntity {
         this.workers = new ArrayList<>();
     }
 
+    public void addWorker(Worker worker){
+        this.workers.add(worker);
+    }
+
 
     public int getSalaryPerHour() {
         return salaryPerHour;

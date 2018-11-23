@@ -42,14 +42,13 @@ public class PersistenceConfig {
         emf.setPackagesToScan("cz.cvut.kbss.ear.brigade.model");
 
         final Properties props = new Properties();
-        props.setProperty("databasePlatform", environment.getRequiredProperty("jpa.platform"));
+        props.setProperty("databasePlatform", "org.eclipse.persistence.platform.database.PostgreSQLPlatform");
         props.setProperty("generateDdl", "true");
         props.setProperty("showSql", "true");
         props.setProperty("eclipselink.weaving", "static");
-        props.setProperty("eclipselink.ddl-generation", environment.getRequiredProperty("eclipselink.ddl-generation"));
-//        props.setProperty("eclipselink.dll-generation", "create-tables");
-//        props.setProperty("eclipselink.logging.level", "ALL");
-//        props.setProperty("eclipselink.logging.parameters", "true");
+        props.setProperty("eclipselink.ddl-generation", "create-tables");
+       props.setProperty("eclipselink.logging.level", "ALL");
+        props.setProperty("eclipselink.logging.parameters", "true");
         emf.setJpaProperties(props);
         return emf;
     }
