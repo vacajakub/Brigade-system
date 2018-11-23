@@ -44,6 +44,9 @@ public class Brigade extends AbstractEntity {
 
     private int maxWorkers;
 
+    private int thumbsUp;
+
+    private int thumbsDown;
 
     @OneToOne
     private Address address;
@@ -173,5 +176,21 @@ public class Brigade extends AbstractEntity {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public int getThumbsUp() {
+        return thumbsUp;
+    }
+
+    public void setThumbsUp(int thumbsUp) {
+        this.thumbsUp = thumbsUp;
+    }
+
+    public int getThumbsDown() {
+        return thumbsDown;
+    }
+
+    public void setThumbsDown(int thumbsDown) {
+        this.thumbsDown = thumbsDown;
     }
 }
