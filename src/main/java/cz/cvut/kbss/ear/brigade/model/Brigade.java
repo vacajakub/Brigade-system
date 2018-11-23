@@ -30,11 +30,20 @@ public class Brigade extends AbstractEntity {
     @Column(nullable = false)
     private Date dateTo;
 
+    private String description;
+
+    private String position;
+
     private Time timeFrom;
 
     private Time timeTo;
 
     private int duration;
+
+    private int maxWorkers;
+
+    @OneToOne
+    private Address address;
 
     @ManyToOne
     private Employer employer;
@@ -126,5 +135,37 @@ public class Brigade extends AbstractEntity {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public int getMaxWorkers() {
+        return maxWorkers;
+    }
+
+    public void setMaxWorkers(int maxWorkers) {
+        this.maxWorkers = maxWorkers;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

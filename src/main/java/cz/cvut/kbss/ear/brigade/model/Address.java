@@ -18,8 +18,7 @@ public class Address extends AbstractEntity {
     @Column(nullable = false)
     private String city;
 
-    @Basic(optional = false)
-    @Column(nullable = false)
+
     private String zipCode;
 
     public String getStreet() {

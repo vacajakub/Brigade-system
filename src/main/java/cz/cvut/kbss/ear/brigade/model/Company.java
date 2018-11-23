@@ -14,10 +14,10 @@ public class Company extends AbstractEntity {
     @Column(nullable = false)
     private String ico;
 
+    private String description;
 
     @OneToOne
     private Address address;
-
 
     public String getName() {
         return name;
@@ -41,5 +41,13 @@ public class Company extends AbstractEntity {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
