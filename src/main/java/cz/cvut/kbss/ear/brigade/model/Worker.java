@@ -14,7 +14,7 @@ import java.util.List;
 public class Worker extends User {
 
 
-
+    @OrderBy("dateFrom ASC")
     @ManyToMany (mappedBy = "workers")
     private List<Brigade> brigades;
 

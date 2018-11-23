@@ -2,13 +2,16 @@ package cz.cvut.kbss.ear.brigade.service;
 
 import cz.cvut.kbss.ear.brigade.dao.implementations.*;
 import cz.cvut.kbss.ear.brigade.model.*;
+import cz.cvut.kbss.ear.brigade.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class BrigadeService {
@@ -88,6 +91,18 @@ public class BrigadeService {
         employer.getBrigades().remove(brigade);
         categoryDao.update(category);
         employerDao.update(employer);
+    }
 
+
+    @Transactional(readOnly = true)
+    public List<Brigade> findByFilters(Category category, String city, Integer money, int days) {
+        return brigadeDao.findAll()
+                .stream()
+                .filter(brigade -> brigade.getDateTo().getTime() <= System.currentTimeMillis() + days * Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE)
+                .filter(brigade -> category == null || brigade.getCategory() == category)
+                .filter(brigade -> city == null || brigade.getAddress().getCity().equals(city))
+                .filter(brigade -> money == null || brigade.getSalaryPerHour() >= money)
+                .sorted(Comparator.comparing(Brigade::getDateFrom))
+                .collect(Collectors.toList());
     }
 }

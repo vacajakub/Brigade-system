@@ -69,6 +69,7 @@ public class WorkerService {
         return filterBrigades(worker.getBrigades(), true);
     }
 
+    @Transactional
     public void singOffFromBrigade(Worker worker, Brigade brigade) {
         if (System.currentTimeMillis() < brigade.getDateFrom().getTime() - Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE) {
             worker.getBrigades().remove(brigade);

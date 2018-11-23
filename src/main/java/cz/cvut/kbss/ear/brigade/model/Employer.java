@@ -16,6 +16,7 @@ public class Employer extends User {
     @ManyToOne
     private Company company;
 
+    @OrderBy("dateFrom ASC")
     @OneToMany(mappedBy = "employer")
     private List<Brigade> brigades;
 
