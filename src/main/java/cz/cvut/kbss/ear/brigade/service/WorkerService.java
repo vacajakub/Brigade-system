@@ -3,12 +3,15 @@ package cz.cvut.kbss.ear.brigade.service;
 import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
+import javafx.concurrent.WorkerStateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.PostConstruct;
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,41 +20,65 @@ public class WorkerService {
 
     private final WorkerDao workerDao;
 
-    private final PlatformTransactionManager txManager;
-
     @Autowired
-    public WorkerService(WorkerDao workerDao, PlatformTransactionManager txManager) {
+    public WorkerService(WorkerDao workerDao) {
         this.workerDao = workerDao;
-        this.txManager = txManager;
+    }
+
+    @Transactional(readOnly = true)
+    public Worker find(Integer id) {
+        return workerDao.find(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Worker> findAll() {
+        return workerDao.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public void persist(Worker worker) {
+        workerDao.persist(worker);
+    }
+
+    @Transactional(readOnly = true)
+    public void update(Worker worker) {
+        workerDao.update(worker);
+    }
+
+    @Transactional(readOnly = true)
+    public Worker findByEmail(String email) {
+        return workerDao.findByEmail(email);
     }
 
 
-    // vrat aktualni seznam brigad, na ktere je worker prihlasen
-    public List<Brigade> getWorkerBrigades(Worker worker) {
-        return worker.getBrigades()
-                .stream()
-                .filter(br -> br.getDateTo().getTime() > System.currentTimeMillis())
-                .collect(Collectors.toList());
+    @Transactional
+    // returns actual list of brigades the worker is signed for and are in future or present
+    public List<Brigade> getFutureBrigades(Worker worker) {
+        return filterBrigades(worker.getBrigades(), false);
     }
 
-
-    private void doWorker() {
-        final Worker user = new Worker();
-        user.setFirstName("FirstName" + 1);
-        user.setLastName("LastName");
-        user.setEmail("username" + "@kbss.felk.cvut.cz");
-        user.setPassword(Integer.toString(2));
-        workerDao.persist(user);
+    @Transactional
+    //returns workers past brigades
+    public List<Brigade> getPastBrigades(Worker worker) {
+        return filterBrigades(worker.getBrigades(), true);
     }
+
 
     @PostConstruct
-    private void initSystem() {
-        TransactionTemplate txTemplate = new TransactionTemplate(txManager);
-        txTemplate.execute((status) -> {
-            doWorker();
-            return null;
-        });
+    public void initDb() {
+        final List<Worker> workers = workerDao.findAll();
     }
 
 
+    static List<Brigade> filterBrigades(List<Brigade> brigades, boolean before) {
+        return brigades
+                .stream()
+                .filter(brigade -> {
+                    if (before) {
+                        return brigade.getDateTo().getTime() < System.currentTimeMillis();
+                    }
+                    return brigade.getDateTo().getTime() >= System.currentTimeMillis();
+                })
+                .collect(Collectors.toList());
+    }
 }

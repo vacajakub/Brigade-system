@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -30,8 +32,28 @@ public class BrigadeService {
         this.categoryDao = categoryDao;
     }
 
+    @Transactional(readOnly = true)
+    public Brigade find(Integer id) {
+        return brigadeDao.find(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Brigade> findAll() {
+        return brigadeDao.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public void update(Brigade brigade) {
+        brigadeDao.update(brigade);
+    }
+
+    @Transactional(readOnly = true)
+    public void persist(Brigade brigade) {
+        brigadeDao.persist(brigade);
+    }
+
     @Transactional
-    public void addBrigade(Employer employer, Brigade brigade, Category category){
+    public void addBrigade(Employer employer, Brigade brigade, Category category) {
         brigade.setEmployer(employer);
         employer.addBrigade(brigade);
         brigade.setCategory(category);
@@ -42,7 +64,7 @@ public class BrigadeService {
     }
 
     @Transactional
-    public void addWorker(Brigade brigade, Worker workerToAdd){
+    public void addWorker(Brigade brigade, Worker workerToAdd) {
         brigade.addWorker(workerToAdd);
         workerToAdd.addBrigade(brigade);
         brigadeDao.update(brigade);
@@ -50,7 +72,7 @@ public class BrigadeService {
     }
 
     @Transactional
-    public void removeWorkerFromBrigade(Brigade brigade, Worker workerToRemove){
+    public void removeWorkerFromBrigade(Brigade brigade, Worker workerToRemove) {
         Objects.requireNonNull(brigade);
         Objects.requireNonNull(workerToRemove);
         brigade.getWorkers().remove(workerToRemove);
@@ -60,12 +82,12 @@ public class BrigadeService {
     }
 
     @Transactional
-    public void removeBrigade(Brigade brigade){
+    public void removeBrigade(Brigade brigade) {
         Category category = brigade.getCategory();
         Employer employer = brigade.getEmployer();
-        brigade.getWorkers().forEach(worker ->{
-                worker.getBrigades().remove(brigade);
-                workerDao.update(worker);
+        brigade.getWorkers().forEach(worker -> {
+            worker.getBrigades().remove(brigade);
+            workerDao.update(worker);
         });
         category.getBrigades().remove(brigade);
         employer.getBrigades().remove(brigade);
