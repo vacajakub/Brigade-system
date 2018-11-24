@@ -13,6 +13,10 @@ import java.util.List;
 })
 public class Worker extends User {
 
+    public Worker() {
+        this.brigades = new ArrayList<>();
+        this.unvisitedBrigades = new ArrayList<>();
+    }
 
     @OrderBy("dateFrom ASC")
     @ManyToMany (mappedBy = "workers")
@@ -20,10 +24,6 @@ public class Worker extends User {
 
     @ManyToMany (mappedBy = "noShowWorkers")
     private List<Brigade> unvisitedBrigades;
-
-    public Worker() {
-        this.brigades = new ArrayList<>();
-    }
 
     public void addBrigade(Brigade brigade){
         this.brigades.add(brigade);

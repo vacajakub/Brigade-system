@@ -1,7 +1,10 @@
 package cz.cvut.kbss.ear.eshop.environment;
 
 import cz.cvut.kbss.ear.brigade.model.*;
+import cz.cvut.kbss.ear.brigade.util.Constants;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.Random;
 
 public class Generator {
@@ -34,7 +37,7 @@ public class Generator {
         return employer;
     }
 
-    public static Company generateCompany(){
+    public static Company generateCompany() {
         final Address address = new Address();
         address.setCity("City" + randomInt());
         address.setStreet("Street" + randomInt());
@@ -47,6 +50,25 @@ public class Generator {
         return company;
     }
 
+    public static Brigade generateBrigade(boolean isPast) {
+        final Brigade brigade = new Brigade();
+        brigade.setSalaryPerHour(150 + randomInt());
+        Date dateFrom;
+        long oneDay = 1000 * 60 * 60 * 24;
+        if (isPast) {
+            dateFrom = new Date(System.currentTimeMillis() - (oneDay * (1 + RAND.nextInt(5))));
+        } else {
+            dateFrom = new Date(System.currentTimeMillis() + (oneDay * ( RAND.nextInt(1))));
+        }
+        brigade.setDateFrom(dateFrom);
+        brigade.setDateTo(new Date(dateFrom.getTime() + oneDay));
+        brigade.setTimeFrom(new Time(System.currentTimeMillis()));
+        brigade.setTimeTo(new Time(System.currentTimeMillis() + (1000 * 60 * 60)));
+        brigade.setDescription("Description" + randomInt());
+        brigade.setDuration(2);
+        brigade.setMaxWorkers(2 + RAND.nextInt(10));
+        return brigade;
+    }
 
 
 }

@@ -4,9 +4,9 @@ package cz.cvut.kbss.ear.brigade.model;
 import cz.cvut.kbss.ear.brigade.exception.BrigadeIsFullException;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 @Entity

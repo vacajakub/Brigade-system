@@ -4,6 +4,7 @@ package cz.cvut.kbss.ear.brigade.service;
 import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.EmployerDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
+import cz.cvut.kbss.ear.brigade.exception.BrigadeNotBelongToEmployerException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.model.Worker;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class EmployerService {
@@ -63,23 +63,34 @@ public class EmployerService {
     }
 
     @Transactional
-    public void moveWorkerToBlacklist(Brigade brigade, Worker worker){
-        brigade.getWorkers().remove(worker);
-        brigade.getNoShowWorkers().add(worker);
+    public void moveWorkerToBlacklist(Employer employer, int brigadeId, Worker worker){
+        try {
+            final Brigade brigade = employer.findBrigadeById(brigadeId);
 
-        worker.getBrigades().remove(brigade);
-        worker.getUnvisitedBrigades().add(brigade);
+            brigade.getWorkers().remove(worker);
+            brigade.getNoShowWorkers().add(worker);
 
-        brigadeDao.update(brigade);
-        workerDao.update(worker);
+            worker.getBrigades().remove(brigade);
+            worker.getUnvisitedBrigades().add(brigade);
+
+            brigadeDao.update(brigade);
+            workerDao.update(worker);
+        }catch (IllegalStateException e){
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to emolyer: " + employer.getEmail());
+        }
     }
 
     @Transactional
-    public void removeWorkerFromBrigade(Brigade brigade, Worker worker){
-        brigade.getWorkers().remove(worker);
-        worker.getBrigades().remove(brigade);
-        brigadeDao.update(brigade);
-        workerDao.update(worker);
+    public void removeWorkerFromBrigade(Employer employer, int brigadeId, Worker worker){
+        try {
+            Brigade brigade = employer.findBrigadeById(brigadeId);
+            brigade.getWorkers().remove(worker);
+            worker.getBrigades().remove(brigade);
+            brigadeDao.update(brigade);
+            workerDao.update(worker);
+        }catch (IllegalStateException e){
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to emolyer: " + employer.getEmail());
+        }
     }
 
     @Transactional

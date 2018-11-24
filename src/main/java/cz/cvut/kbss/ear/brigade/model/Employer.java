@@ -3,6 +3,8 @@ package cz.cvut.kbss.ear.brigade.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Employers")
@@ -20,12 +22,12 @@ public class Employer extends User {
     @OneToMany(mappedBy = "employer")
     private List<Brigade> brigades;
 
-    public Employer() {
-        this.brigades = new ArrayList<>();
+    public Brigade findBrigadeById(int id) {
+        return brigades.stream().filter(brigade -> brigade.getId() == id).collect(toSingleton());
     }
 
 
-    public void addBrigade(Brigade brigade){
+    public void addBrigade(Brigade brigade) {
         this.brigades.add(brigade);
     }
 
@@ -44,5 +46,17 @@ public class Employer extends User {
     public void setBrigades(List<Brigade> brigades) {
         this.brigades = brigades;
     }
-}
 
+
+    public static <T> Collector<T, ?, T> toSingleton() {
+        return Collectors.collectingAndThen(
+                Collectors.toList(),
+                list -> {
+                    if (list.size() != 1) {
+                        throw new IllegalStateException();
+                    }
+                    return list.get(0);
+                }
+        );
+    }
+}

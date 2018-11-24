@@ -47,7 +47,7 @@ public class PersistenceConfig {
         props.setProperty("showSql", "true");
         props.setProperty("eclipselink.weaving", "static");
         props.setProperty("eclipselink.ddl-generation", "create-tables");
-       props.setProperty("eclipselink.logging.level", "ALL");
+       props.setProperty("eclipselink.logging.level", "INFO");
         props.setProperty("eclipselink.logging.parameters", "true");
         emf.setJpaProperties(props);
         return emf;
