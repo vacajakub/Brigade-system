@@ -62,14 +62,13 @@ public class Generator {
         brigade.setSalaryPerHour(150 + randomInt());
         Date dateFrom;
         Date dateTo;
-        long oneDay = 1000 * 60 * 60 * 24;
         if (isPast) {
-            dateFrom = new Date(System.currentTimeMillis() - (oneDay * (2 + RAND.nextInt(5))));
-            dateTo = new Date(System.currentTimeMillis() - (oneDay));
+            dateFrom = new Date(System.currentTimeMillis() - (Constants.ONE_DAY * (2 + RAND.nextInt(5))));
+            dateTo = new Date(System.currentTimeMillis() - (Constants.ONE_DAY));
 
         } else {
-            dateFrom = new Date(System.currentTimeMillis() + (oneDay));
-            dateTo = new Date(System.currentTimeMillis() + (oneDay * (2 + RAND.nextInt(5))));
+            dateFrom = new Date(System.currentTimeMillis() + (Constants.ONE_DAY));
+            dateTo = new Date(System.currentTimeMillis() + (Constants.ONE_DAY * (2 + RAND.nextInt(5))));
 
         }
         brigade.setDateFrom(dateFrom);

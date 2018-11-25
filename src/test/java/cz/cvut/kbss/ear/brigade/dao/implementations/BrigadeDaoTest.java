@@ -27,14 +27,10 @@ public class BrigadeDaoTest extends BaseDaoTestRunner {
     private BrigadeDao brigadeDao;
 
     private Brigade brigade;
-    private long currentTime = Calendar.getInstance().getTime().getTime();
 
     @Before
     public void setUp() throws Exception {
-        brigade = new Brigade();
-        brigade.setSalaryPerHour(100);
-        brigade.setDateFrom(new Date(currentTime));
-        brigade.setDateTo(new Date(currentTime + 60 * 60 * 1000));
+        brigade = Generator.generateBrigade(false);
     }
 
     @Test
@@ -44,14 +40,14 @@ public class BrigadeDaoTest extends BaseDaoTestRunner {
     @Test
     public void findByDateFrom() throws Exception {
         em.persist(brigade);
-        List<Brigade> b = brigadeDao.findByDateFrom(new Date(currentTime));
+        List<Brigade> b = brigadeDao.findByDateFrom(brigade.getDateFrom());
         Assert.assertEquals(brigade.getId(), b.get(0).getId());
     }
 
     @Test
     public void findByDateTo() throws Exception {
         em.persist(brigade);
-        List<Brigade> b = brigadeDao.findByDateTo(new Date(currentTime + 60 * 60 * 1000));
+        List<Brigade> b = brigadeDao.findByDateTo(brigade.getDateTo());
         Assert.assertEquals(brigade.getId(), b.get(0).getId());
     }
 

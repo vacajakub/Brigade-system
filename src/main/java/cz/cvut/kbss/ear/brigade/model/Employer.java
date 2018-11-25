@@ -26,6 +26,10 @@ public class Employer extends User {
         return brigades.stream().filter(brigade -> brigade.getId() == id).collect(toSingleton());
     }
 
+    public Employer() {
+        this.brigades = new ArrayList<>();
+    }
+
 
     public void addBrigade(Brigade brigade) {
         this.brigades.add(brigade);

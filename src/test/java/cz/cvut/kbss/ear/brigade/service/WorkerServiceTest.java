@@ -1,6 +1,5 @@
 package cz.cvut.kbss.ear.brigade.service;
 
-import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
 import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;

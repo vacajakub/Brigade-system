@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.service;
 
 import cz.cvut.kbss.ear.brigade.dao.implementations.*;
+import cz.cvut.kbss.ear.brigade.exception.DateToIsBeforeDateFromException;
 import cz.cvut.kbss.ear.brigade.model.*;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,9 @@ public class BrigadeService {
 
     @Transactional
     public void addBrigade(Employer employer, Brigade brigade, Category category, Address address) {
+        if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
+            throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");
+        }
         brigade.setEmployer(employer);
         employer.addBrigade(brigade);
         brigade.setCategory(category);
@@ -98,7 +102,7 @@ public class BrigadeService {
     public List<Brigade> findByFilters(Category category, String city, Integer money, int days) {
         return brigadeDao.findAll()
                 .stream()
-                .filter(brigade -> brigade.getDateTo().getTime() <= System.currentTimeMillis() + days * Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE)
+                .filter(brigade -> brigade.getDateTo().getTime() <= System.currentTimeMillis() + days * Constants.ONE_DAY)
                 .filter(brigade -> category == null || brigade.getCategory() == category)
                 .filter(brigade -> city == null || brigade.getAddress().getCity().equals(city))
                 .filter(brigade -> money == null || brigade.getSalaryPerHour() >= money)
