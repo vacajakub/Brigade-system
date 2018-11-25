@@ -29,7 +29,6 @@ public class Worker extends User {
         this.brigades.add(brigade);
     }
 
-
     public List<Brigade> getBrigades() {
         return brigades;
     }

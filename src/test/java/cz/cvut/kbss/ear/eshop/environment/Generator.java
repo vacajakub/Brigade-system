@@ -3,11 +3,18 @@ package cz.cvut.kbss.ear.eshop.environment;
 import cz.cvut.kbss.ear.brigade.model.*;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Generator {
+
+    @PersistenceContext
+    private static EntityManager em;
 
     private static final Random RAND = new Random();
 
@@ -54,14 +61,19 @@ public class Generator {
         final Brigade brigade = new Brigade();
         brigade.setSalaryPerHour(150 + randomInt());
         Date dateFrom;
+        Date dateTo;
         long oneDay = 1000 * 60 * 60 * 24;
         if (isPast) {
-            dateFrom = new Date(System.currentTimeMillis() - (oneDay * (1 + RAND.nextInt(5))));
+            dateFrom = new Date(System.currentTimeMillis() - (oneDay * (2 + RAND.nextInt(5))));
+            dateTo = new Date(System.currentTimeMillis() - (oneDay));
+
         } else {
-            dateFrom = new Date(System.currentTimeMillis() + (oneDay * ( RAND.nextInt(1))));
+            dateFrom = new Date(System.currentTimeMillis() + (oneDay));
+            dateTo = new Date(System.currentTimeMillis() + (oneDay * (2 + RAND.nextInt(5))));
+
         }
         brigade.setDateFrom(dateFrom);
-        brigade.setDateTo(new Date(dateFrom.getTime() + oneDay));
+        brigade.setDateTo(dateTo);
         brigade.setTimeFrom(new Time(System.currentTimeMillis()));
         brigade.setTimeTo(new Time(System.currentTimeMillis() + (1000 * 60 * 60)));
         brigade.setDescription("Description" + randomInt());
@@ -69,6 +81,5 @@ public class Generator {
         brigade.setMaxWorkers(2 + RAND.nextInt(10));
         return brigade;
     }
-
 
 }

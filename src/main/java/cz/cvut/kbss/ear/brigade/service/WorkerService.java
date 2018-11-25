@@ -96,9 +96,9 @@ public class WorkerService {
                 .stream()
                 .filter(brigade -> {
                     if (before) {
-                        return brigade.getDateFrom().getTime() + (brigade.getDuration() * 1000 * 60 * 60)< System.currentTimeMillis();
+                        return brigade.getDateTo().getTime() < System.currentTimeMillis();
                     }
-                    return brigade.getDateFrom().getTime() + (brigade.getDuration() * 1000 * 60 * 60) >= System.currentTimeMillis();
+                    return brigade.getDateTo().getTime() >= System.currentTimeMillis();
                 })
                 .collect(Collectors.toList());
     }
