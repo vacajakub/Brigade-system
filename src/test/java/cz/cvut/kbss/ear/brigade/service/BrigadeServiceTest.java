@@ -202,8 +202,4 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
         assertTrue("Wrong worker 2 result", workerResult2.getBrigades().stream().noneMatch(b -> b.getId().equals(brigade.getId())));
     }
 
-    @Test
-    public void findByFilters() {
-    }
-
 }
