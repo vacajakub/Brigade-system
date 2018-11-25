@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.dao;
 
 import cz.cvut.kbss.ear.brigade.config.PersistenceConfig;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,4 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableTransactionManagement
 public class BaseDaoTestRunner {
+
+    @Test
+    public void nothing(){}
 }

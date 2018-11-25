@@ -95,6 +95,7 @@ public class BrigadeService {
         employer.getBrigades().remove(brigade);
         categoryDao.update(category);
         employerDao.update(employer);
+        brigadeDao.remove(brigade);
     }
 
 

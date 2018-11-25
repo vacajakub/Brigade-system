@@ -3,6 +3,7 @@ package cz.cvut.kbss.ear.brigade.service;
 import cz.cvut.kbss.ear.brigade.config.AppConfig;
 import cz.cvut.kbss.ear.brigade.config.PersistenceConfig;
 import cz.cvut.kbss.ear.brigade.config.ServiceConfig;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,4 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(transactionManager = "txManager")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 public class BaseServiceTestRunner {
+    @Test
+    public void nothing(){}
 }

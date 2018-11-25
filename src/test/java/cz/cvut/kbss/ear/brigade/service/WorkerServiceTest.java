@@ -58,7 +58,7 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
     @Test
-    public void getFutureBrigades() throws Exception {
+    public void getFutureBrigades() {
         worker.setBrigades(generateBrigades());
         workerService.persist(worker);
         List<Brigade> futureBrigades = worker.getBrigades()
@@ -78,7 +78,7 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
     @Test
-    public void singOffFromBrigade() throws Exception {
+    public void singOffFromBrigade() {
         Employer employer = Generator.generateEmployer();
         Brigade brigade = Generator.generateBrigade(false);
         brigade.setDateFrom(new Date(System.currentTimeMillis() + Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE * 2));

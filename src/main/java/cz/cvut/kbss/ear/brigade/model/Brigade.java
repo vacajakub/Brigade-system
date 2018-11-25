@@ -20,6 +20,11 @@ import java.util.List;
 })
 public class Brigade extends AbstractEntity {
 
+    public Brigade() {
+        workers = new ArrayList<>();
+        noShowWorkers = new ArrayList<>();
+    }
+
     @Basic(optional = false)
     @Column(nullable = false)
     private int salaryPerHour;
@@ -54,20 +59,16 @@ public class Brigade extends AbstractEntity {
     @ManyToOne
     private Employer employer;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "brigade_worker")
     private List<Worker> workers;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "blacklist")
     private List<Worker> noShowWorkers;
 
     @ManyToOne
     private Category category;
-
-    public Brigade() {
-        this.workers = new ArrayList<>();
-    }
 
     public void addWorker(Worker worker) {
         if (workers.size() < maxWorkers)

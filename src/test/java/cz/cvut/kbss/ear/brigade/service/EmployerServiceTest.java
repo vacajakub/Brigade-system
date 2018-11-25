@@ -73,7 +73,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
 
         final Employer result = em.find(Employer.class, employer.getId());
         List<Brigade> futureBrigades = employer.getBrigades().stream()
-                .filter(brigade -> brigade.getDateFrom().getTime() + (brigade.getDuration() * 1000 * 60 * 60) >= new Date(System.currentTimeMillis()).getTime())
+                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
                 .sorted(Comparator.comparing(Brigade::getId))
                 .collect(Collectors.toList());
 
@@ -96,7 +96,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
 
         final Employer result = em.find(Employer.class, employer.getId());
         List<Brigade> pastBrigades = employer.getBrigades().stream()
-                .filter(brigade -> brigade.getDateFrom().getTime() + (brigade.getDuration() * 1000 * 60 * 60) < System.currentTimeMillis())
+                .filter(brigade -> brigade.getDateTo().getTime() < new Date(System.currentTimeMillis()).getTime())
                 .sorted(Comparator.comparing(Brigade::getId))
                 .collect(Collectors.toList());
 

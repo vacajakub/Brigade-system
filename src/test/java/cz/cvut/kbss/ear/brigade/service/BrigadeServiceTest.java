@@ -1,5 +1,8 @@
 package cz.cvut.kbss.ear.brigade.service;
 
+import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
+import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
+import cz.cvut.kbss.ear.brigade.exception.BrigadeIsFullException;
 import cz.cvut.kbss.ear.brigade.exception.DateToIsBeforeDateFromException;
 import cz.cvut.kbss.ear.brigade.model.*;
 import cz.cvut.kbss.ear.brigade.util.Constants;
@@ -14,6 +17,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,16 +31,15 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
     @Autowired
     private BrigadeService brigadeService;
 
-
     private Brigade brigade;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         brigade = Generator.generateBrigade(false);
     }
 
     @Test
-    public void addBrigade() throws Exception {
+    public void addBrigade() {
         Employer employer = Generator.generateEmployer();
         Address address = new Address();
         address.setCity("Praha");
@@ -77,19 +81,129 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
     }
 
     @Test
-    public void addWorker() throws Exception {
+    public void addWorker() {
+        Worker worker = Generator.generateWorker();
+        worker.setEmail("worker1@seznam.cz");
+        Worker worker2 = Generator.generateWorker();
+        worker2.setEmail("worker2@seznam.cz");
+        Brigade brigade = Generator.generateBrigade(false);
+        brigade.setMaxWorkers(2);
+
+        em.persist(brigade);
+        em.persist(worker);
+        em.persist(worker2);
+
+        brigadeService.addWorker(brigade, worker);
+        brigadeService.addWorker(brigade, worker2);
+
+        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+        final Worker workerResult1 = em.find(Worker.class, worker.getId());
+        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
+
+        assertEquals(2, brigadeResult.getWorkers().size());
+        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker.getEmail())));
+        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
+        assertEquals(1, workerResult1.getBrigades().size());
+        assertEquals(1, workerResult2.getBrigades().size());
+
+    }
+
+    @Test(expected = BrigadeIsFullException.class)
+    public void addWorkerThrowsBrigadeIsFullException() {
+        Worker worker = Generator.generateWorker();
+        worker.setEmail("worker1@seznam.cz");
+        Worker worker2 = Generator.generateWorker();
+        worker2.setEmail("worker2@seznam.cz");
+        Brigade brigade = Generator.generateBrigade(false);
+        brigade.setMaxWorkers(1);
+
+        em.persist(brigade);
+        em.persist(worker);
+        em.persist(worker2);
+
+        brigadeService.addWorker(brigade, worker);
+        brigadeService.addWorker(brigade, worker2);
+    }
+
+
+    @Test
+    public void removeWorkerFromBrigade() {
+        Worker worker = Generator.generateWorker();
+        worker.setEmail("worker1@seznam.cz");
+        Worker worker2 = Generator.generateWorker();
+        worker2.setEmail("worker2@seznam.cz");
+        brigade.setMaxWorkers(2);
+        List<Worker> workerList = new ArrayList<>();
+        workerList.add(worker);
+        workerList.add(worker2);
+        brigade.setWorkers(workerList);
+        worker.addBrigade(brigade);
+        worker2.addBrigade(brigade);
+        em.persist(brigade);
+        em.persist(worker);
+        em.persist(worker2);
+
+        brigadeService.removeWorkerFromBrigade(brigade, worker);
+
+
+        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+        final Worker workerResult1 = em.find(Worker.class, worker.getId());
+        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
+
+        assertEquals(1, brigadeResult.getWorkers().size());
+        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
+        assertEquals(0, workerResult1.getBrigades().size());
+        assertEquals(1, workerResult2.getBrigades().size());
+
+
     }
 
     @Test
-    public void removeWorkerFromBrigade() throws Exception {
+    public void removeBrigade() {
+        Employer employer = Generator.generateEmployer();
+        Category category = new Category();
+        category.setName("Test");
+        Worker worker = Generator.generateWorker();
+        Worker worker2 = Generator.generateWorker();
+
+
+        brigade.setEmployer(employer);
+        employer.addBrigade(brigade);
+
+        brigade.setCategory(category);
+        category.addBrigade(brigade);
+
+        List<Worker> workerList = new ArrayList<>();
+        workerList.add(worker);
+        workerList.add(worker2);
+        brigade.setWorkers(workerList);
+        worker.addBrigade(brigade);
+        worker2.addBrigade(brigade);
+
+        em.persist(employer);
+        em.persist(category);
+        em.persist(worker);
+        em.persist(worker2);
+        brigadeService.persist(brigade);
+
+
+        brigadeService.removeBrigade(brigade);
+
+        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+        final Employer employerResult = em.find(Employer.class, employer.getId());
+        final Category categoryResult = em.find(Category.class, category.getId());
+        final Worker workerResult1 = em.find(Worker.class, worker.getId());
+        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
+
+        assertNull("brigade has to be null", brigadeResult);
+        assertTrue("Wrong employer result", employerResult.getBrigades().stream().noneMatch(b -> b.getId().equals(brigade.getId())));
+        assertTrue("Wrong category result", categoryResult.getBrigades().stream().noneMatch(b -> b.getId().equals(brigade.getId())));
+        assertTrue("Wrong worker 1 result", workerResult1.getBrigades().stream().noneMatch(b -> b.getId().equals(brigade.getId())));
+        assertTrue("Wrong worker 2 result", workerResult2.getBrigades().stream().noneMatch(b -> b.getId().equals(brigade.getId())));
     }
 
     @Test
-    public void removeBrigade() throws Exception {
-    }
-
-    @Test
-    public void findByFilters() throws Exception {
+    public void findByFilters() {
     }
 
 }
