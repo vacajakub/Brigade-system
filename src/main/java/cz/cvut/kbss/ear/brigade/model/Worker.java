@@ -14,13 +14,21 @@ import java.util.List;
 public class Worker extends User {
 
     public Worker() {
-        this.brigades = new ArrayList<>();
-        this.unvisitedBrigades = new ArrayList<>();
+        brigades = new ArrayList<>();
+        unvisitedBrigades = new ArrayList<>();
+        brigadesThumbsUps = new ArrayList<>();
+        brigadesThumbsDowns = new ArrayList<>();
     }
 
     @OrderBy("dateFrom ASC")
     @ManyToMany (mappedBy = "workers")
     private List<Brigade> brigades;
+
+    @ManyToMany (mappedBy = "workersThumbsUps")
+    private List<Brigade> brigadesThumbsUps;
+
+    @ManyToMany (mappedBy = "workersThumbsDowns")
+    private List<Brigade> brigadesThumbsDowns;
 
     @ManyToMany (mappedBy = "noShowWorkers")
     private List<Brigade> unvisitedBrigades;
@@ -43,5 +51,21 @@ public class Worker extends User {
 
     public void setUnvisitedBrigades(List<Brigade> unvisitedBrigades) {
         this.unvisitedBrigades = unvisitedBrigades;
+    }
+
+    public List<Brigade> getBrigadesThumbsUps() {
+        return brigadesThumbsUps;
+    }
+
+    public void setBrigadesThumbsUps(List<Brigade> brigadesThumbsUps) {
+        this.brigadesThumbsUps = brigadesThumbsUps;
+    }
+
+    public List<Brigade> getBrigadesThumbsDowns() {
+        return brigadesThumbsDowns;
+    }
+
+    public void setBrigadesThumbsDowns(List<Brigade> brigadesThumbsDowns) {
+        this.brigadesThumbsDowns = brigadesThumbsDowns;
     }
 }

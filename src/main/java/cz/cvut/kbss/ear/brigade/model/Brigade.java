@@ -23,6 +23,8 @@ public class Brigade extends AbstractEntity {
     public Brigade() {
         workers = new ArrayList<>();
         noShowWorkers = new ArrayList<>();
+        workersThumbsUps = new ArrayList<>();
+        workersThumbsDowns = new ArrayList<>();
     }
 
     @Basic(optional = false)
@@ -62,6 +64,14 @@ public class Brigade extends AbstractEntity {
     @ManyToMany
     @JoinTable(name = "brigade_worker")
     private List<Worker> workers;
+
+    @ManyToMany
+    @JoinTable(name = "brigade_worker_ThumbsUp")
+    private List<Worker> workersThumbsUps;
+
+    @ManyToMany
+    @JoinTable(name = "brigade_worker_ThumbsDown")
+    private List<Worker> workersThumbsDowns;
 
     @ManyToMany
     @JoinTable(name = "blacklist")
@@ -205,5 +215,22 @@ public class Brigade extends AbstractEntity {
 
     public void setNoShowWorkers(List<Worker> noShowWorkers) {
         this.noShowWorkers = noShowWorkers;
+    }
+
+
+    public List<Worker> getWorkersThumbsUps() {
+        return workersThumbsUps;
+    }
+
+    public void setWorkersThumbsUps(List<Worker> workersThumbsUps) {
+        this.workersThumbsUps = workersThumbsUps;
+    }
+
+    public List<Worker> getWorkersThumbsDowns() {
+        return workersThumbsDowns;
+    }
+
+    public void setWorkersThumbsDowns(List<Worker> workersThumbsDowns) {
+        this.workersThumbsDowns = workersThumbsDowns;
     }
 }

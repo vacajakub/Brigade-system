@@ -1,6 +1,9 @@
 package cz.cvut.kbss.ear.brigade.service;
 
+import cz.cvut.kbss.ear.brigade.exception.AlreadyRatedException;
+import cz.cvut.kbss.ear.brigade.exception.BrigadeIsNotFinishedException;
 import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
+import cz.cvut.kbss.ear.brigade.exception.WorkerDidNotWorkOnBrigadeException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.model.Worker;
@@ -36,7 +39,7 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
     private Worker worker;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         worker = Generator.generateWorker();
     }
 
@@ -102,7 +105,7 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
     @Test(expected = LateSignOffException.class)
-    public void singOffFromBrigadeThrowsLateSignOffException() throws Exception {
+    public void singOffFromBrigadeThrowsLateSignOffException() {
         Employer employer = Generator.generateEmployer();
         Brigade brigade = Generator.generateBrigade(false);
         brigade.setDateFrom(new Date(System.currentTimeMillis() + 1000 * 60 * 60));
@@ -118,7 +121,7 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
     @Test
-    public void getWorkerScore() throws Exception {
+    public void getWorkerScore() {
         worker.addBrigade(Generator.generateBrigade(true));
         worker.addBrigade(Generator.generateBrigade(true));
         worker.addBrigade(Generator.generateBrigade(true));
@@ -129,6 +132,66 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
         Pair<Integer, Integer> score = workerService.getWorkerScore(worker);
         assertEquals("Showed should be", 3, (int) score.getKey());
         assertEquals("NoShow should be", 1, (int) score.getValue());
+    }
+
+    @Test
+    public void addThumbsUpToBrigade() {
+        Brigade brigade = Generator.generateBrigade(true);
+        worker.addBrigade(brigade);
+        brigade.addWorker(worker);
+        workerService.persist(worker);
+        em.persist(brigade);
+
+        workerService.addThumbsUpToBrigade(worker, brigade);
+
+        final Worker workerResult = em.find(Worker.class, worker.getId());
+        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+
+        assertEquals(1, workerResult.getBrigadesThumbsUps().size());
+        assertEquals(1, brigadeResult.getWorkersThumbsUps().size());
+    }
+
+
+    @Test(expected = BrigadeIsNotFinishedException.class)
+    public void addThumbsUpToBrigadeThrowsBrigadeIsNotFinishedException() {
+        Brigade brigade = Generator.generateBrigade(false);
+        worker.addBrigade(brigade);
+        brigade.addWorker(worker);
+        workerService.persist(worker);
+        em.persist(brigade);
+
+        workerService.addThumbsUpToBrigade(worker, brigade);
+
+        final Worker workerResult = em.find(Worker.class, worker.getId());
+        assertEquals(0, workerResult.getBrigadesThumbsUps().size());
+    }
+
+    @Test(expected = AlreadyRatedException.class)
+    public void addThumbsUpToBrigadeThrowsAlreadyRatedException() {
+        Brigade brigade = Generator.generateBrigade(true);
+        worker.addBrigade(brigade);
+        worker.getBrigadesThumbsUps().add(brigade);
+        brigade.getWorkersThumbsUps().add(worker);
+        brigade.addWorker(worker);
+        workerService.persist(worker);
+        em.persist(brigade);
+
+        workerService.addThumbsUpToBrigade(worker, brigade);
+
+        final Worker workerResult = em.find(Worker.class, worker.getId());
+        assertEquals(0, workerResult.getBrigadesThumbsUps().size());
+    }
+
+    @Test(expected = WorkerDidNotWorkOnBrigadeException.class)
+    public void addThumbsUpToBrigadeThrowsWorkerDidNotWorkOnBrigadeException() {
+        Brigade brigade = Generator.generateBrigade(true);
+        workerService.persist(worker);
+        em.persist(brigade);
+
+        workerService.addThumbsUpToBrigade(worker, brigade);
+
+        final Worker workerResult = em.find(Worker.class, worker.getId());
+        assertEquals(0, workerResult.getBrigadesThumbsUps().size());
     }
 
 }
