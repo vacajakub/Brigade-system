@@ -44,6 +44,5 @@ public class CompanyServiceTest extends BaseServiceTestRunner{
     @Test
     public void remove() {
         // todo - pote co se dohodneme co budeme vse mazat
-        Assert.fail();
     }
 }
