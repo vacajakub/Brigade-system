@@ -1,7 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 public enum Role {
-    ADMIN("ROLE_ADMIN"), USER("ROLE_USER"), GUEST("ROLE_GUEST");
+    ADMIN("ROLE_ADMIN"), WORKER("ROLE_WORKER"), EMPLOYER("ROLE_EMPLOYER"), GUEST("ROLE_GUEST");
 
     private final String name;
 

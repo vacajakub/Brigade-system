@@ -18,6 +18,7 @@ public class Worker extends User {
         unvisitedBrigades = new ArrayList<>();
         brigadesThumbsUps = new ArrayList<>();
         brigadesThumbsDowns = new ArrayList<>();
+        setRole(Role.WORKER);
     }
 
     @OrderBy("dateFrom ASC")

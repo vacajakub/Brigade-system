@@ -28,6 +28,7 @@ public class Employer extends User {
 
     public Employer() {
         this.brigades = new ArrayList<>();
+        setRole(Role.EMPLOYER);
     }
 
 

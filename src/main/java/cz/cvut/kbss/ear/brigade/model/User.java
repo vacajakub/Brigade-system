@@ -28,7 +28,6 @@ public abstract class User extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
     public User() {
         this.role = Role.GUEST;
     }

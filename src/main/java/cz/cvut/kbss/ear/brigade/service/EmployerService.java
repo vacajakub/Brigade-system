@@ -30,7 +30,6 @@ public class EmployerService {
     }
 
 
-
     @Transactional(readOnly = true)
     public Employer find(Integer id) {
         return employerDao.find(id);
@@ -63,7 +62,7 @@ public class EmployerService {
     }
 
     @Transactional
-    public void moveWorkerToBlacklist(Employer employer, int brigadeId, Worker worker){
+    public void moveWorkerToBlacklist(Employer employer, int brigadeId, Worker worker) {
         try {
             final Brigade brigade = employer.findBrigadeById(brigadeId);
 
@@ -75,21 +74,21 @@ public class EmployerService {
 
             brigadeDao.update(brigade);
             workerDao.update(worker);
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to emolyer: " + employer.getEmail());
         }
     }
 
     @Transactional
-    public void removeWorkerFromBrigade(Employer employer, int brigadeId, Worker worker){
+    public void removeWorkerFromBrigade(Employer employer, int brigadeId, Worker worker) {
         try {
             Brigade brigade = employer.findBrigadeById(brigadeId);
             brigade.getWorkers().remove(worker);
             worker.getBrigades().remove(brigade);
             brigadeDao.update(brigade);
             workerDao.update(worker);
-        }catch (IllegalStateException e){
-            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to emolyer: " + employer.getEmail());
+        } catch (IllegalStateException e) {
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to employer: " + employer.getEmail());
         }
     }
 
@@ -104,7 +103,7 @@ public class EmployerService {
         return new Pair<>(countPositive, countNegative);
     }
 
-    public void sendEmailtoWorkersFromBrigade(Brigade brigade, String text){
+    public void sendEmailtoWorkersFromBrigade(Brigade brigade, String text) {
         //todo poslat email vsem prihlasenym brigadnikum nejaky email
     }
 
