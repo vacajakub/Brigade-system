@@ -23,6 +23,11 @@ public class RestUtils {
                 uriVariableValues).toUri();
         final HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.LOCATION, location.toASCIIString());
+        headers.getAccessControlAllowOrigin();
+        headers.add("Access-Control-Allow-Origin", "*");
+        headers.add("Access-Control-Allow-Credentials", "true");
+        headers.add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
+        headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
         return headers;
     }
 }

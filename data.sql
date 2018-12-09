@@ -19,34 +19,34 @@ INSERT INTO categories (id, name) VALUES (4, 'Marketing');
 -- workers
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (1, 'Hally', 'Stain', 'hstain0@cisco.com', '028856cf49a19a7d782a4c74b81dde04919167ddf0c4cd3211e1f33f059ec163',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (2, 'Karine', 'Seer', 'kseer1@spotify.com', '154de7167f65ee702a0784cf340a389e5613aa5ed029ad514fe8bc3ba392fc67',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (3, 'Dione', 'Dotson', 'ddotson2@goo.gl', 'f1fbf392dc249bf53a211a74891aed0fe375829825f5e8356d8120b0bba64b8d',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (4, 'Roldan', 'Siburn', 'rsiburn3@utexas.edu', '46b6be12a1b6ca0389b4eca1d7da28be3903606757770aee4fc5f4d607246034',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (5, 'Obie', 'Danat', 'odanat4@shinystat.com', '2efe86919a6f63252ca89a7be4b8e9675ac5f581eae1bf8131152da6688e0c18',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (6, 'Georgianne', 'Le Conte', 'gleconte5@hostgator.com',
-   'ebde75f21ee04efeb25f05e2f55148beba76ab924f0387796a1c818e05e7070b', 'ROLE_USER');
+   'ebde75f21ee04efeb25f05e2f55148beba76ab924f0387796a1c818e05e7070b', 'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (7, 'Gerta', 'Forbear', 'gforbear6@furl.net', 'e5cd73170b77e5828141368966967f2f926951cdb5620c323258219e860dc786',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (8, 'Algernon', 'Tolotti', 'atolotti7@uol.com.br', '3a78df91aa91f34542153ac2d2f64b6482bf4998b12028f42ed1b95133923b1a',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (9, 'Brent', 'Helis', 'bhelis8@reddit.com', '42985d2a2255eba1d226613d5b72493eaaff52c35369541a51d866de2bbe43fc',
-   'ROLE_USER');
+   'WORKER');
 INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
   (10, 'Camella', 'Haythorn', 'chaythorn9@bloomberg.com',
-   '401671484d60a592b69e8dde60aa4e717019b5602707afc8455214175dbcf137', 'ROLE_USER');
+   '401671484d60a592b69e8dde60aa4e717019b5602707afc8455214175dbcf137', 'WORKER');
 
 -- employers
 
