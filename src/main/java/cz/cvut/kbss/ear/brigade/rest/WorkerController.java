@@ -92,7 +92,7 @@ public class WorkerController {
         workerService.singOffFromBrigade(worker, brigade);
     }
 
-    @RequestMapping(value = "/add/thumbsUp/brigade/{workerId}/{brigadeId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/add/thumbsUp/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addThumbsUpBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
         Worker worker = workerService.find(workerId);
@@ -107,7 +107,7 @@ public class WorkerController {
         workerService.addThumbsUpToBrigade(worker, brigade);
     }
 
-    @RequestMapping(value = "/add/thumbsDown/brigade/{workerId}/{brigadeId}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/add/thumbsDown/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addThumbsDownBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
         Worker worker = workerService.find(workerId);

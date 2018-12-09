@@ -47,6 +47,9 @@ public class BrigadeService {
 
     @Transactional(readOnly = true)
     public void persist(Brigade brigade) {
+        if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
+            throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");
+        }
         brigadeDao.persist(brigade);
     }
 
