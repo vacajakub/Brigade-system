@@ -68,8 +68,17 @@ public class EmployerController {
                                         @PathVariable("brigadeId") Integer brigadeId,
                                         @PathVariable("workerId") Integer workerId) {
         Employer employer = employerService.find(employerId);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", employerId);
+        }
         Brigade brigade = brigadeService.find(brigadeId);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", brigadeId);
+        }
         Worker worker = workerService.find(workerId);
+        if (worker == null) {
+            throw NotFoundException.create("Worker", workerId);
+        }
         employerService.removeWorkerFromBrigade(employer, brigadeId, worker);
         LOG.debug("Worker {} removed from brigade {}.", worker, brigade);
     }
@@ -81,8 +90,17 @@ public class EmployerController {
                                       @PathVariable("brigadeId") Integer brigadeId,
                                       @PathVariable("workerId") Integer workerId) {
         Employer employer = employerService.find(employerId);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", employerId);
+        }
         Brigade brigade = brigadeService.find(brigadeId);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", brigadeId);
+        }
         Worker worker = workerService.find(workerId);
+        if (worker == null) {
+            throw NotFoundException.create("Worker", workerId);
+        }
         employerService.moveWorkerToBlacklist(employer, brigadeId, worker);
         LOG.debug("Worker {} moved to blacklist of brigade {}.", worker, brigade);
     }
@@ -90,18 +108,27 @@ public class EmployerController {
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getFutureBrigades(@PathVariable("id") Integer id) {
         Employer employer = employerService.find(id);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", id);
+        }
         return employerService.getFutureBrigades(employer);
     }
 
     @RequestMapping(value = "/{id}/brigades/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getPastBrigades(@PathVariable("id") Integer id) {
         Employer employer = employerService.find(id);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", id);
+        }
         return employerService.getPastBrigades(employer);
     }
 
     @RequestMapping(value = "/{id}/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Pair<Integer, Integer> getEmployerScore(@PathVariable("id") Integer id) {
         Employer employer = employerService.find(id);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", id);
+        }
         return employerService.getEmployerScore(employer);
     }
 
