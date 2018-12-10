@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class WorkerController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Worker> getWorkers() {
         final List<Worker> workers = workerService.findAll();
@@ -52,6 +55,7 @@ public class WorkerController {
         return workers;
     }
 
+    // todo - vratit jen jmeno, prijmeni, email -> nic vic
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Worker getWorker(@PathVariable("id") Integer id) {
         final Worker worker = workerService.find(id);
@@ -61,6 +65,7 @@ public class WorkerController {
         return worker;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or principal.username == workerService.find(id).email")
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getFutureBrigades(@PathVariable("id") Integer id) {
         Worker worker = workerService.find(id);
@@ -131,6 +136,8 @@ public class WorkerController {
         }
         return workerService.getWorkerScore(worker);
     }
+
+
 }
 
 
