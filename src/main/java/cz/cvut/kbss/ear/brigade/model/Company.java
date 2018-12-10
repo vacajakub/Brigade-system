@@ -16,8 +16,14 @@ public class Company extends AbstractEntity {
 
     private String description;
 
+    private boolean isActive;
+
     @OneToOne
     private Address address;
+
+    public Company() {
+        this.isActive = true;
+    }
 
     public String getName() {
         return name;
@@ -49,5 +55,13 @@ public class Company extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

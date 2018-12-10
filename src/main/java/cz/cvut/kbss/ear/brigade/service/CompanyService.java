@@ -17,14 +17,15 @@ import java.util.Objects;
 public class CompanyService {
 
     private final CompanyDao companyDao;
-    private final AddressDao addressDao;
     private final EmployerDao employerDao;
+    private final EmployerService employerService;
 
     @Autowired
-    public CompanyService(CompanyDao companyDao, AddressDao addressDao, EmployerDao employerDao) {
+    public CompanyService(CompanyDao companyDao, EmployerDao employerDao,
+                          EmployerService employerService) {
         this.companyDao = companyDao;
-        this.addressDao = addressDao;
         this.employerDao = employerDao;
+        this.employerService = employerService;
     }
 
     // todo pouze admin
@@ -58,12 +59,15 @@ public class CompanyService {
     }
 
 
-    // todo vyresit co udelame z employerama + jejich brigadama -> taky SMAZAT ??? nebo null ???
+    //only admin
     @Transactional
     public void remove(Company company) {
         Objects.requireNonNull(company);
-        Address address = company.getAddress();
-        companyDao.remove(company);
-        addressDao.remove(address);
+        company.setActive(false);
+        companyDao.update(company);
+        employerDao.findAll()
+                .stream()
+                .filter(employer -> employer.getCompany() == company)
+                .forEach(employerService::remove);
     }
 }

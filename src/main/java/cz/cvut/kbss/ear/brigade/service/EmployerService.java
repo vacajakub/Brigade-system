@@ -21,12 +21,16 @@ public class EmployerService {
     private final EmployerDao employerDao;
     private final BrigadeDao brigadeDao;
     private final WorkerDao workerDao;
+    private final BrigadeService brigadeService;
 
     @Autowired
-    public EmployerService(EmployerDao employerDao, BrigadeDao brigadeDao, WorkerDao workerDao) {
+    public EmployerService(EmployerDao employerDao, BrigadeDao brigadeDao, WorkerDao workerDao,
+                           BrigadeService brigadeService) {
         this.employerDao = employerDao;
         this.brigadeDao = brigadeDao;
         this.workerDao = workerDao;
+        this.brigadeService = brigadeService;
+
     }
 
 
@@ -110,6 +114,12 @@ public class EmployerService {
     @Transactional
     public int getCountOfPastBrigades(Employer employer) {
         return getPastBrigades(employer).size();
+    }
+
+    public void remove(Employer employer) {
+        employer.setActive(false);
+        getFutureBrigades(employer).forEach(brigadeService::removeBrigade);
+        employerDao.update(employer);
     }
 
 

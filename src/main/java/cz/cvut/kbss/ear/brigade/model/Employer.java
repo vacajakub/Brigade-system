@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 })
 public class Employer extends User {
 
+    private boolean isActive;
+
     @ManyToOne
     private Company company;
 
@@ -29,6 +31,7 @@ public class Employer extends User {
     public Employer() {
         this.brigades = new ArrayList<>();
         setRole(Role.EMPLOYER);
+        this.isActive = true;
     }
 
 
@@ -52,6 +55,13 @@ public class Employer extends User {
         this.brigades = brigades;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
     public static <T> Collector<T, ?, T> toSingleton() {
         return Collectors.collectingAndThen(
