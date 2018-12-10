@@ -28,12 +28,12 @@ public class PersistenceConfig {
     public DataSource dataSource() {
         final BoneCPDataSource ds = new BoneCPDataSource();
         ds.setDriverClass("org.postgresql.Driver");
-//        ds.setJdbcUrl("jdbc:postgresql://kbss.felk.cvut.cz:5433/ear2018zs_10");
-//        ds.setUsername("ear2018zs_10");
-//        ds.setPassword("zirafa");
-        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/ear_localhost");
-        ds.setUsername("sedlifil");
-        ds.setPassword("sedlifil");
+        ds.setJdbcUrl("jdbc:postgresql://kbss.felk.cvut.cz:5433/ear2018zs_10");
+        ds.setUsername("ear2018zs_10");
+        ds.setPassword("zirafa");
+//        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/ear_localhost");
+//        ds.setUsername("sedlifil");
+//        ds.setPassword("sedlifil");
         return ds;
     }
 
