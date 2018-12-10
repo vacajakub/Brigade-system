@@ -7,6 +7,7 @@ import cz.cvut.kbss.ear.brigade.model.Address;
 import cz.cvut.kbss.ear.brigade.model.Company;
 import cz.cvut.kbss.ear.brigade.model.Employer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +29,14 @@ public class CompanyService {
         this.employerService = employerService;
     }
 
-    // todo pouze admin
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void addEmployerToCompany(Employer employer, Company company) {
         employer.setCompany(company);
         employerDao.persist(employer);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional(readOnly = true)
     public List<Company> findAll() {
         return companyDao.findAll();
@@ -46,20 +48,21 @@ public class CompanyService {
         return companyDao.find(id);
     }
 
-    // todo pouze admin
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void persist(Company company) {
         companyDao.persist(company);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void update(Company company) {
         companyDao.update(company);
     }
 
 
-    //only admin
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public void remove(Company company) {
         Objects.requireNonNull(company);

@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -133,14 +134,13 @@ public class EmployerController {
     }
 
 
-    //TODO zde nebo u admina? neni metoda v service
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void removeEmployer(@PathVariable Integer id){
-//        final Employer employer = employerService.find(id);
-//        if(employer != null){
-//        }
-//    }
-
-
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable Integer id) {
+        Employer employer = employerService.find(id);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", id);
+        }
+        employerService.remove(employer);
+    }
 }
