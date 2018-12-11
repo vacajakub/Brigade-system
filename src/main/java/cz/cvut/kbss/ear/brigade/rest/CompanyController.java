@@ -1,9 +1,7 @@
 package cz.cvut.kbss.ear.brigade.rest;
 
 import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
-import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Company;
-import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
 import cz.cvut.kbss.ear.brigade.service.CompanyService;
 import org.slf4j.Logger;
@@ -38,10 +36,10 @@ public class CompanyController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeBrigade(@PathVariable("id") Integer id) {
+    public void remove(@PathVariable("id") Integer id) {
         Company company = companyService.find(id);
         if (company == null) {
-            throw NotFoundException.create("Brigade", id);
+            throw NotFoundException.create("Company", id);
         }
         companyService.remove(company);
     }
