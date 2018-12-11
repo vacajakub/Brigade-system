@@ -4,6 +4,7 @@ import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
+import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import javafx.util.Pair;
@@ -64,7 +65,6 @@ public class WorkerController {
         }
         return worker;
     }
-
     @PreAuthorize("hasRole('ADMIN') or principal.username == workerService.find(id).email")
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getFutureBrigades(@PathVariable("id") Integer id) {
