@@ -40,20 +40,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             SecurityConstants.REMEMBER_ME_COOKIE_NAME
     };
 
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    private final LogoutSuccessHandler logoutSuccessHandler;
+
+    private final AuthenticationProvider authenticationProvider;
 
     @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint, AuthenticationFailureHandler authenticationFailureHandler, AuthenticationSuccessHandler authenticationSuccessHandler, LogoutSuccessHandler logoutSuccessHandler, AuthenticationProvider authenticationProvider) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.authenticationFailureHandler = authenticationFailureHandler;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.logoutSuccessHandler = logoutSuccessHandler;
+        this.authenticationProvider = authenticationProvider;
+    }
 
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
-
-    @Autowired
-    private AuthenticationProvider authenticationProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {

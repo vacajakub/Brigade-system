@@ -1,18 +1,25 @@
 package cz.cvut.kbss.ear.brigade.service;
 
+import cz.cvut.kbss.ear.brigade.config.RestConfig;
 import cz.cvut.kbss.ear.brigade.exception.AlreadyRatedException;
 import cz.cvut.kbss.ear.brigade.exception.BrigadeIsNotFinishedException;
 import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
 import cz.cvut.kbss.ear.brigade.exception.WorkerDidNotWorkOnBrigadeException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
+import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
+import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
+import cz.cvut.kbss.ear.brigade.security.model.UserDetails;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import cz.cvut.kbss.ear.eshop.environment.Generator;
+import cz.cvut.kbss.ear.eshop.environment.config.TestSecurityConfig;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -25,7 +32,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-
+@ContextConfiguration(classes = {TestSecurityConfig.class, RestConfig.class})
 public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
@@ -63,6 +70,52 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
     @Test
     public void getFutureBrigades() {
         worker.setBrigades(generateBrigades());
+        worker.setRole(Role.ADMIN);
+        SecurityUtils.setCurrentUser(new UserDetails(worker));
+        workerService.persist(worker);
+        List<Brigade> futureBrigades = worker.getBrigades()
+                .stream()
+                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
+                .sorted(Comparator.comparing(Brigade::getId))
+                .collect(Collectors.toList());
+        final Worker result = em.find(Worker.class, worker.getId());
+        List<Brigade> results = workerService.getFutureBrigades(result);
+        results.sort(Comparator.comparing(Brigade::getId));
+        assertEquals("Wrong size of list", futureBrigades.size(), results.size());
+
+        for (int i = 0; i < futureBrigades.size(); i++) {
+            assertEquals("Wrong id", futureBrigades.get(i).getId(), results.get(i).getId());
+        }
+    }
+
+    @Test
+    public void getFutureBrigadesWorker() {
+        worker.setBrigades(generateBrigades());
+        worker.setRole(Role.WORKER);
+        SecurityUtils.setCurrentUser(new UserDetails(worker));
+        workerService.persist(worker);
+        List<Brigade> futureBrigades = worker.getBrigades()
+                .stream()
+                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
+                .sorted(Comparator.comparing(Brigade::getId))
+                .collect(Collectors.toList());
+        final Worker result = em.find(Worker.class, worker.getId());
+        List<Brigade> results = workerService.getFutureBrigades(result);
+        results.sort(Comparator.comparing(Brigade::getId));
+        assertEquals("Wrong size of list", futureBrigades.size(), results.size());
+
+        for (int i = 0; i < futureBrigades.size(); i++) {
+            assertEquals("Wrong id", futureBrigades.get(i).getId(), results.get(i).getId());
+        }
+    }
+
+    @Test(expected = AccessDeniedException.class)
+    public void getFutureBrigadesDifferentWorker() {
+        worker.setBrigades(generateBrigades());
+        worker.setRole(Role.WORKER);
+        Worker differentWorker = Generator.generateWorker();
+        differentWorker.setRole(Role.WORKER);
+        SecurityUtils.setCurrentUser(new UserDetails(differentWorker));
         workerService.persist(worker);
         List<Brigade> futureBrigades = worker.getBrigades()
                 .stream()

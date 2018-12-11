@@ -13,6 +13,7 @@ import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -70,7 +71,7 @@ public class WorkerService {
 
 
     @Transactional
-    // returns actual list of brigades the worker is signed for and are in future or present
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
     public List<Brigade> getFutureBrigades(Worker worker) {
         return filterBrigades(worker.getBrigades(), false);
     }
