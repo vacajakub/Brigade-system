@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class EmployerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", workerId);
         }
-        employerService.removeWorkerFromBrigade(employer, brigadeId, worker);
+        employerService.removeWorkerFromBrigade(employer, brigade, worker);
         LOG.debug("Worker {} removed from brigade {}.", worker, brigade);
     }
 
@@ -102,7 +101,7 @@ public class EmployerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", workerId);
         }
-        employerService.moveWorkerToBlacklist(employer, brigadeId, worker);
+        employerService.moveWorkerToBlacklist(employer, brigade, worker);
         LOG.debug("Worker {} moved to blacklist of brigade {}.", worker, brigade);
     }
 

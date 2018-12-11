@@ -4,6 +4,7 @@ import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.CategoryDao;
 import cz.cvut.kbss.ear.brigade.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +41,14 @@ public class CategoryService {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void update(Category category) {
         categoryDao.update(category);
     }
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void remove(Category category) {
         Objects.requireNonNull(category);
         category.getBrigades().forEach(brigade -> {

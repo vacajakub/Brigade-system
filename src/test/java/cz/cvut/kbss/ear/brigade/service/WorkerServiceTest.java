@@ -1,38 +1,23 @@
 package cz.cvut.kbss.ear.brigade.service;
 
-import cz.cvut.kbss.ear.brigade.config.RestConfig;
-import cz.cvut.kbss.ear.brigade.exception.AlreadyRatedException;
-import cz.cvut.kbss.ear.brigade.exception.BrigadeIsNotFinishedException;
-import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
-import cz.cvut.kbss.ear.brigade.exception.WorkerDidNotWorkOnBrigadeException;
+import cz.cvut.kbss.ear.brigade.exception.*;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
-import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
-import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
-import cz.cvut.kbss.ear.brigade.security.model.UserDetails;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import cz.cvut.kbss.ear.eshop.environment.Generator;
-import cz.cvut.kbss.ear.eshop.environment.config.TestSecurityConfig;
 import javafx.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.test.context.ContextConfiguration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-@ContextConfiguration(classes = {TestSecurityConfig.class, RestConfig.class})
 public class WorkerServiceTest extends BaseServiceTestRunner {
 
 
@@ -50,87 +35,9 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
         worker = Generator.generateWorker();
     }
 
-    private List<Brigade> generateBrigades() {
-        List<Brigade> brigades = new ArrayList<>();
-        boolean flag;
-        for (int i = 0; i < 10; i++) {
-            flag = i < 5;
-            Brigade brigade = Generator.generateBrigade(flag);
-            brigade.setThumbsUp(i);
-            brigade.setThumbsDown(i + 2);
-            if (i % 2 == 0) {
-                brigades.add(brigade);
-            }
-            em.persist(brigade);
-        }
-        return brigades;
-    }
 
 
-    @Test
-    public void getFutureBrigades() {
-        worker.setBrigades(generateBrigades());
-        worker.setRole(Role.ADMIN);
-        SecurityUtils.setCurrentUser(new UserDetails(worker));
-        workerService.persist(worker);
-        List<Brigade> futureBrigades = worker.getBrigades()
-                .stream()
-                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
-                .sorted(Comparator.comparing(Brigade::getId))
-                .collect(Collectors.toList());
-        final Worker result = em.find(Worker.class, worker.getId());
-        List<Brigade> results = workerService.getFutureBrigades(result);
-        results.sort(Comparator.comparing(Brigade::getId));
-        assertEquals("Wrong size of list", futureBrigades.size(), results.size());
 
-        for (int i = 0; i < futureBrigades.size(); i++) {
-            assertEquals("Wrong id", futureBrigades.get(i).getId(), results.get(i).getId());
-        }
-    }
-
-    @Test
-    public void getFutureBrigadesWorker() {
-        worker.setBrigades(generateBrigades());
-        worker.setRole(Role.WORKER);
-        SecurityUtils.setCurrentUser(new UserDetails(worker));
-        workerService.persist(worker);
-        List<Brigade> futureBrigades = worker.getBrigades()
-                .stream()
-                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
-                .sorted(Comparator.comparing(Brigade::getId))
-                .collect(Collectors.toList());
-        final Worker result = em.find(Worker.class, worker.getId());
-        List<Brigade> results = workerService.getFutureBrigades(result);
-        results.sort(Comparator.comparing(Brigade::getId));
-        assertEquals("Wrong size of list", futureBrigades.size(), results.size());
-
-        for (int i = 0; i < futureBrigades.size(); i++) {
-            assertEquals("Wrong id", futureBrigades.get(i).getId(), results.get(i).getId());
-        }
-    }
-
-    @Test(expected = AccessDeniedException.class)
-    public void getFutureBrigadesDifferentWorker() {
-        worker.setBrigades(generateBrigades());
-        worker.setRole(Role.WORKER);
-        Worker differentWorker = Generator.generateWorker();
-        differentWorker.setRole(Role.WORKER);
-        SecurityUtils.setCurrentUser(new UserDetails(differentWorker));
-        workerService.persist(worker);
-        List<Brigade> futureBrigades = worker.getBrigades()
-                .stream()
-                .filter(brigade -> brigade.getDateTo().getTime() >= new Date(System.currentTimeMillis()).getTime())
-                .sorted(Comparator.comparing(Brigade::getId))
-                .collect(Collectors.toList());
-        final Worker result = em.find(Worker.class, worker.getId());
-        List<Brigade> results = workerService.getFutureBrigades(result);
-        results.sort(Comparator.comparing(Brigade::getId));
-        assertEquals("Wrong size of list", futureBrigades.size(), results.size());
-
-        for (int i = 0; i < futureBrigades.size(); i++) {
-            assertEquals("Wrong id", futureBrigades.get(i).getId(), results.get(i).getId());
-        }
-    }
 
 
     @Test
@@ -246,5 +153,52 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
         final Worker workerResult = em.find(Worker.class, worker.getId());
         assertEquals(0, workerResult.getBrigadesThumbsUps().size());
     }
+
+    @Test
+    public void addWorker() {
+        Worker worker = Generator.generateWorker();
+        worker.setEmail("worker1@seznam.cz");
+        Worker worker2 = Generator.generateWorker();
+        worker2.setEmail("worker2@seznam.cz");
+        Brigade brigade = Generator.generateBrigade(false);
+        brigade.setMaxWorkers(2);
+
+        em.persist(brigade);
+        em.persist(worker);
+        em.persist(worker2);
+
+        workerService.singOnToBrigade(worker, brigade);
+        workerService.singOnToBrigade(worker2, brigade);
+
+        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+        final Worker workerResult1 = em.find(Worker.class, worker.getId());
+        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
+
+        assertEquals(2, brigadeResult.getWorkers().size());
+        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker.getEmail())));
+        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
+        assertEquals(1, workerResult1.getBrigades().size());
+        assertEquals(1, workerResult2.getBrigades().size());
+
+    }
+
+    @Test(expected = BrigadeIsFullException.class)
+    public void addWorkerThrowsBrigadeIsFullException() {
+        Worker worker = Generator.generateWorker();
+        worker.setEmail("worker1@seznam.cz");
+        Worker worker2 = Generator.generateWorker();
+        worker2.setEmail("worker2@seznam.cz");
+        Brigade brigade = Generator.generateBrigade(false);
+        brigade.setMaxWorkers(1);
+
+        em.persist(brigade);
+        em.persist(worker);
+        em.persist(worker2);
+
+        workerService.singOnToBrigade(worker, brigade);
+        workerService.singOnToBrigade(worker2, brigade);
+
+    }
+
 
 }

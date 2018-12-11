@@ -15,15 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class EmployerServiceTest extends BaseServiceTestRunner {
 
@@ -137,7 +136,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
 
         assertEquals("Wrong number of worker in blacklist", 0, workerRes.getUnvisitedBrigades().size());
 
-        employerService.moveWorkerToBlacklist(resultEmployerBefore, brigade.getId(), worker);
+        employerService.moveWorkerToBlacklist(resultEmployerBefore, brigade, worker);
 
         final Employer resultEmployerAfter = em.find(Employer.class, resultEmployerBefore.getId());
         final Brigade brigadeFinal = resultEmployerAfter.findBrigadeById(brigade.getId());
@@ -167,7 +166,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
         em.persist(worker2);
         em.persist(employer);
 
-        employerService.moveWorkerToBlacklist(employer, brigade.getId(), worker);
+        employerService.moveWorkerToBlacklist(employer, brigade, worker);
     }
 
     @Test
@@ -184,7 +183,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
         em.persist(worker);
         em.persist(employer);
 
-        employerService.removeWorkerFromBrigade(employer, brigade.getId(), worker);
+        employerService.removeWorkerFromBrigade(employer, brigade, worker);
 
         final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
         final Worker workerResult = em.find(Worker.class, worker.getId());
@@ -209,7 +208,7 @@ public class EmployerServiceTest extends BaseServiceTestRunner {
         em.persist(worker);
         em.persist(employer);
 
-        employerService.removeWorkerFromBrigade(employer, brigade.getId(), worker);
+        employerService.removeWorkerFromBrigade(employer, brigade, worker);
     }
 
     @Test

@@ -11,6 +11,7 @@ import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +45,7 @@ public class EmployerService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Employer> findAll() {
         return employerDao.findAll();
     }
@@ -58,25 +60,29 @@ public class EmployerService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
     public void update(Employer employer) {
         employerDao.update(employer);
     }
 
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
     public List<Brigade> getFutureBrigades(Employer employer) {
         return WorkerService.filterBrigades(employer.getBrigades(), false);
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
     public List<Brigade> getPastBrigades(Employer employer) {
         return WorkerService.filterBrigades(employer.getBrigades(), true);
     }
 
     @Transactional
-    public void moveWorkerToBlacklist(Employer employer, int brigadeId, Worker worker) {
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    public void moveWorkerToBlacklist(Employer employer, Brigade brigade, Worker worker) {
         try {
-            final Brigade brigade = employer.findBrigadeById(brigadeId);
+            employer.findBrigadeById(brigade.getId());
 
             brigade.getWorkers().remove(worker);
             brigade.getNoShowWorkers().add(worker);
@@ -87,20 +93,22 @@ public class EmployerService {
             brigadeDao.update(brigade);
             workerDao.update(worker);
         } catch (IllegalStateException e) {
-            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to emolyer: " + employer.getEmail());
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to emolyer: " + employer.getEmail());
         }
     }
 
     @Transactional
-    public void removeWorkerFromBrigade(Employer employer, int brigadeId, Worker worker) {
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    public void removeWorkerFromBrigade(Employer employer, Brigade brigade, Worker worker) {
         try {
-            Brigade brigade = employer.findBrigadeById(brigadeId);
+            employer.findBrigadeById(brigade.getId());
+
             brigade.getWorkers().remove(worker);
             worker.getBrigades().remove(brigade);
             brigadeDao.update(brigade);
             workerDao.update(worker);
         } catch (IllegalStateException e) {
-            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigadeId + " not belong to employer: " + employer.getEmail());
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to employer: " + employer.getEmail());
         }
     }
 
@@ -124,6 +132,7 @@ public class EmployerService {
         return getPastBrigades(employer).size();
     }
 
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
     public void remove(Employer employer) {
         employer.setActive(false);
         getFutureBrigades(employer).forEach(brigadeService::removeBrigade);

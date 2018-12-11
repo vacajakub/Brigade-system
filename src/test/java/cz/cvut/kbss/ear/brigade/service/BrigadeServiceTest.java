@@ -1,26 +1,22 @@
 package cz.cvut.kbss.ear.brigade.service;
 
-import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
-import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
-import cz.cvut.kbss.ear.brigade.exception.BrigadeIsFullException;
 import cz.cvut.kbss.ear.brigade.exception.DateToIsBeforeDateFromException;
 import cz.cvut.kbss.ear.brigade.model.*;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import cz.cvut.kbss.ear.eshop.environment.Generator;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 
 public class BrigadeServiceTest extends BaseServiceTestRunner {
@@ -51,10 +47,9 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
         em.persist(employer);
         em.persist(address);
         em.persist(category);
-        brigadeService.persist(brigade);
 
 
-        brigadeService.addBrigade(employer, brigade, category, address);
+        brigadeService.create(employer, brigade, category, address);
 
         final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
         final Employer employerResult = em.find(Employer.class, employer.getId());
@@ -77,86 +72,41 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
         category.setName("Test");
         brigade.setDateFrom(new Date(System.currentTimeMillis() + 2 * Constants.ONE_DAY));
         brigade.setDateTo(new Date(System.currentTimeMillis()));
-        brigadeService.addBrigade(employer, brigade, category, address);
-    }
-
-    @Test
-    public void addWorker() {
-        Worker worker = Generator.generateWorker();
-        worker.setEmail("worker1@seznam.cz");
-        Worker worker2 = Generator.generateWorker();
-        worker2.setEmail("worker2@seznam.cz");
-        Brigade brigade = Generator.generateBrigade(false);
-        brigade.setMaxWorkers(2);
-
-        em.persist(brigade);
-        em.persist(worker);
-        em.persist(worker2);
-
-        brigadeService.addWorker(brigade, worker);
-        brigadeService.addWorker(brigade, worker2);
-
-        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
-        final Worker workerResult1 = em.find(Worker.class, worker.getId());
-        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
-
-        assertEquals(2, brigadeResult.getWorkers().size());
-        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker.getEmail())));
-        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
-        assertEquals(1, workerResult1.getBrigades().size());
-        assertEquals(1, workerResult2.getBrigades().size());
-
-    }
-
-    @Test(expected = BrigadeIsFullException.class)
-    public void addWorkerThrowsBrigadeIsFullException() {
-        Worker worker = Generator.generateWorker();
-        worker.setEmail("worker1@seznam.cz");
-        Worker worker2 = Generator.generateWorker();
-        worker2.setEmail("worker2@seznam.cz");
-        Brigade brigade = Generator.generateBrigade(false);
-        brigade.setMaxWorkers(1);
-
-        em.persist(brigade);
-        em.persist(worker);
-        em.persist(worker2);
-
-        brigadeService.addWorker(brigade, worker);
-        brigadeService.addWorker(brigade, worker2);
+        brigadeService.create(employer, brigade, category, address);
     }
 
 
-    @Test
-    public void removeWorkerFromBrigade() {
-        Worker worker = Generator.generateWorker();
-        worker.setEmail("worker1@seznam.cz");
-        Worker worker2 = Generator.generateWorker();
-        worker2.setEmail("worker2@seznam.cz");
-        brigade.setMaxWorkers(2);
-        List<Worker> workerList = new ArrayList<>();
-        workerList.add(worker);
-        workerList.add(worker2);
-        brigade.setWorkers(workerList);
-        worker.addBrigade(brigade);
-        worker2.addBrigade(brigade);
-        em.persist(brigade);
-        em.persist(worker);
-        em.persist(worker2);
-
-        brigadeService.removeWorkerFromBrigade(brigade, worker);
-
-
-        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
-        final Worker workerResult1 = em.find(Worker.class, worker.getId());
-        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
-
-        assertEquals(1, brigadeResult.getWorkers().size());
-        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
-        assertEquals(0, workerResult1.getBrigades().size());
-        assertEquals(1, workerResult2.getBrigades().size());
-
-
-    }
+//    @Test
+//    public void removeWorkerFromBrigade() {
+//        Worker worker = Generator.generateWorker();
+//        worker.setEmail("worker1@seznam.cz");
+//        Worker worker2 = Generator.generateWorker();
+//        worker2.setEmail("worker2@seznam.cz");
+//        brigade.setMaxWorkers(2);
+//        List<Worker> workerList = new ArrayList<>();
+//        workerList.add(worker);
+//        workerList.add(worker2);
+//        brigade.setWorkers(workerList);
+//        worker.addBrigade(brigade);
+//        worker2.addBrigade(brigade);
+//        em.persist(brigade);
+//        em.persist(worker);
+//        em.persist(worker2);
+//
+//        brigadeService.removeWorkerFromBrigade(brigade, worker);
+//
+//
+//        final Brigade brigadeResult = em.find(Brigade.class, brigade.getId());
+//        final Worker workerResult1 = em.find(Worker.class, worker.getId());
+//        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
+//
+//        assertEquals(1, brigadeResult.getWorkers().size());
+//        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
+//        assertEquals(0, workerResult1.getBrigades().size());
+//        assertEquals(1, workerResult2.getBrigades().size());
+//
+//
+//    }
 
     @Test
     public void removeBrigade() {
@@ -184,7 +134,7 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
         em.persist(category);
         em.persist(worker);
         em.persist(worker2);
-        brigadeService.persist(brigade);
+        em.persist(brigade);
 
 
         brigadeService.removeBrigade(brigade);

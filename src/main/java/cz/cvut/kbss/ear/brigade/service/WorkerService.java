@@ -10,18 +10,14 @@ import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.util.Constants;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.PostConstruct;
-import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +41,7 @@ public class WorkerService {
         return workerDao.find(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional(readOnly = true)
     public List<Worker> findAll() {
         return workerDao.findAll();
@@ -59,6 +56,7 @@ public class WorkerService {
         workerDao.persist(worker);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
     @Transactional(readOnly = true)
     public void update(Worker worker) {
         workerDao.update(worker);
@@ -77,12 +75,22 @@ public class WorkerService {
     }
 
     @Transactional
-    //returns workers past brigades
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
     public List<Brigade> getPastBrigades(Worker worker) {
         return filterBrigades(worker.getBrigades(), true);
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #workerToAdd.email")
+    public void singOnToBrigade(Worker workerToAdd, Brigade brigade) {
+        brigade.addWorker(workerToAdd);
+        workerToAdd.addBrigade(brigade);
+        brigadeDao.update(brigade);
+        workerDao.update(workerToAdd);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
     public void singOffFromBrigade(Worker worker, Brigade brigade) {
         if (System.currentTimeMillis() < brigade.getDateFrom().getTime() - Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE) {
             worker.getBrigades().remove(brigade);
@@ -95,7 +103,8 @@ public class WorkerService {
     }
 
     @Transactional
-    public void addThumbsUpToBrigade(Worker worker, Brigade brigade){
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    public void addThumbsUpToBrigade(Worker worker, Brigade brigade) {
         conditionForRatingBrigade(worker, brigade);
 
         worker.getBrigadesThumbsUps().add(brigade);
@@ -105,7 +114,8 @@ public class WorkerService {
     }
 
     @Transactional
-    public void addThumbsDownToBrigade(Worker worker, Brigade brigade){
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    public void addThumbsDownToBrigade(Worker worker, Brigade brigade) {
         conditionForRatingBrigade(worker, brigade);
 
         worker.getBrigadesThumbsDowns().add(brigade);
@@ -114,21 +124,22 @@ public class WorkerService {
         workerDao.update(worker);
     }
 
-    private void conditionForRatingBrigade(Worker worker, Brigade brigade){
-        if(worker.getBrigades().stream().noneMatch(b -> b.getId().intValue() == brigade.getId().intValue())){
+    private void conditionForRatingBrigade(Worker worker, Brigade brigade) {
+        if (worker.getBrigades().stream().noneMatch(b -> b.getId().intValue() == brigade.getId().intValue())) {
             throw new WorkerDidNotWorkOnBrigadeException("Worker did not work on the brigade!!!");
         }
-        if (brigade.getDateTo().getTime() > System.currentTimeMillis()){
+        if (brigade.getDateTo().getTime() > System.currentTimeMillis()) {
             throw new BrigadeIsNotFinishedException("Brigade is not finished!!!");
         }
         if (worker.getBrigadesThumbsUps().stream().anyMatch(b -> b.getId().intValue() == brigade.getId().intValue()) ||
-                worker.getBrigadesThumbsDowns().stream().anyMatch(b -> b.getId().intValue() == brigade.getId().intValue())){
+                worker.getBrigadesThumbsDowns().stream().anyMatch(b -> b.getId().intValue() == brigade.getId().intValue())) {
             throw new AlreadyRatedException("Worker already rated this brigade!!!");
         }
     }
 
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
     public Pair<Integer, Integer> getWorkerScore(Worker worker) {
         int countShow = filterBrigades(worker.getBrigades(), true).size();
         int countNoShow = filterBrigades(worker.getUnvisitedBrigades(), true).size();

@@ -4,7 +4,6 @@ import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
-import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import javafx.util.Pair;
@@ -15,8 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostFilter;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +43,6 @@ public class WorkerController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Worker> getWorkers() {
         final List<Worker> workers = workerService.findAll();
@@ -65,7 +61,7 @@ public class WorkerController {
         }
         return worker;
     }
-    @PreAuthorize("hasRole('ADMIN') or principal.username == workerService.find(id).email")
+
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getFutureBrigades(@PathVariable("id") Integer id) {
         Worker worker = workerService.find(id);
@@ -82,6 +78,21 @@ public class WorkerController {
             throw NotFoundException.create("Worker", id);
         }
         return workerService.getPastBrigades(worker);
+    }
+
+    @RequestMapping(value = "/signOn/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addWorker(@PathVariable("brigadeId") Integer brigadeId,
+                          @PathVariable("workerId") Integer workerId) {
+        Brigade brigade = brigadeService.find(brigadeId);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", brigadeId);
+        }
+        Worker worker = workerService.find(workerId);
+        if (worker == null) {
+            throw NotFoundException.create("Worker", workerId);
+        }
+        workerService.singOnToBrigade(worker, brigade);
     }
 
     @RequestMapping(value = "/signOff/brigade/{workerId}/{brigadeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)

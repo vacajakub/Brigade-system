@@ -2,16 +2,18 @@ package cz.cvut.kbss.ear.brigade.service;
 
 import cz.cvut.kbss.ear.brigade.dao.implementations.*;
 import cz.cvut.kbss.ear.brigade.exception.DateToIsBeforeDateFromException;
-import cz.cvut.kbss.ear.brigade.model.*;
+import cz.cvut.kbss.ear.brigade.model.Address;
+import cz.cvut.kbss.ear.brigade.model.Brigade;
+import cz.cvut.kbss.ear.brigade.model.Category;
+import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,13 +23,16 @@ public class BrigadeService {
     private final EmployerDao employerDao;
     private final WorkerDao workerDao;
     private final CategoryDao categoryDao;
+    private final AddressDao addressDao;
 
     @Autowired
-    public BrigadeService(BrigadeDao brigadeDao, EmployerDao employerDao, WorkerDao workerDao, CategoryDao categoryDao) {
+    public BrigadeService(BrigadeDao brigadeDao, EmployerDao employerDao, WorkerDao workerDao, CategoryDao categoryDao,
+                          AddressDao addressDao) {
         this.brigadeDao = brigadeDao;
         this.employerDao = employerDao;
         this.workerDao = workerDao;
         this.categoryDao = categoryDao;
+        this.addressDao = addressDao;
     }
 
     @Transactional(readOnly = true)
@@ -41,52 +46,43 @@ public class BrigadeService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")
     public void update(Brigade brigade) {
         brigadeDao.update(brigade);
     }
 
-    @Transactional(readOnly = true)
-    public void persist(Brigade brigade) {
-        if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
-            throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");
-        }
-        brigadeDao.persist(brigade);
-    }
-
     @Transactional
-    public void addBrigade(Employer employer, Brigade brigade, Category category, Address address) {
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
+    public void create(Employer employer, Brigade brigade, Category category, Address address) {
         if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
             throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");
         }
+
         brigade.setEmployer(employer);
         employer.addBrigade(brigade);
         brigade.setCategory(category);
         category.addBrigade(brigade);
         brigade.setAddress(address);
-        brigadeDao.update(brigade);
+        brigadeDao.persist(brigade);
         employerDao.update(employer);
         categoryDao.update(category);
+        addressDao.persist(address);
+
     }
 
-    @Transactional
-    public void addWorker(Brigade brigade, Worker workerToAdd) {
-        brigade.addWorker(workerToAdd);
-        workerToAdd.addBrigade(brigade);
-        brigadeDao.update(brigade);
-        workerDao.update(workerToAdd);
-    }
+
+//    @Transactional
+//    public void removeWorkerFromBrigade(Brigade brigade, Worker workerToRemove) {
+//        Objects.requireNonNull(brigade);
+//        Objects.requireNonNull(workerToRemove);
+//        brigade.getWorkers().remove(workerToRemove);
+//        workerToRemove.getBrigades().remove(brigade);
+//        brigadeDao.update(brigade);
+//        workerDao.update(workerToRemove);
+//    }
 
     @Transactional
-    public void removeWorkerFromBrigade(Brigade brigade, Worker workerToRemove) {
-        Objects.requireNonNull(brigade);
-        Objects.requireNonNull(workerToRemove);
-        brigade.getWorkers().remove(workerToRemove);
-        workerToRemove.getBrigades().remove(brigade);
-        brigadeDao.update(brigade);
-        workerDao.update(workerToRemove);
-    }
-
-    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")
     public void removeBrigade(Brigade brigade) {
         Category category = brigade.getCategory();
         Employer employer = brigade.getEmployer();

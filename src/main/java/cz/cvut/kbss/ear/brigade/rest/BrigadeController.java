@@ -1,9 +1,10 @@
 package cz.cvut.kbss.ear.brigade.rest;
 
-import cz.cvut.kbss.ear.brigade.dao.implementations.AddressDao;
 import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
-import cz.cvut.kbss.ear.brigade.model.*;
-import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
+import cz.cvut.kbss.ear.brigade.model.Address;
+import cz.cvut.kbss.ear.brigade.model.Brigade;
+import cz.cvut.kbss.ear.brigade.model.Category;
+import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.CategoryService;
 import cz.cvut.kbss.ear.brigade.service.EmployerService;
@@ -11,10 +12,8 @@ import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,26 +28,16 @@ public class BrigadeController {
     private final WorkerService workerService;
     private final EmployerService employerService;
     private final CategoryService categoryService;
-    private final AddressDao addressDao;
 
     @Autowired
     public BrigadeController(BrigadeService brigadeService, WorkerService workerService, EmployerService employerService,
-                             CategoryService categoryService, AddressDao addressDao) {
+                             CategoryService categoryService) {
         this.brigadeService = brigadeService;
         this.workerService = workerService;
         this.employerService = employerService;
         this.categoryService = categoryService;
-        this.addressDao = addressDao;
     }
 
-
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createBrigade(@RequestBody Brigade brigade) {
-        brigadeService.persist(brigade);
-        LOG.debug("Created brigade {}.", brigade);
-        final HttpHeaders headers = RestUtils.createLocationHeaderFromCurrentUri("/{id}", brigade.getId());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getBrigades() {
@@ -65,16 +54,12 @@ public class BrigadeController {
         brigadeService.removeBrigade(brigade);
     }
 
-    @RequestMapping(value = "/add/brigade/{brigadeId}/{employerId}/{categoryId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/add/brigade/{employerId}/{categoryId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addBrigade(@PathVariable("brigadeId") Integer brigadeId,
+    public void addBrigade(@RequestBody Brigade brigade,
                            @PathVariable("employerId") Integer employerId,
                            @PathVariable("categoryId") Integer categoryId,
                            @RequestBody Address address) {
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
         Employer employer = employerService.find(employerId);
         if (employer == null) {
             throw NotFoundException.create("Employer", employerId);
@@ -83,39 +68,24 @@ public class BrigadeController {
         if (category == null) {
             throw NotFoundException.create("Category", categoryId);
         }
-        addressDao.persist(address);
-        brigadeService.addBrigade(employer, brigade, category, address);
+        brigadeService.create(employer, brigade, category, address);
     }
 
-    @RequestMapping(value = "/add/worker/{brigadeId}/{workerId}", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addWorker(@PathVariable("brigadeId") Integer brigadeId,
-                          @PathVariable("workerId") Integer workerId) {
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
-        brigadeService.addWorker(brigade, worker);
-    }
 
-    @RequestMapping(value = "/remove/worker/{brigadeId}/{workerId}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeWorkerFromBrigade(@PathVariable("brigadeId") Integer brigadeId,
-                                        @PathVariable("workerId") Integer workerId) {
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
-        brigadeService.removeWorkerFromBrigade(brigade, worker);
-    }
+//    @RequestMapping(value = "/remove/worker/{brigadeId}/{workerId}", method = RequestMethod.DELETE)
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    public void removeWorkerFromBrigade(@PathVariable("brigadeId") Integer brigadeId,
+//                                        @PathVariable("workerId") Integer workerId) {
+//        Brigade brigade = brigadeService.find(brigadeId);
+//        if (brigade == null) {
+//            throw NotFoundException.create("Brigade", brigadeId);
+//        }
+//        Worker worker = workerService.find(workerId);
+//        if (worker == null) {
+//            throw NotFoundException.create("Worker", workerId);
+//        }
+//        brigadeService.removeWorkerFromBrigade(brigade, worker);
+//    }
 
 
     @RequestMapping(value = "/filters", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
