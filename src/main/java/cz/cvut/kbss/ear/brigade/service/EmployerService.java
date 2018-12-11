@@ -7,9 +7,11 @@ import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
 import cz.cvut.kbss.ear.brigade.exception.BrigadeNotBelongToEmployerException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Employer;
+import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,14 +25,16 @@ public class EmployerService {
     private final WorkerDao workerDao;
     private final BrigadeService brigadeService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     public EmployerService(EmployerDao employerDao, BrigadeDao brigadeDao, WorkerDao workerDao,
-                           BrigadeService brigadeService) {
+                           BrigadeService brigadeService, PasswordEncoder passwordEncoder) {
         this.employerDao = employerDao;
         this.brigadeDao = brigadeDao;
         this.workerDao = workerDao;
         this.brigadeService = brigadeService;
-
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -46,6 +50,10 @@ public class EmployerService {
 
     @Transactional(readOnly = true)
     public void persist(Employer employer) {
+        employer.encodePassword(passwordEncoder);
+        if (employer.getRole() == null) {
+            employer.setRole(Role.EMPLOYER);
+        }
         employerDao.persist(employer);
     }
 

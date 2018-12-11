@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
@@ -54,6 +56,10 @@ public abstract class User extends AbstractEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void encodePassword(PasswordEncoder encoder) {
+        this.password = encoder.encode(password);
     }
 
     public void erasePassword() {

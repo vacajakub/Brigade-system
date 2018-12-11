@@ -7,11 +7,13 @@ import cz.cvut.kbss.ear.brigade.exception.BrigadeIsNotFinishedException;
 import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
 import cz.cvut.kbss.ear.brigade.exception.WorkerDidNotWorkOnBrigadeException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
+import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +30,13 @@ public class WorkerService {
     private final WorkerDao workerDao;
     private final BrigadeDao brigadeDao;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public WorkerService(WorkerDao workerDao, BrigadeDao brigadeDao) {
+    public WorkerService(WorkerDao workerDao, BrigadeDao brigadeDao, PasswordEncoder passwordEncoder) {
         this.workerDao = workerDao;
         this.brigadeDao = brigadeDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -46,6 +51,10 @@ public class WorkerService {
 
     @Transactional(readOnly = true)
     public void persist(Worker worker) {
+        worker.encodePassword(passwordEncoder);
+        if (worker.getRole() == null) {
+            worker.setRole(Role.WORKER);
+        }
         workerDao.persist(worker);
     }
 
