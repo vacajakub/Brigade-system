@@ -1,6 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.cvut.kbss.ear.brigade.exception.BrigadeIsFullException;
 
 import javax.persistence.*;
@@ -60,25 +61,31 @@ public class Brigade extends AbstractEntity {
     private Address address;
 
     @ManyToOne
+    @JsonIgnoreProperties("brigades")
     private Employer employer;
 
     @ManyToMany
     @JoinTable(name = "brigade_worker")
+    @JsonIgnoreProperties("brigades")
     private List<Worker> workers;
 
     @ManyToMany
     @JoinTable(name = "brigade_worker_ThumbsUp")
+    @JsonIgnoreProperties("brigadesThumbsUps")
     private List<Worker> workersThumbsUps;
 
     @ManyToMany
     @JoinTable(name = "brigade_worker_ThumbsDown")
+    @JsonIgnoreProperties("brigadesThumbsDowns")
     private List<Worker> workersThumbsDowns;
 
     @ManyToMany
     @JoinTable(name = "blacklist")
+    @JsonIgnoreProperties("unvisitedBrigades")
     private List<Worker> noShowWorkers;
 
     @ManyToOne
+    @JsonIgnoreProperties("brigades")
     private Category category;
 
     public void addWorker(Worker worker) {

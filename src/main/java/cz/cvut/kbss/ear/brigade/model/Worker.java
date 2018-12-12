@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +25,19 @@ public class Worker extends User {
 
     @OrderBy("dateFrom ASC")
     @ManyToMany (mappedBy = "workers")
+    @JsonIgnoreProperties("workers")
     private List<Brigade> brigades;
 
     @ManyToMany (mappedBy = "workersThumbsUps")
+    @JsonIgnoreProperties("workersThumbsUps")
     private List<Brigade> brigadesThumbsUps;
 
     @ManyToMany (mappedBy = "workersThumbsDowns")
+    @JsonIgnoreProperties("workersThumbsDowns")
     private List<Brigade> brigadesThumbsDowns;
 
     @ManyToMany (mappedBy = "noShowWorkers")
+    @JsonIgnoreProperties("noShowWorkers")
     private List<Brigade> unvisitedBrigades;
 
     public void addBrigade(Brigade brigade){
