@@ -8,7 +8,6 @@ import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.CategoryService;
 import cz.cvut.kbss.ear.brigade.service.EmployerService;
-import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/brigades")
 public class BrigadeController {
@@ -25,15 +25,13 @@ public class BrigadeController {
     private static final Logger LOG = LoggerFactory.getLogger(BrigadeController.class);
 
     private final BrigadeService brigadeService;
-    private final WorkerService workerService;
     private final EmployerService employerService;
     private final CategoryService categoryService;
 
     @Autowired
-    public BrigadeController(BrigadeService brigadeService, WorkerService workerService, EmployerService employerService,
+    public BrigadeController(BrigadeService brigadeService, EmployerService employerService,
                              CategoryService categoryService) {
         this.brigadeService = brigadeService;
-        this.workerService = workerService;
         this.employerService = employerService;
         this.categoryService = categoryService;
     }
@@ -44,7 +42,16 @@ public class BrigadeController {
         return brigadeService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Brigade getBrigade(@PathVariable("id") Integer id) {
+        final Brigade brigade = brigadeService.find(id);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", id);
+        }
+        return brigade;
+    }
+
+    @RequestMapping(value = "remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeBrigade(@PathVariable("id") Integer id) {
         Brigade brigade = brigadeService.find(id);
