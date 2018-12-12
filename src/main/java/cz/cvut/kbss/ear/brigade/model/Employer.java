@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class Employer extends User {
 
     @OrderBy("dateFrom ASC")
     @OneToMany(mappedBy = "employer")
+    @JsonIgnoreProperties("employer")
     private List<Brigade> brigades;
 
     public Brigade findBrigadeById(int id) {

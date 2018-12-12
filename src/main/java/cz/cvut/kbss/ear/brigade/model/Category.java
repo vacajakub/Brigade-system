@@ -1,5 +1,7 @@
 package cz.cvut.kbss.ear.brigade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Category extends AbstractEntity {
     private String name;
 
     @OneToMany (mappedBy = "category")
+    @JsonIgnoreProperties("category")
     private List<Brigade> brigades;
 
     public Category() {
