@@ -53,6 +53,7 @@ public class EmployerController {
         if (employer == null) {
             throw NotFoundException.create("Employer", id);
         }
+        LOG.debug("Returned employer with id {}.", employer.getId());
         return employer;
     }
 
@@ -79,8 +80,8 @@ public class EmployerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", workerId);
         }
-        employerService.removeWorkerFromBrigade(employer, brigade, worker);
         LOG.debug("Worker {} removed from brigade {}.", worker, brigade);
+        employerService.removeWorkerFromBrigade(employer, brigade, worker);
     }
 
 
@@ -101,8 +102,8 @@ public class EmployerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", workerId);
         }
-        employerService.moveWorkerToBlacklist(employer, brigade, worker);
         LOG.debug("Worker {} moved to blacklist of brigade {}.", worker, brigade);
+        employerService.moveWorkerToBlacklist(employer, brigade, worker);
     }
 
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -111,6 +112,7 @@ public class EmployerController {
         if (employer == null) {
             throw NotFoundException.create("Employer", id);
         }
+        LOG.debug("Returned future brigades for employer {}.", employer);
         return employerService.getFutureBrigades(employer);
     }
 
@@ -120,6 +122,7 @@ public class EmployerController {
         if (employer == null) {
             throw NotFoundException.create("Employer", id);
         }
+        LOG.debug("Returned past brigades for employer {}.", employer);
         return employerService.getPastBrigades(employer);
     }
 
@@ -129,6 +132,7 @@ public class EmployerController {
         if (employer == null) {
             throw NotFoundException.create("Employer", id);
         }
+        LOG.debug("Returned emplyer score for employer {}", employer);
         return employerService.getEmployerScore(employer);
     }
 

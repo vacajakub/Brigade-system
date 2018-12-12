@@ -46,19 +46,20 @@ public class WorkerController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Worker> getWorkers() {
         final List<Worker> workers = workerService.findAll();
+        LOG.debug("Called getWorkers() method.");
         if (workers == null) {
             throw NotFoundException.create("Workers", "findAll()");
         }
         return workers;
     }
 
-    // todo - vratit jen jmeno, prijmeni, email -> nic vic
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Worker getWorker(@PathVariable("id") Integer id) {
         final Worker worker = workerService.find(id);
         if (worker == null) {
             throw NotFoundException.create("Worker", id);
         }
+        LOG.debug("Returned worker with id {}.", worker.getId());
         return worker;
     }
 
@@ -68,6 +69,7 @@ public class WorkerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", id);
         }
+        LOG.debug("Returned future brigades of worker with id {}.", worker.getId());
         return workerService.getFutureBrigades(worker);
     }
 
@@ -77,13 +79,14 @@ public class WorkerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", id);
         }
+        LOG.debug("Returned past brigades of worker with id {}.", worker.getId());
         return workerService.getPastBrigades(worker);
     }
 
     @RequestMapping(value = "/signOn/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addWorker(@PathVariable("brigadeId") Integer brigadeId,
-                          @PathVariable("workerId") Integer workerId) {
+    public void signOnToBrigade(@PathVariable("brigadeId") Integer brigadeId,
+                                @PathVariable("workerId") Integer workerId) {
         Brigade brigade = brigadeService.find(brigadeId);
         if (brigade == null) {
             throw NotFoundException.create("Brigade", brigadeId);
@@ -92,6 +95,7 @@ public class WorkerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", workerId);
         }
+        LOG.debug("Signed on worker {} to brigade {}.", worker, brigade);
         workerService.singOnToBrigade(worker, brigade);
     }
 
@@ -106,6 +110,7 @@ public class WorkerController {
         if (brigade == null) {
             throw NotFoundException.create("Brigade", brigadeId);
         }
+        LOG.debug("Signed of worker {} from brigade {}.", worker, brigade);
         workerService.singOffFromBrigade(worker, brigade);
     }
 
@@ -120,7 +125,7 @@ public class WorkerController {
         if (brigade == null) {
             throw NotFoundException.create("Brigade", brigadeId);
         }
-
+        LOG.debug("Worker {} added thumbsup to brigade {}.", worker, brigade);
         workerService.addThumbsUpToBrigade(worker, brigade);
     }
 
@@ -135,7 +140,7 @@ public class WorkerController {
         if (brigade == null) {
             throw NotFoundException.create("Brigade", brigadeId);
         }
-
+        LOG.debug("Worker {} added thumbsdown to brigade {}.", worker, brigade);
         workerService.addThumbsDownToBrigade(worker, brigade);
     }
 
@@ -145,6 +150,7 @@ public class WorkerController {
         if (worker == null) {
             throw NotFoundException.create("Worker", id);
         }
+        LOG.debug("Returned worker score for worker {}", worker);
         return workerService.getWorkerScore(worker);
     }
 
