@@ -4,6 +4,9 @@ import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
+import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
+import cz.cvut.kbss.ear.brigade.security.model.AuthenticationToken;
+import cz.cvut.kbss.ear.brigade.security.model.UserDetails;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import javafx.util.Pair;
@@ -33,6 +36,17 @@ public class WorkerController {
         this.workerService = workerService;
         this.brigadeService = brigadeService;
     }
+
+    @RequestMapping(value = "/token", method = RequestMethod.GET)
+    public AuthenticationToken getToken() {
+        final Worker worker = new Worker();
+        worker.setFirstName("FirstName");
+        worker.setLastName("LastName");
+        worker.setEmail("username" + "@kbss.felk.cvut.cz");
+        worker.setPassword("23224");
+        return SecurityUtils.setCurrentUser(new UserDetails(worker));
+    }
+
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createWorker(@RequestBody Worker worker) {
