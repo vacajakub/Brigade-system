@@ -69,30 +69,21 @@ public class WorkerController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Worker getWorker(@PathVariable("id") Integer id) {
-        final Worker worker = workerService.find(id);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", id);
-        }
+        final Worker worker = findWorker(id);
         LOG.debug("Returned worker with id {}.", worker.getId());
         return worker;
     }
 
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getFutureBrigades(@PathVariable("id") Integer id) {
-        Worker worker = workerService.find(id);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", id);
-        }
+        Worker worker = findWorker(id);
         LOG.debug("Returned future brigades of worker with id {}.", worker.getId());
         return workerService.getFutureBrigades(worker);
     }
 
     @RequestMapping(value = "/{id}/brigades/past", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> getPastBrigades(@PathVariable("id") Integer id) {
-        Worker worker = workerService.find(id);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", id);
-        }
+        Worker worker = findWorker(id);
         LOG.debug("Returned past brigades of worker with id {}.", worker.getId());
         return workerService.getPastBrigades(worker);
     }
@@ -101,14 +92,8 @@ public class WorkerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void signOnToBrigade(@PathVariable("brigadeId") Integer brigadeId,
                                 @PathVariable("workerId") Integer workerId) {
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
+        Worker worker = findWorker(workerId);
+        Brigade brigade = findBrigade(brigadeId);
         LOG.debug("Signed on worker {} to brigade {}.", worker, brigade);
         workerService.singOnToBrigade(worker, brigade);
     }
@@ -116,14 +101,8 @@ public class WorkerController {
     @RequestMapping(value = "/signOff/brigade/{workerId}/{brigadeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void signOffFromBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
+        Worker worker = findWorker(workerId);
+        Brigade brigade = findBrigade(brigadeId);
         LOG.debug("Signed of worker {} from brigade {}.", worker, brigade);
         workerService.singOffFromBrigade(worker, brigade);
     }
@@ -131,14 +110,8 @@ public class WorkerController {
     @RequestMapping(value = "/add/thumbsUp/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addThumbsUpBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
+        Worker worker = findWorker(workerId);
+        Brigade brigade = findBrigade(brigadeId);
         LOG.debug("Worker {} added thumbsup to brigade {}.", worker, brigade);
         workerService.addThumbsUpToBrigade(worker, brigade);
     }
@@ -146,26 +119,34 @@ public class WorkerController {
     @RequestMapping(value = "/add/thumbsDown/brigade/{workerId}/{brigadeId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addThumbsDownBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
-        Worker worker = workerService.find(workerId);
-        if (worker == null) {
-            throw NotFoundException.create("Worker", workerId);
-        }
-        Brigade brigade = brigadeService.find(brigadeId);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", brigadeId);
-        }
+        Worker worker = findWorker(workerId);
+        Brigade brigade = findBrigade(brigadeId);
         LOG.debug("Worker {} added thumbsdown to brigade {}.", worker, brigade);
         workerService.addThumbsDownToBrigade(worker, brigade);
     }
 
     @RequestMapping(value = "/{id}/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Pair<Integer, Integer> getWorkerScore(@PathVariable("id") Integer id) {
+        Worker worker = findWorker(id);
+        LOG.debug("Returned worker score for worker {}", worker);
+        return workerService.getWorkerScore(worker);
+    }
+
+
+    private Worker findWorker(Integer id) {
         Worker worker = workerService.find(id);
         if (worker == null) {
             throw NotFoundException.create("Worker", id);
         }
-        LOG.debug("Returned worker score for worker {}", worker);
-        return workerService.getWorkerScore(worker);
+        return worker;
+    }
+
+    private Brigade findBrigade(Integer id) {
+        Brigade brigade = brigadeService.find(id);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", id);
+        }
+        return brigade;
     }
 
 

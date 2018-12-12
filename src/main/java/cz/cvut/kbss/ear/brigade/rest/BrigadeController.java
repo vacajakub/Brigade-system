@@ -44,20 +44,16 @@ public class BrigadeController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Brigade getBrigade(@PathVariable("id") Integer id) {
-        final Brigade brigade = brigadeService.find(id);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", id);
-        }
+        final Brigade brigade = findBrigade(id);
+        LOG.debug("Returned brigade with id {}.", brigade.getId());
         return brigade;
     }
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeBrigade(@PathVariable("id") Integer id) {
-        Brigade brigade = brigadeService.find(id);
-        if (brigade == null) {
-            throw NotFoundException.create("Brigade", id);
-        }
+        Brigade brigade = findBrigade(id);
+        LOG.debug("Removed brigade with id {}.", brigade.getId());
         brigadeService.removeBrigade(brigade);
     }
 
@@ -67,14 +63,12 @@ public class BrigadeController {
                            @PathVariable("employerId") Integer employerId,
                            @PathVariable("categoryId") Integer categoryId,
                            @RequestBody Address address) {
-        Employer employer = employerService.find(employerId);
-        if (employer == null) {
-            throw NotFoundException.create("Employer", employerId);
-        }
+        Employer employer = findEmployer(employerId);
         Category category = categoryService.find(categoryId);
         if (category == null) {
             throw NotFoundException.create("Category", categoryId);
         }
+        LOG.debug("Created brigade {} with address {}, category {} and employer {}.", brigade, address, category, employer);
         brigadeService.create(employer, brigade, category, address);
     }
 
@@ -100,6 +94,7 @@ public class BrigadeController {
                                        @RequestParam(value = "money", required = false) Integer money,
                                        @RequestParam(value = "days", required = false) Integer days,
                                        @RequestParam(value = "categoryId", required = false) Integer categoryId) {
+        LOG.debug("Called findByFilters() method");
         if (categoryId != null) {
             Category category = categoryService.find(categoryId);
             if (category == null) {
@@ -109,6 +104,22 @@ public class BrigadeController {
         } else {
             return brigadeService.findByFilters(null, city, money, days);
         }
+    }
+
+    private Employer findEmployer(Integer id) {
+        Employer employer = employerService.find(id);
+        if (employer == null) {
+            throw NotFoundException.create("Employer", id);
+        }
+        return employer;
+    }
+
+    private Brigade findBrigade(Integer id) {
+        Brigade brigade = brigadeService.find(id);
+        if (brigade == null) {
+            throw NotFoundException.create("Brigade", id);
+        }
+        return brigade;
     }
 
 
