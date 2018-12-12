@@ -62,8 +62,7 @@ public class Brigade extends AbstractEntity {
 
     @ManyToOne
     @JsonIgnoreProperties("brigades")
-    private Employer employe
-    r;
+    private Employer employer;
 
     @ManyToMany
     @JoinTable(name = "brigade_worker")
