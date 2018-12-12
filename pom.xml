@@ -180,6 +180,15 @@
         <version>1.4.196</version>
         <scope>test</scope>
     </dependency>
+
+    <!--Google auth-->
+    <dependency>
+        <groupId>com.google.apis</groupId>
+        <artifactId>google-api-services-oauth2</artifactId>
+        <version>v1-rev145-1.25.0</version>
+    </dependency>
+
+
 </dependencies>
 
 <build>
