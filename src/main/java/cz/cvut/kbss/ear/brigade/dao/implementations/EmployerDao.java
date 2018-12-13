@@ -2,9 +2,13 @@ package cz.cvut.kbss.ear.brigade.dao.implementations;
 
 
 import cz.cvut.kbss.ear.brigade.model.Employer;
+import cz.cvut.kbss.ear.brigade.model.Employer_;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 
@@ -25,18 +29,24 @@ public class EmployerDao extends BaseDao<Employer>  {
     }
 
     public Employer findByEmail(String email) {
+        final CriteriaBuilder cb = em.getCriteriaBuilder();
+        final CriteriaQuery<Employer> cq = cb.createQuery(Employer.class);
+        final Root<Employer> employerRoot = cq.from(Employer.class);
+        cq.where(cb.equal(employerRoot.get(Employer_.email), email));
         try {
-            return em.createNamedQuery("Employer.findByEmail", Employer.class).setParameter("email", email)
-                    .getSingleResult();
+            return em.createQuery(cq).getSingleResult();
         } catch (NoResultException e) {
             return null;
         }
     }
 
     public List<Employer> findByLastName(String lastName) {
+        final CriteriaBuilder cb = em.getCriteriaBuilder();
+        final CriteriaQuery<Employer> cq = cb.createQuery(Employer.class);
+        final Root<Employer> employerRoot = cq.from(Employer.class);
+        cq.where(cb.equal(employerRoot.get(Employer_.lastName), lastName));
         try {
-            return em.createNamedQuery("Employer.findByLastName", Employer.class).setParameter("lastName", lastName)
-                    .getResultList();
+            return em.createQuery(cq).getResultList();
         } catch (NoResultException e) {
             return null;
         }
