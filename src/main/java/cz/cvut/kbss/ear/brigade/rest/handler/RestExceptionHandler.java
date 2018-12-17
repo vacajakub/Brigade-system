@@ -1,9 +1,6 @@
 package cz.cvut.kbss.ear.brigade.rest.handler;
 
-import cz.cvut.kbss.ear.brigade.exception.InsufficientAmountException;
-import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
-import cz.cvut.kbss.ear.brigade.exception.PersistenceException;
-import cz.cvut.kbss.ear.brigade.exception.ValidationException;
+import cz.cvut.kbss.ear.brigade.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -46,9 +43,40 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(InsufficientAmountException.class)
-    public ResponseEntity<ErrorInfo> insufficientAmount(HttpServletRequest request, InsufficientAmountException e) {
+    @ExceptionHandler(BrigadeIsFullException.class)
+    public ResponseEntity<ErrorInfo> brigadeIsFullException(HttpServletRequest request, BrigadeIsFullException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(LateSignOffException.class)
+    public ResponseEntity<ErrorInfo> lateSignOff(HttpServletRequest request, LateSignOffException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AlreadyRatedException.class)
+    public ResponseEntity<ErrorInfo> alreadyRatedException(HttpServletRequest request, AlreadyRatedException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BrigadeIsNotFinishedException.class)
+    public ResponseEntity<ErrorInfo> brigadeIsNotFinished(HttpServletRequest request, BrigadeIsNotFinishedException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(BrigadeNotBelongToEmployerException.class)
+    public ResponseEntity<ErrorInfo> brigadeNotBelongToEmployer(HttpServletRequest request, BrigadeNotBelongToEmployerException e) {
         logException(e);
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.FORBIDDEN);
+    }
+
+
+    @ExceptionHandler(DateToIsBeforeDateFromException.class)
+    public ResponseEntity<ErrorInfo> dateToIsBeforeDateFrom(HttpServletRequest request, DateToIsBeforeDateFromException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(WorkerDidNotWorkOnBrigadeException.class)
+    public ResponseEntity<ErrorInfo> workerDidNotWorkOnBrigade(HttpServletRequest request, WorkerDidNotWorkOnBrigadeException e) {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
     }
 
