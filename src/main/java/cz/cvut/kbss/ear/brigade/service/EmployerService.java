@@ -45,7 +45,7 @@ public class EmployerService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public List<Employer> findAll() {
         return employerDao.findAll();
     }

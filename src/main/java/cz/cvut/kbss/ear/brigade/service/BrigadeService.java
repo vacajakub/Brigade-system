@@ -52,7 +52,7 @@ public class BrigadeService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
+    //@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
     public void create(Employer employer, Brigade brigade, Category category, Address address) {
         if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
             throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");

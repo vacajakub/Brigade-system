@@ -52,10 +52,10 @@ INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
 
 INSERT INTO employers (id, firstName, lastName, email, password, role, company_id) VALUES
   (1, 'John', 'Doe', 'lost@gmail.com', '42985d2a2255eba1d226613d5b72493eaaff52c35369541a51d866de2bbe43fc',
-   'ROLE_EMPLOYER', 1);
+   'EMPLOYER', 1);
 INSERT INTO employers (id, firstName, lastName, email, password, role, company_id) VALUES
   (2, 'Peter', 'Long', 'peter@sodexo.cz', '401671484d60a592b69e8dde60aa4e717019b5602707afc8455214175dbcf137',
-   'ROLE_EMPLOYER', 2);
+   'EMPLOYER', 2);
 
 -- brigades
 

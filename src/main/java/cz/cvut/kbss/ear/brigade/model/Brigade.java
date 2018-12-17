@@ -29,6 +29,8 @@ public class Brigade extends AbstractEntity {
         thumbsUp = thumbsDown = 0;
     }
 
+    private String name;
+
     @Basic(optional = false)
     @Column(nullable = false)
     private int salaryPerHour;
@@ -47,7 +49,6 @@ public class Brigade extends AbstractEntity {
 
     private Time timeFrom;
 
-    private Time timeTo;
 
     private int duration;
 
@@ -96,6 +97,14 @@ public class Brigade extends AbstractEntity {
     }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getSalaryPerHour() {
         return salaryPerHour;
     }
@@ -103,7 +112,6 @@ public class Brigade extends AbstractEntity {
     public void setSalaryPerHour(int salaryPerHour) {
         this.salaryPerHour = salaryPerHour;
     }
-
 
     public int getDuration() {
         return duration;
@@ -151,14 +159,6 @@ public class Brigade extends AbstractEntity {
 
     public void setTimeFrom(Time timeFrom) {
         this.timeFrom = timeFrom;
-    }
-
-    public Time getTimeTo() {
-        return timeTo;
-    }
-
-    public void setTimeTo(Time timeTo) {
-        this.timeTo = timeTo;
     }
 
     public Category getCategory() {

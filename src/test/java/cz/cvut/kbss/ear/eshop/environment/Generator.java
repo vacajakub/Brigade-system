@@ -7,8 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Generator {
@@ -60,6 +58,7 @@ public class Generator {
     public static Brigade generateBrigade(boolean isPast) {
         final Brigade brigade = new Brigade();
         brigade.setSalaryPerHour(150 + randomInt());
+        brigade.setName("Name" + randomInt());
         Date dateFrom;
         Date dateTo;
         if (isPast) {
@@ -74,7 +73,6 @@ public class Generator {
         brigade.setDateFrom(dateFrom);
         brigade.setDateTo(dateTo);
         brigade.setTimeFrom(new Time(System.currentTimeMillis()));
-        brigade.setTimeTo(new Time(System.currentTimeMillis() + (1000 * 60 * 60)));
         brigade.setDescription("Description" + randomInt());
         brigade.setDuration(2);
         brigade.setMaxWorkers(2 + RAND.nextInt(10));
