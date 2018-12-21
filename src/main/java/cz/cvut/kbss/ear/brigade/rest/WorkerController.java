@@ -98,7 +98,7 @@ public class WorkerController {
         workerService.singOnToBrigade(worker, brigade);
     }
 
-    @RequestMapping(value = "/signOff/brigade/{workerId}/{brigadeId}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/signOff/brigade/{workerId}/{brigadeId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void signOffFromBrigade(@PathVariable("workerId") Integer workerId, @PathVariable("brigadeId") Integer brigadeId) {
         Worker worker = findWorker(workerId);

@@ -30,7 +30,7 @@ public class CategoryController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Category> getWorkers() {
+    public List<Category> getCategories() {
         final List<Category> categories = categoryService.findAll();
         if (categories == null) {
             throw NotFoundException.create("Categories", "findAll()");
