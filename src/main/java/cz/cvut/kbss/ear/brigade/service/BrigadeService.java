@@ -67,7 +67,6 @@ public class BrigadeService {
         employerDao.update(employer);
         categoryDao.update(category);
         addressDao.persist(address);
-
     }
 
 

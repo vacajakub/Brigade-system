@@ -87,6 +87,7 @@ public abstract class User extends AbstractEntity {
     @Override
     public String toString() {
         return "User{" +
+                getId() +
                 firstName + " " + lastName +
                 "(" + email + ")}";
     }

@@ -41,4 +41,11 @@ public class Category extends AbstractEntity {
     public void setBrigades(List<Brigade> brigades) {
         this.brigades = brigades;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }
