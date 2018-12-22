@@ -139,6 +139,8 @@ public class WorkerControllerTest extends BaseControllerTestRunner {
         brigade.setId(2);
         brigade.setDateFrom(new Date(System.currentTimeMillis() + Constants.ONE_DAY * 2));
         worker.setId(1);
+        worker.addBrigade(brigade);
+        brigade.addWorker(worker);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         mockMvc.perform(delete("/workers/signOff/brigade/1/2")).andExpect(status().isNoContent());
@@ -151,6 +153,8 @@ public class WorkerControllerTest extends BaseControllerTestRunner {
         brigade.setId(2);
         brigade.setDateFrom(new Date(System.currentTimeMillis() + Constants.ONE_DAY * 2));
         worker.setId(1);
+        worker.addBrigade(brigade);
+        brigade.addWorker(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         mockMvc.perform(delete("/workers/signOff/brigade/69/2")).andExpect(status().isNotFound());
         verify(workerServiceMock, never()).singOffFromBrigade(any(), any());
@@ -163,6 +167,8 @@ public class WorkerControllerTest extends BaseControllerTestRunner {
         brigade.setId(2);
         brigade.setDateFrom(new Date(System.currentTimeMillis()));
         worker.setId(1);
+        worker.addBrigade(brigade);
+        brigade.addWorker(worker);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         doThrow(LateSignOffException.class).when(workerServiceMock).singOffFromBrigade(worker, brigade);

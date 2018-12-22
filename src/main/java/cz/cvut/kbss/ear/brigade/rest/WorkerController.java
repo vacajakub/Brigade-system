@@ -37,6 +37,7 @@ public class WorkerController {
         this.brigadeService = brigadeService;
     }
 
+    //TODO smazat
     @RequestMapping(value = "/token", method = RequestMethod.GET)
     public AuthenticationToken getToken() {
         final Worker worker = new Worker();

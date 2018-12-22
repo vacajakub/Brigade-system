@@ -72,7 +72,7 @@ public class EmployerController {
     }
 
 
-    @RequestMapping(value = "/blacklist/{employerId}/{brigadeId}/{workerId}")
+    @RequestMapping(value = "/blacklist/{employerId}/{brigadeId}/{workerId}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void moveWorkerToBlackList(@PathVariable("employerId") Integer employerId,
                                       @PathVariable("brigadeId") Integer brigadeId,
