@@ -62,11 +62,19 @@ public class BrigadeController {
     public void addBrigade(@RequestBody Brigade brigade,
                            @PathVariable("employerId") Integer employerId,
                            @PathVariable("categoryId") Integer categoryId,
-                           @RequestBody Address address) {
+                           @RequestParam(value = "city") String city,
+                           @RequestParam(value = "street") String street,
+                           @RequestParam(value = "zipCode", required = false) String zipCode) {
         Employer employer = findEmployer(employerId);
         Category category = categoryService.find(categoryId);
         if (category == null) {
             throw NotFoundException.create("Category", categoryId);
+        }
+        Address address = new Address();
+        address.setStreet(street);
+        address.setCity(city);
+        if (zipCode != null) {
+            address.setZipCode(zipCode);
         }
         LOG.debug("Created brigade {} with address {}, category {} and employer {}.", brigade, address, category, employer);
         brigadeService.create(employer, brigade, category, address);

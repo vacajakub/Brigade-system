@@ -44,6 +44,7 @@ public class EmployerControllerTest extends BaseControllerTestRunner {
     @Before
     public void setUp() throws Exception {
         employer = Generator.generateEmployer();
+        employer.setId(1);
         MockitoAnnotations.initMocks(this);
         super.setUp(employerController);
     }
@@ -57,7 +58,6 @@ public class EmployerControllerTest extends BaseControllerTestRunner {
         brigade.addWorker(worker);
         worker.addBrigade(brigade);
         employer.addBrigade(brigade);
-        employer.setId(1);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         when(employerServiceMock.find(employer.getId())).thenReturn(employer);
@@ -74,7 +74,6 @@ public class EmployerControllerTest extends BaseControllerTestRunner {
         worker.setId(3);
         brigade.addWorker(worker);
         worker.addBrigade(brigade);
-        employer.setId(1);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         when(employerServiceMock.find(employer.getId())).thenReturn(employer);
@@ -93,7 +92,6 @@ public class EmployerControllerTest extends BaseControllerTestRunner {
         brigade.addWorker(worker);
         worker.addBrigade(brigade);
         employer.addBrigade(brigade);
-        employer.setId(1);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         when(employerServiceMock.find(employer.getId())).thenReturn(employer);
@@ -110,7 +108,6 @@ public class EmployerControllerTest extends BaseControllerTestRunner {
         worker.setId(3);
         brigade.addWorker(worker);
         worker.addBrigade(brigade);
-        employer.setId(1);
         when(workerServiceMock.find(worker.getId())).thenReturn(worker);
         when(brigadeServiceMock.find(brigade.getId())).thenReturn(brigade);
         when(employerServiceMock.find(employer.getId())).thenReturn(employer);

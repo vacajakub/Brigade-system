@@ -241,4 +241,13 @@ public class Brigade extends AbstractEntity {
     public void setWorkersThumbsDowns(List<Worker> workersThumbsDowns) {
         this.workersThumbsDowns = workersThumbsDowns;
     }
+
+    @Override
+    public String toString() {
+        return "Brigade{" +
+                "id=" + getId() + '\'' +
+                "name='" + name + '\'' +
+                ", salaryPerHour=" + salaryPerHour +
+                '}';
+    }
 }
