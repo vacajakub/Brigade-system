@@ -59,61 +59,79 @@ INSERT INTO employers (id, firstName, lastName, email, password, role, company_i
 
 -- brigades
 
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (1, 224, '10/06/2018', '03/12/2018',
-           'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius.',
-           'Services', '18:51', '12:16', 5, 18, 11, 3, 1);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius.',
+        'Services', '18:51', 'night shift', 5, 18, 11, 3, 1);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (2, 138, '12/18/2018', '12/27/2017',
-           'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Morbi porttitor lorem id ligula.',
-           'Services', '5:24', '15:30', 12, 16, 1, 5, 2);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES
-  (3, 204, '09/17/2018', '08/02/2018', 'Sed sagittis. Praesent id massa id nisl venenatis lacinia.', 'Services', '8:16',
-      '15:39', 10, 9, 14, 15, 3);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES (4, 212, '11/04/2018', '10/01/2018', 'Suspendisse potenti.', 'Services', '1:49', '5:16', 9, 12, 2, 8, 4);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Morbi porttitor lorem id ligula.',
+        'Services', '5:24', 'java developer', 12, 16, 1, 5, 2);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (3, 204, '09/17/2018', '08/02/2018', 'Sed sagittis. Praesent id massa id nisl venenatis lacinia.', 'Services',
+        '8:16',
+        '15:39', 10, 9, 14, 15, 3);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (4, 212, '11/04/2018', '10/01/2018', 'Suspendisse potenti.', 'Services', '1:49', 'python', 9, 12, 2, 8, 4);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (5, 216, '12/03/2018', '11/15/2018',
-           'Integer a nibh. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus.',
-           'Accounting', '21:02', '3:06', 7, 2, 3, 9, 1);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Integer a nibh. Suspendisse potenti. Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris. Morbi non lectus.',
+        'Accounting', '21:02', 'foundation', 7, 2, 3, 9, 1);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (7, 99, '03/05/2018', '12/13/2017',
-           'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.',
-           'Sales', '13:04', '18:00', 11, 18, 12, 2, 2);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'In eleifend quam a odio. In hac habitasse platea dictumst. Maecenas ut massa quis augue luctus tincidunt.',
+        'Sales', '13:04', 'tree plant', 11, 18, 12, 2, 2);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (8, 178, '11/07/2018', '06/18/2018', 'Vestibulum rutrum rutrum neque. In blandit ultrices enim.',
-           'Business Development', '18:45', '6:10', 9, 13, 6, 5, 4);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES
-  (9, 208, '08/25/2018', '09/02/2018', 'Etiam faucibus cursus urna. Ut tellus. Donec semper sapien a libero.', 'Legal',
-      '4:52', '18:04', 9, 6, 15, 8, 3);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Business Development', '18:45', 'recepce', 9, 13, 6, 5, 4);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (9, 208, '08/25/2018', '09/02/2018', 'Etiam faucibus cursus urna. Ut tellus. Donec semper sapien a libero.',
+        'Legal',
+        '4:52', '18:04', 9, 6, 15, 8, 3);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (10, 228, '09/12/2018', '02/02/2018',
-            'Mauris lacinia sapien quis libero. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.',
-            'Product Management', '7:35', '17:15', 9, 2, 3, 5, 1);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Mauris lacinia sapien quis libero. Morbi quis tortor id nulla ultrices aliquet. Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo.',
+        'Product Management', '7:35', 'vytvor bakalarku', 9, 2, 3, 5, 1);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (11, 118, '03/18/2018', '09/24/2018',
-            'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque eget nunc. Maecenas pulvinar lobortis est.',
-            'Human Resources', '5:17', '11:43', 12, 8, 12, 9, 1);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque eget nunc. Maecenas pulvinar lobortis est.',
+        'Human Resources', '5:17', 'save barry', 12, 8, 12, 9, 1);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (12, 187, '12/12/2018', '04/03/2018',
-            'Quisque porta volutpat erat. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis.',
-            'Legal', '0:23', '12:22', 4, 12, 13, 13, 4);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES
-  (19, 110, '02/21/2018', '11/09/2018', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy.', 'Sales',
-       '23:40', '9:20', 6, 9, 13, 4, 1);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES
-  (21, 125, '06/03/2018', '09/17/2018', 'Duis mattis egestas metus. Aenean fermentum.', 'Business Development', '3:08',
-       '8:09', 4, 20, 4, 10, 4);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
+        'Quisque porta volutpat erat. Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis.',
+        'Legal', '0:23', 'kill voldemort', 4, 12, 13, 13, 4);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (19, 110, '02/21/2018', '11/09/2018', 'Duis aliquam convallis nunc. Proin at turpis a pede posuere nonummy.',
+        'Sales',
+        '23:40', 'supr uklid', 6, 9, 13, 4, 1);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (21, 125, '06/03/2018', '09/17/2018', 'Duis mattis egestas metus. Aenean fermentum.', 'Business Development',
+        '3:08',
+        'name brigade', 4, 20, 4, 10, 4);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
 VALUES (22, 116, '09/30/2018', '02/02/2018',
-            'In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. ',
-            'Sales', '13:09', '15:15', 10, 12, 11, 13, 2);
-INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, timeTo, duration, maxWorkers, thumbsUp, thumbsDown, category_id)
-VALUES
-  (25, 219, '12/31/2017', '04/22/2018', 'Praesent id massa id nisl venenatis lacinia.', 'Accounting', '14:36', '15:43',
-       5, 7, 3, 3, 1);
+        'In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem. ',
+        'Sales', '13:09', '15:15', 10, 12, 11, 13, 2);
+INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
+                      thumbsUp, thumbsDown, category_id)
+VALUES (25, 219, '12/31/2017', '04/22/2018', 'Praesent id massa id nisl venenatis lacinia.', 'Accounting', '14:36',
+        'supr brig',
+        5, 7, 3, 3, 1);
+
+
+
 

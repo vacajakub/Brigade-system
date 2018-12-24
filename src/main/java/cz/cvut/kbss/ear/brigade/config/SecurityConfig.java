@@ -40,25 +40,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             SecurityConstants.REMEMBER_ME_COOKIE_NAME
     };
 
-    private final AuthenticationEntryPoint authenticationEntryPoint;
-
-    private final AuthenticationFailureHandler authenticationFailureHandler;
-
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-
-    private final LogoutSuccessHandler logoutSuccessHandler;
-
-    private final AuthenticationProvider authenticationProvider;
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
-    public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint, AuthenticationFailureHandler authenticationFailureHandler, AuthenticationSuccessHandler authenticationSuccessHandler, LogoutSuccessHandler logoutSuccessHandler, AuthenticationProvider authenticationProvider) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-        this.authenticationFailureHandler = authenticationFailureHandler;
-        this.authenticationSuccessHandler = authenticationSuccessHandler;
-        this.logoutSuccessHandler = logoutSuccessHandler;
-        this.authenticationProvider = authenticationProvider;
-    }
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    @Autowired
+    private LogoutSuccessHandler logoutSuccessHandler;
+
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -71,21 +66,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().anyRequest().permitAll().and()
-            .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-            .and().headers().frameOptions().sameOrigin()
-            .and()
-            .authenticationProvider(authenticationProvider)
-            .csrf().disable()
-            .formLogin().successHandler(authenticationSuccessHandler)
-            .failureHandler(authenticationFailureHandler)
-            .loginProcessingUrl(SecurityConstants.SECURITY_CHECK_URI)
-            .usernameParameter(SecurityConstants.EMAIL_PARAM).passwordParameter(SecurityConstants.PASSWORD_PARAM)
-            .and()
-            .logout().invalidateHttpSession(true).deleteCookies(COOKIES_TO_DESTROY)
-            .logoutUrl(SecurityConstants.LOGOUT_URI).logoutSuccessHandler(logoutSuccessHandler)
-            .and().sessionManagement().maximumSessions(1);
+        http.cors().and()
+                .authorizeRequests().anyRequest().permitAll().and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                .and().headers().frameOptions().sameOrigin()
+                .and()
+                .authenticationProvider(authenticationProvider)
+                .csrf().disable()
+                .formLogin().successHandler(authenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
+                .loginProcessingUrl(SecurityConstants.SECURITY_CHECK_URI)
+                .usernameParameter(SecurityConstants.EMAIL_PARAM).passwordParameter(SecurityConstants.PASSWORD_PARAM)
+                .and()
+                .logout().invalidateHttpSession(true).deleteCookies(COOKIES_TO_DESTROY)
+                .logoutUrl(SecurityConstants.LOGOUT_URI).logoutSuccessHandler(logoutSuccessHandler)
+                .and().sessionManagement().maximumSessions(1);
     }
 }
