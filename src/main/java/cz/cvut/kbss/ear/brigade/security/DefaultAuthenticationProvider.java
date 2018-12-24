@@ -25,8 +25,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Service
+@CrossOrigin
 public class DefaultAuthenticationProvider implements AuthenticationProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultAuthenticationProvider.class);
