@@ -19,6 +19,7 @@ public class Company extends AbstractEntity {
     private boolean isActive;
 
     @OneToOne
+
     private Address address;
 
     public Company() {

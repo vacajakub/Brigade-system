@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
         @NamedQuery(name = "Employer.findByEmail", query = "SELECT e FROM Employer e WHERE e.username = :username"),
         @NamedQuery(name = "Employer.findByLastName", query = "SELECT e from Employer e WHERE e.lastName = :lastName")
 })
+@JsonIgnoreProperties("brigades")
 public class Employer extends User {
 
     private boolean isActive;
@@ -24,7 +25,6 @@ public class Employer extends User {
 
     @OrderBy("dateFrom ASC")
     @OneToMany(mappedBy = "employer")
-    @JsonIgnoreProperties("employer")
     private List<Brigade> brigades;
 
     public Brigade findBrigadeById(int id) {

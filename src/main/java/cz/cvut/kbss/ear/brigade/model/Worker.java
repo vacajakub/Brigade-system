@@ -13,6 +13,7 @@ import java.util.List;
         @NamedQuery(name = "Worker.findByEmail", query = "SELECT w FROM Worker w WHERE w.username = :username"),
         @NamedQuery(name = "Worker.findByLastName", query = "SELECT w from Worker w WHERE w.lastName = :lastName")
 })
+@JsonIgnoreProperties({"brigades", "brigadesThumbsUps", "brigadesThumbsDowns", "unvisitedBrigades"})
 public class Worker extends User {
 
     public Worker() {
@@ -25,19 +26,15 @@ public class Worker extends User {
 
     @OrderBy("dateFrom ASC")
     @ManyToMany (mappedBy = "workers")
-    @JsonIgnoreProperties("workers")
     private List<Brigade> brigades;
 
     @ManyToMany (mappedBy = "workersThumbsUps")
-    @JsonIgnoreProperties("workersThumbsUps")
     private List<Brigade> brigadesThumbsUps;
 
     @ManyToMany (mappedBy = "workersThumbsDowns")
-    @JsonIgnoreProperties("workersThumbsDowns")
     private List<Brigade> brigadesThumbsDowns;
 
     @ManyToMany (mappedBy = "noShowWorkers")
-    @JsonIgnoreProperties("noShowWorkers")
     private List<Brigade> unvisitedBrigades;
 
     public void addBrigade(Brigade brigade){

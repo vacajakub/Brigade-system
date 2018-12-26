@@ -19,6 +19,7 @@ import java.util.List;
         @NamedQuery(name = "Brigade.findByCategory", query = "SELECT b from Brigade b where b.category = :category"),
         @NamedQuery(name = "Brigade.findByEmployer", query = "SELECT b from Brigade b where  b.employer = :employer")
 })
+@JsonIgnoreProperties({"workers", "workersThumbsUps", "workersThumbsDowns", "noShowWorkers"})
 public class Brigade extends AbstractEntity {
 
     public Brigade() {
@@ -62,12 +63,10 @@ public class Brigade extends AbstractEntity {
     private Address address;
 
     @ManyToOne
-    @JsonIgnoreProperties("brigades")
     private Employer employer;
 
     @ManyToMany
     @JoinTable(name = "brigade_worker")
-    @JsonIgnoreProperties("brigades")
     private List<Worker> workers;
 
     @ManyToMany
@@ -77,16 +76,13 @@ public class Brigade extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(name = "brigade_worker_ThumbsDown")
-    @JsonIgnoreProperties("brigadesThumbsDowns")
     private List<Worker> workersThumbsDowns;
 
     @ManyToMany
     @JoinTable(name = "blacklist")
-    @JsonIgnoreProperties("unvisitedBrigades")
     private List<Worker> noShowWorkers;
 
     @ManyToOne
-    @JsonIgnoreProperties("brigades")
     private Category category;
 
     public void addWorker(Worker worker) {

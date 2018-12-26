@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "Categories")
+@JsonIgnoreProperties("brigades")
 public class Category extends AbstractEntity {
 
     @Basic(optional = false)
@@ -15,7 +16,6 @@ public class Category extends AbstractEntity {
     private String name;
 
     @OneToMany (mappedBy = "category")
-    @JsonIgnoreProperties("category")
     private List<Brigade> brigades;
 
     public Category() {
