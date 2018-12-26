@@ -18,9 +18,8 @@ INSERT INTO categories (id, name) VALUES (4, 'Marketing');
 
 -- workers
 INSERT INTO workers (id, firstName, lastName, username, password, role)
-VALUES
-  (1, 'Hally', 'Stain', 'hstain0@cisco.com', '028856cf49a19a7d782a4c74b81dde04919167ddf0c4cd3211e1f33f059ec163',
-   'WORKER');
+VALUES (1, 'Hally', 'Stain', 'hstain@cisco.com', '$2a$10$ycJlGsmkoKMizaHqlFUiL.sNH1.rEq1hbSTllje73RyYVNR55tHWS',
+        'WORKER');
 INSERT INTO workers (id, firstName, lastName, username, password, role)
 VALUES
   (2, 'Karine', 'Seer', 'kseer1@spotify.com', '154de7167f65ee702a0784cf340a389e5613aa5ed029ad514fe8bc3ba392fc67',
@@ -144,6 +143,12 @@ VALUES (25, 219, '12/31/2017', '04/22/2018', 'Praesent id massa id nisl venenati
         'supr brig',
         5, 7, 3, 3, 1);
 
+INSERT INTO brigade_worker (brigades_id, workers_id)
+VALUES (3, 1);
 
+INSERT INTO brigade_worker (brigades_id, workers_id)
+VALUES (3, 3);
 
+INSERT INTO brigade_worker (brigades_id, workers_id)
+VALUES (3, 4);
 
