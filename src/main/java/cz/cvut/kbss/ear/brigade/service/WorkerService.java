@@ -9,6 +9,7 @@ import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class WorkerService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
+    @PostAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER') or returnObject.username == principal.username")
     public Worker find(Integer id) {
         return workerDao.find(id);
     }
@@ -45,7 +46,7 @@ public class WorkerService {
         return workerDao.findAll();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public void persist(Worker worker) {
         worker.encodePassword(passwordEncoder);
         if (worker.getRole() == null) {
@@ -55,7 +56,7 @@ public class WorkerService {
     }
 
     @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
-    @Transactional(readOnly = true)
+    @Transactional
     public void update(Worker worker) {
         workerDao.update(worker);
     }

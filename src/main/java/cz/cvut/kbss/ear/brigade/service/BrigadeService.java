@@ -47,7 +47,7 @@ public class BrigadeService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.username")
     public void update(Brigade brigade) {
         brigadeDao.update(brigade);
     }
@@ -80,7 +80,7 @@ public class BrigadeService {
 
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.username")
     public void removeBrigade(Brigade brigade) {
         Category category = brigade.getCategory();
         Employer employer = brigade.getEmployer();
