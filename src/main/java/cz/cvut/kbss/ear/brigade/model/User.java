@@ -1,5 +1,6 @@
 package cz.cvut.kbss.ear.brigade.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public abstract class User extends AbstractEntity {
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Must contain valid email address.")
     private String username;
 
+    @JsonIgnore
     @Basic(optional = false)
     @Column(nullable = false)
     private String password;
