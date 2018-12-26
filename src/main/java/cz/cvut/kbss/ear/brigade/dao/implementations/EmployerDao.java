@@ -32,7 +32,7 @@ public class EmployerDao extends BaseDao<Employer>  {
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<Employer> cq = cb.createQuery(Employer.class);
         final Root<Employer> employerRoot = cq.from(Employer.class);
-        cq.where(cb.equal(employerRoot.get(Employer_.email), email));
+        cq.where(cb.equal(employerRoot.get(Employer_.username), email));
         try {
             return em.createQuery(cq).getSingleResult();
         } catch (NoResultException e) {

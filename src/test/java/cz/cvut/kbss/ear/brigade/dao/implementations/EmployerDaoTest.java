@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.Assert.*;
-
 public class EmployerDaoTest extends BaseDaoTestRunner {
 
     @PersistenceContext
@@ -35,7 +33,7 @@ public class EmployerDaoTest extends BaseDaoTestRunner {
         Employer employer = new Employer();
         employer.setFirstName("John");
         employer.setLastName("Doe");
-        employer.setEmail("something@gmail.com");
+        employer.setUsername("something@gmail.com");
         employer.setPassword("Asdasda");
         em.persist(employer);
         Employer e = employerDao.findByEmail("something@gmail.com");

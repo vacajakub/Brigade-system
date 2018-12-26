@@ -17,43 +17,55 @@ INSERT INTO categories (id, name) VALUES (3, 'Human Resources');
 INSERT INTO categories (id, name) VALUES (4, 'Marketing');
 
 -- workers
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (1, 'Hally', 'Stain', 'hstain0@cisco.com', '028856cf49a19a7d782a4c74b81dde04919167ddf0c4cd3211e1f33f059ec163',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (2, 'Karine', 'Seer', 'kseer1@spotify.com', '154de7167f65ee702a0784cf340a389e5613aa5ed029ad514fe8bc3ba392fc67',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (3, 'Dione', 'Dotson', 'ddotson2@goo.gl', 'f1fbf392dc249bf53a211a74891aed0fe375829825f5e8356d8120b0bba64b8d',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (4, 'Roldan', 'Siburn', 'rsiburn3@utexas.edu', '46b6be12a1b6ca0389b4eca1d7da28be3903606757770aee4fc5f4d607246034',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (5, 'Obie', 'Danat', 'odanat4@shinystat.com', '2efe86919a6f63252ca89a7be4b8e9675ac5f581eae1bf8131152da6688e0c18',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (6, 'Georgianne', 'Le Conte', 'gleconte5@hostgator.com',
    'ebde75f21ee04efeb25f05e2f55148beba76ab924f0387796a1c818e05e7070b', 'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (7, 'Gerta', 'Forbear', 'gforbear6@furl.net', 'e5cd73170b77e5828141368966967f2f926951cdb5620c323258219e860dc786',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (8, 'Algernon', 'Tolotti', 'atolotti7@uol.com.br', '3a78df91aa91f34542153ac2d2f64b6482bf4998b12028f42ed1b95133923b1a',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (9, 'Brent', 'Helis', 'bhelis8@reddit.com', '42985d2a2255eba1d226613d5b72493eaaff52c35369541a51d866de2bbe43fc',
    'WORKER');
-INSERT INTO workers (id, firstName, lastName, email, password, role) VALUES
+INSERT INTO workers (id, firstName, lastName, username, password, role)
+VALUES
   (10, 'Camella', 'Haythorn', 'chaythorn9@bloomberg.com',
    '401671484d60a592b69e8dde60aa4e717019b5602707afc8455214175dbcf137', 'WORKER');
 
 -- employers
 
-INSERT INTO employers (id, firstName, lastName, email, password, role, company_id) VALUES
+INSERT INTO employers (id, firstName, lastName, username, password, role, company_id)
+VALUES
   (1, 'John', 'Doe', 'lost@gmail.com', '42985d2a2255eba1d226613d5b72493eaaff52c35369541a51d866de2bbe43fc',
    'EMPLOYER', 1);
-INSERT INTO employers (id, firstName, lastName, email, password, role, company_id) VALUES
+INSERT INTO employers (id, firstName, lastName, username, password, role, company_id)
+VALUES
   (2, 'Peter', 'Long', 'peter@sodexo.cz', '401671484d60a592b69e8dde60aa4e717019b5602707afc8455214175dbcf137',
    'EMPLOYER', 2);
 
@@ -61,12 +73,12 @@ INSERT INTO employers (id, firstName, lastName, email, password, role, company_i
 
 INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
                       thumbsUp, thumbsDown, category_id)
-VALUES (1, 224, '10/06/2018', '03/12/2018',
+VALUES (1, 224, '10/06/2019', '10/7/2019',
         'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius.',
         'Services', '18:51', 'night shift', 5, 18, 11, 3, 1);
 INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,
                       thumbsUp, thumbsDown, category_id)
-VALUES (2, 138, '12/18/2018', '12/27/2017',
+VALUES (2, 138, '12/18/2019', '12/27/2019',
         'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Morbi porttitor lorem id ligula.',
         'Services', '5:24', 'java developer', 12, 16, 1, 5, 2);
 INSERT INTO brigades (id, salaryPerHour, dateFrom, dateTo, description, position, timeFrom, name, duration, maxWorkers,

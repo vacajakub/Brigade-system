@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Table(name = "Employers")
 @NamedQueries({
         @NamedQuery(name = "Employer.findAll", query = "SELECT e FROM Employer e"),
-        @NamedQuery(name = "Employer.findByEmail", query = "SELECT e FROM Employer e WHERE e.email = :email"),
+        @NamedQuery(name = "Employer.findByEmail", query = "SELECT e FROM Employer e WHERE e.username = :username"),
         @NamedQuery(name = "Employer.findByLastName", query = "SELECT e from Employer e WHERE e.lastName = :lastName")
 })
 public class Employer extends User {

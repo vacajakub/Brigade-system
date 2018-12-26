@@ -79,9 +79,9 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
 //    @Test
 //    public void removeWorkerFromBrigade() {
 //        Worker worker = Generator.generateWorker();
-//        worker.setEmail("worker1@seznam.cz");
+//        worker.setUsername("worker1@seznam.cz");
 //        Worker worker2 = Generator.generateWorker();
-//        worker2.setEmail("worker2@seznam.cz");
+//        worker2.setUsername("worker2@seznam.cz");
 //        brigade.setMaxWorkers(2);
 //        List<Worker> workerList = new ArrayList<>();
 //        workerList.add(worker);
@@ -101,7 +101,7 @@ public class BrigadeServiceTest extends BaseServiceTestRunner {
 //        final Worker workerResult2 = em.find(Worker.class, worker2.getId());
 //
 //        assertEquals(1, brigadeResult.getWorkers().size());
-//        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getEmail().equals(worker2.getEmail())));
+//        assertTrue(brigadeResult.getWorkers().stream().anyMatch(w -> w.getUsername().equals(worker2.getUsername())));
 //        assertEquals(0, workerResult1.getBrigades().size());
 //        assertEquals(1, workerResult2.getBrigades().size());
 //

@@ -27,10 +27,11 @@ public class PersistenceConfig {
     @Bean(name = "ear-brigade-ds")
     public DataSource dataSource() {
         final BoneCPDataSource ds = new BoneCPDataSource();
-        ds.setDriverClass("org.postgresql.Driver");
-        ds.setJdbcUrl("jdbc:postgresql://kbss.felk.cvut.cz:5433/ear2018zs_10");
-        ds.setUsername("ear2018zs_10");
-        ds.setPassword("zirafa");
+        ds.setDriverClass(environment.getRequiredProperty("jdbc.driverClassName"));
+        ds.setJdbcUrl(environment.getRequiredProperty("jdbc.url"));
+        ds.setUsername(environment.getRequiredProperty("jdbc.username"));
+        ds.setPassword(environment.getRequiredProperty("jdbc.password"));
+
 //        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/ear_localhost");
 //        ds.setUsername("sedlifil");
 //        ds.setPassword("sedlifil");
@@ -50,7 +51,7 @@ public class PersistenceConfig {
         props.setProperty("showSql", "true");
         props.setProperty("eclipselink.weaving", "static");
         props.setProperty("eclipselink.ddl-generation", "create-tables");
-       props.setProperty("eclipselink.logging.level", "INFO");
+        props.setProperty("eclipselink.logging.level", "INFO");
         props.setProperty("eclipselink.logging.parameters", "true");
         emf.setJpaProperties(props);
         return emf;

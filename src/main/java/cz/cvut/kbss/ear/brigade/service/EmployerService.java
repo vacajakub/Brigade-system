@@ -60,26 +60,26 @@ public class EmployerService {
     }
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public void update(Employer employer) {
         employerDao.update(employer);
     }
 
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public List<Brigade> getFutureBrigades(Employer employer) {
         return WorkerService.filterBrigades(employer.getBrigades(), false);
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public List<Brigade> getPastBrigades(Employer employer) {
         return WorkerService.filterBrigades(employer.getBrigades(), true);
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public void moveWorkerToBlacklist(Employer employer, Brigade brigade, Worker worker) {
         try {
             employer.findBrigadeById(brigade.getId());
@@ -93,12 +93,12 @@ public class EmployerService {
             brigadeDao.update(brigade);
             workerDao.update(worker);
         } catch (IllegalStateException e) {
-            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to emolyer: " + employer.getEmail());
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to emolyer: " + employer.getUsername());
         }
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public void removeWorkerFromBrigade(Employer employer, Brigade brigade, Worker worker) {
         try {
             employer.findBrigadeById(brigade.getId());
@@ -108,7 +108,7 @@ public class EmployerService {
             brigadeDao.update(brigade);
             workerDao.update(worker);
         } catch (IllegalStateException e) {
-            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to employer: " + employer.getEmail());
+            throw new BrigadeNotBelongToEmployerException("Brigade id" + brigade.getId() + " not belong to employer: " + employer.getUsername());
         }
     }
 
@@ -132,7 +132,7 @@ public class EmployerService {
         return getPastBrigades(employer).size();
     }
 
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #employer.username")
     public void remove(Employer employer) {
         employer.setActive(false);
         getFutureBrigades(employer).forEach(brigadeService::removeBrigade);

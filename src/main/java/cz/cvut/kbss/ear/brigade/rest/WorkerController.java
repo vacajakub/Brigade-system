@@ -2,6 +2,7 @@ package cz.cvut.kbss.ear.brigade.rest;
 
 import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
+import cz.cvut.kbss.ear.brigade.model.User;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
 import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
@@ -17,8 +18,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin
@@ -43,9 +46,17 @@ public class WorkerController {
         final Worker worker = new Worker();
         worker.setFirstName("FirstName");
         worker.setLastName("LastName");
-        worker.setEmail("username" + "@kbss.felk.cvut.cz");
+        worker.setUsername("username" + "@kbss.felk.cvut.cz");
         worker.setPassword("23224");
         return SecurityUtils.setCurrentUser(new UserDetails(worker));
+    }
+
+    // TODO - mozna toto taky smazat nevim???
+    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
+    @RequestMapping(value = "/current", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getCurrent(Principal principal) {
+        final AuthenticationToken auth = (AuthenticationToken) principal;
+        return auth.getPrincipal().getUser();
     }
 
 
@@ -68,11 +79,12 @@ public class WorkerController {
         return workers;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or principal.username == 'test@test.cz'")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Worker getWorker(@PathVariable("id") Integer id) {
         final Worker worker = findWorker(id);
         LOG.debug("Returned worker with id {}.", worker.getId());
-        return worker;
+        return workerService.find(id);
     }
 
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

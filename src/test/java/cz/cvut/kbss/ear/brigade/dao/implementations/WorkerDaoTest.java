@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.Assert.*;
-
 
 public class WorkerDaoTest extends BaseDaoTestRunner {
 
@@ -34,7 +32,7 @@ public class WorkerDaoTest extends BaseDaoTestRunner {
     public void findByEmail() throws Exception {
         String email = "our@gmail.com";
         Worker worker = Generator.generateWorker();
-        worker.setEmail(email);
+        worker.setUsername(email);
         em.persist(worker);
         Worker w = workerDao.findByEmail(email);
         Assert.assertEquals(worker.getId(), w.getId());

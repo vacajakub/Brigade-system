@@ -21,7 +21,7 @@ public abstract class User extends AbstractEntity {
     @Basic(optional = false)
     @Column(nullable = false, unique = true)
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Must contain valid email address.")
-    private String email;
+    private String username;
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -66,12 +66,12 @@ public abstract class User extends AbstractEntity {
         this.password = null;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String email) {
+        this.username = email;
     }
 
     public Role getRole() {
@@ -89,6 +89,6 @@ public abstract class User extends AbstractEntity {
         return "User{" +
                 getId() +
                 firstName + " " + lastName +
-                "(" + email + ")}";
+                "(" + username + ")}";
     }
 }

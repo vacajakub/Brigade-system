@@ -28,7 +28,7 @@ public class Generator {
         final Worker worker = new Worker();
         worker.setFirstName("FirstName" + randomInt());
         worker.setLastName("LastName" + randomInt());
-        worker.setEmail("username" + randomInt() + "@kbss.felk.cvut.cz");
+        worker.setUsername("username" + randomInt() + "@kbss.felk.cvut.cz");
         worker.setPassword(Integer.toString(randomInt()));
         return worker;
     }
@@ -37,7 +37,7 @@ public class Generator {
         final Employer employer = new Employer();
         employer.setFirstName("FirstName" + randomInt());
         employer.setLastName("LastName" + randomInt());
-        employer.setEmail("username" + randomInt() + "@brigade.cz");
+        employer.setUsername("username" + randomInt() + "@brigade.cz");
         employer.setPassword(Integer.toString(randomInt()));
         return employer;
     }

@@ -11,6 +11,8 @@ import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class WorkerService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WorkerService.class);
+
 
     private final WorkerDao workerDao;
     private final BrigadeDao brigadeDao;
@@ -56,7 +61,7 @@ public class WorkerService {
         workerDao.persist(worker);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     @Transactional(readOnly = true)
     public void update(Worker worker) {
         workerDao.update(worker);
@@ -69,19 +74,19 @@ public class WorkerService {
 
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public List<Brigade> getFutureBrigades(Worker worker) {
         return filterBrigades(worker.getBrigades(), false);
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public List<Brigade> getPastBrigades(Worker worker) {
         return filterBrigades(worker.getBrigades(), true);
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #workerToAdd.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #workerToAdd.username")
     public void singOnToBrigade(Worker workerToAdd, Brigade brigade) {
         brigade.addWorker(workerToAdd);
         workerToAdd.addBrigade(brigade);
@@ -90,7 +95,7 @@ public class WorkerService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public void singOffFromBrigade(Worker worker, Brigade brigade) {
         if (System.currentTimeMillis() < brigade.getDateFrom().getTime() - Constants.LIMIT_FOR_SIGNING_OFF_OF_BRIGADE) {
             worker.getBrigades().remove(brigade);
@@ -103,7 +108,7 @@ public class WorkerService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public void addThumbsUpToBrigade(Worker worker, Brigade brigade) {
         conditionForRatingBrigade(worker, brigade);
 
@@ -114,7 +119,7 @@ public class WorkerService {
     }
 
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public void addThumbsDownToBrigade(Worker worker, Brigade brigade) {
         conditionForRatingBrigade(worker, brigade);
 
@@ -139,11 +144,11 @@ public class WorkerService {
 
 
     @Transactional(readOnly = true)
-    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.email")
+    @PreAuthorize("hasRole('ADMIN') or principal.username == #worker.username")
     public Pair<Integer, Integer> getWorkerScore(Worker worker) {
         int countShow = filterBrigades(worker.getBrigades(), true).size();
         int countNoShow = filterBrigades(worker.getUnvisitedBrigades(), true).size();
-
+        LOG.debug("Returned worker score for worker {}", worker);
         return new Pair<>(countShow, countNoShow);
     }
 

@@ -22,7 +22,7 @@ public class SecurityConstants {
 
     public static final String REMEMBER_ME_COOKIE_NAME = "remember-me";
 
-    public static final String EMAIL_PARAM = "email";
+    public static final String EMAIL_PARAM = "username";
 
     public static final String PASSWORD_PARAM = "password";
 

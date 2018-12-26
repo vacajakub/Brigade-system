@@ -31,7 +31,7 @@ public class WorkerDao extends BaseDao<Worker> {
         final CriteriaBuilder cb = em.getCriteriaBuilder();
         final CriteriaQuery<Worker> cq = cb.createQuery(Worker.class);
         final Root<Worker> workerRoot = cq.from(Worker.class);
-        cq.where(cb.equal(workerRoot.get(Worker_.email), email));
+        cq.where(cb.equal(workerRoot.get(Worker_.username), email));
         try {
             return em.createQuery(cq).getSingleResult();
         } catch (NoResultException e) {
