@@ -2,10 +2,7 @@ package cz.cvut.kbss.ear.brigade.service;
 
 import cz.cvut.kbss.ear.brigade.dao.implementations.BrigadeDao;
 import cz.cvut.kbss.ear.brigade.dao.implementations.WorkerDao;
-import cz.cvut.kbss.ear.brigade.exception.AlreadyRatedException;
-import cz.cvut.kbss.ear.brigade.exception.BrigadeIsNotFinishedException;
-import cz.cvut.kbss.ear.brigade.exception.LateSignOffException;
-import cz.cvut.kbss.ear.brigade.exception.WorkerDidNotWorkOnBrigadeException;
+import cz.cvut.kbss.ear.brigade.exception.*;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
@@ -42,6 +39,7 @@ public class WorkerService {
     }
 
     @Transactional(readOnly = true)
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
     public Worker find(Integer id) {
         return workerDao.find(id);
     }
@@ -88,10 +86,14 @@ public class WorkerService {
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or principal.username == #workerToAdd.username")
     public void singOnToBrigade(Worker workerToAdd, Brigade brigade) {
-        brigade.addWorker(workerToAdd);
-        workerToAdd.addBrigade(brigade);
-        brigadeDao.update(brigade);
-        workerDao.update(workerToAdd);
+        if (System.currentTimeMillis() <= brigade.getDateFrom().getTime()) {
+            brigade.addWorker(workerToAdd);
+            workerToAdd.addBrigade(brigade);
+            brigadeDao.update(brigade);
+            workerDao.update(workerToAdd);
+        } else {
+            throw new LateSignOnException("Too late to sing on!!!");
+        }
     }
 
     @Transactional
@@ -168,7 +170,7 @@ public class WorkerService {
 
     @PostConstruct
     public void initDb() {
-        // todo - pouze pro vygenerovani tabulek (LAZY init)
+        //pouze pro vygenerovani tabulek (LAZY init)
         final List<Worker> workers = workerDao.findAll();
     }
 }

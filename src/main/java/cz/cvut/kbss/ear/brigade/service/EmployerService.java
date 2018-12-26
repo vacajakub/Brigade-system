@@ -45,7 +45,7 @@ public class EmployerService {
     }
 
     @Transactional(readOnly = true)
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Employer> findAll() {
         return employerDao.findAll();
     }
@@ -123,9 +123,6 @@ public class EmployerService {
         return new Pair<>(countPositive, countNegative);
     }
 
-    public void sendEmailtoWorkersFromBrigade(Brigade brigade, String text) {
-        //todo poslat email vsem prihlasenym brigadnikum nejaky email
-    }
 
     @Transactional
     public int getCountOfPastBrigades(Employer employer) {

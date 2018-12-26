@@ -53,6 +53,12 @@ public class RestExceptionHandler {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(LateSignOnException.class)
+    public ResponseEntity<ErrorInfo> lateSignOn(HttpServletRequest request, LateSignOnException e) {
+        return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);
+    }
+
+
     @ExceptionHandler(AlreadyRatedException.class)
     public ResponseEntity<ErrorInfo> alreadyRatedException(HttpServletRequest request, AlreadyRatedException e) {
         return new ResponseEntity<>(errorInfo(request, e), HttpStatus.CONFLICT);

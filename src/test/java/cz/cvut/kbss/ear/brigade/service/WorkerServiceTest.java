@@ -36,8 +36,18 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
     }
 
 
-
-
+    @Test(expected = LateSignOnException.class)
+    public void singOnToBrigadeThrowsLateSignOnException() {
+        Employer employer = Generator.generateEmployer();
+        Brigade brigade = Generator.generateBrigade(true);
+        brigade.setEmployer(employer);
+        brigade.getWorkers().add(worker);
+        worker.addBrigade(brigade);
+        em.persist(employer);
+        em.persist(brigade);
+        workerService.persist(worker);
+        workerService.singOnToBrigade(worker, brigade);
+    }
 
 
     @Test
@@ -197,7 +207,6 @@ public class WorkerServiceTest extends BaseServiceTestRunner {
 
         workerService.singOnToBrigade(worker, brigade);
         workerService.singOnToBrigade(worker2, brigade);
-
     }
 
 

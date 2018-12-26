@@ -81,22 +81,6 @@ public class BrigadeController {
     }
 
 
-//    @RequestMapping(value = "/remove/worker/{brigadeId}/{workerId}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void removeWorkerFromBrigade(@PathVariable("brigadeId") Integer brigadeId,
-//                                        @PathVariable("workerId") Integer workerId) {
-//        Brigade brigade = brigadeService.find(brigadeId);
-//        if (brigade == null) {
-//            throw NotFoundException.create("Brigade", brigadeId);
-//        }
-//        Worker worker = workerService.find(workerId);
-//        if (worker == null) {
-//            throw NotFoundException.create("Worker", workerId);
-//        }
-//        brigadeService.removeWorkerFromBrigade(brigade, worker);
-//    }
-
-
     @RequestMapping(value = "/filters", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Brigade> findByFilters(@RequestParam(value = "city", required = false) String city,
                                        @RequestParam(value = "money", required = false) Integer money,

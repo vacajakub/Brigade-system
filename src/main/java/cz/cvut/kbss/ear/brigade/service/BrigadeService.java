@@ -52,7 +52,7 @@ public class BrigadeService {
     }
 
     @Transactional
-    //@PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('EMPLOYER')")
     public void create(Employer employer, Brigade brigade, Category category, Address address) {
         if (brigade.getDateTo().getTime() < brigade.getDateFrom().getTime()) {
             throw new DateToIsBeforeDateFromException("DateTo must be after DateFrom!");
@@ -70,15 +70,6 @@ public class BrigadeService {
     }
 
 
-//    @Transactional
-//    public void removeWorkerFromBrigade(Brigade brigade, Worker workerToRemove) {
-//        Objects.requireNonNull(brigade);
-//        Objects.requireNonNull(workerToRemove);
-//        brigade.getWorkers().remove(workerToRemove);
-//        workerToRemove.getBrigades().remove(brigade);
-//        brigadeDao.update(brigade);
-//        workerDao.update(workerToRemove);
-//    }
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")

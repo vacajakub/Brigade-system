@@ -5,9 +5,7 @@ import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.User;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
-import cz.cvut.kbss.ear.brigade.security.SecurityUtils;
 import cz.cvut.kbss.ear.brigade.security.model.AuthenticationToken;
-import cz.cvut.kbss.ear.brigade.security.model.UserDetails;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import javafx.util.Pair;
@@ -18,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -40,16 +37,6 @@ public class WorkerController {
         this.brigadeService = brigadeService;
     }
 
-    //TODO smazat
-    @RequestMapping(value = "/token", method = RequestMethod.GET)
-    public AuthenticationToken getToken() {
-        final Worker worker = new Worker();
-        worker.setFirstName("FirstName");
-        worker.setLastName("LastName");
-        worker.setUsername("username" + "@kbss.felk.cvut.cz");
-        worker.setPassword("23224");
-        return SecurityUtils.setCurrentUser(new UserDetails(worker));
-    }
 
     // TODO - mozna toto taky smazat nevim???
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
@@ -79,12 +66,11 @@ public class WorkerController {
         return workers;
     }
 
-    @PreAuthorize("hasRole('ADMIN') or principal.username == 'test@test.cz'")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Worker getWorker(@PathVariable("id") Integer id) {
         final Worker worker = findWorker(id);
         LOG.debug("Returned worker with id {}.", worker.getId());
-        return workerService.find(id);
+        return worker;
     }
 
     @RequestMapping(value = "/{id}/brigades/future", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
