@@ -7,6 +7,7 @@ import cz.cvut.kbss.ear.brigade.model.Brigade;
 import cz.cvut.kbss.ear.brigade.model.Category;
 import cz.cvut.kbss.ear.brigade.model.Employer;
 import cz.cvut.kbss.ear.brigade.util.Constants;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,13 @@ public class BrigadeService {
     @PreAuthorize("hasRole('ADMIN') or principal.username == #brigade.employer.email")
     public void update(Brigade brigade) {
         brigadeDao.update(brigade);
+    }
+
+    @Transactional(readOnly = true)
+    public Pair<Integer, Integer> getBrigadeScore(Brigade brigade) {
+        int countThumbsUp = brigade.getWorkersThumbsUps().size();
+        int countThumbsDown = brigade.getWorkersThumbsDowns().size();
+        return new Pair<>(countThumbsUp, countThumbsDown);
     }
 
     @Transactional

@@ -1,13 +1,11 @@
 package cz.cvut.kbss.ear.brigade.rest;
 
 import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
-import cz.cvut.kbss.ear.brigade.model.Address;
-import cz.cvut.kbss.ear.brigade.model.Brigade;
-import cz.cvut.kbss.ear.brigade.model.Category;
-import cz.cvut.kbss.ear.brigade.model.Employer;
+import cz.cvut.kbss.ear.brigade.model.*;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.CategoryService;
 import cz.cvut.kbss.ear.brigade.service.EmployerService;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +46,21 @@ public class BrigadeController {
         LOG.debug("Returned brigade with id {}.", brigade.getId());
         return brigade;
     }
+
+    @RequestMapping(value = "/{id}/workers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Worker> getAllWorkersForOneBrigade(@PathVariable("id") Integer id) {
+        final Brigade brigade = findBrigade(id);
+        LOG.debug("Returned workers for brigade with id {}.", brigade.getId());
+        return brigade.getWorkers();
+    }
+
+    @RequestMapping(value = "/{id}/score", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Pair<Integer, Integer> getWorkerScore(@PathVariable("id") Integer id) {
+        final Brigade brigade = findBrigade(id);
+        LOG.debug("Returned brigade score for brigade {}", brigade);
+        return brigadeService.getBrigadeScore(brigade);
+    }
+
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)

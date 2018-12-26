@@ -8,8 +8,6 @@ import cz.cvut.kbss.ear.brigade.model.Role;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.util.Constants;
 import javafx.util.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,9 +20,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class WorkerService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(WorkerService.class);
-
 
     private final WorkerDao workerDao;
     private final BrigadeDao brigadeDao;
@@ -150,7 +145,6 @@ public class WorkerService {
     public Pair<Integer, Integer> getWorkerScore(Worker worker) {
         int countShow = filterBrigades(worker.getBrigades(), true).size();
         int countNoShow = filterBrigades(worker.getUnvisitedBrigades(), true).size();
-        LOG.debug("Returned worker score for worker {}", worker);
         return new Pair<>(countShow, countNoShow);
     }
 
