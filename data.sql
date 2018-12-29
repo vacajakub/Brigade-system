@@ -147,11 +147,11 @@ VALUES (125, 219, '12/31/2017', '04/22/2018', 'Praesent id massa id nisl venenat
         5, 7, 3, 3, 1);
 
 INSERT INTO brigade_worker (brigades_id, workers_id)
-VALUES (103, 100);
+VALUES (100, 100);
 
 INSERT INTO brigade_worker (brigades_id, workers_id)
-VALUES (103, 103);
+VALUES (100, 103);
 
 INSERT INTO brigade_worker (brigades_id, workers_id)
-VALUES (103, 104);
+VALUES (100, 104);
 

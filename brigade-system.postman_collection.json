@@ -50,7 +50,7 @@
           "response": []
         },
         {
-          "name": "show brigade with id 3",
+          "name": "show brigade with id 103",
           "request": {
             "method": "GET",
             "header": [],
@@ -59,7 +59,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/brigades/3",
+              "raw": "http://localhost:8080/rest/brigades/103",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -68,7 +68,7 @@
               "path": [
                 "rest",
                 "brigades",
-                "3"
+                "103"
               ]
             }
           },
@@ -84,7 +84,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/workers/1/brigades/past",
+              "raw": "http://localhost:8080/rest/workers/100/brigades/past",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -93,7 +93,7 @@
               "path": [
                 "rest",
                 "workers",
-                "1",
+                "100",
                 "brigades",
                 "past"
               ]
@@ -102,7 +102,7 @@
           "response": []
         },
         {
-          "name": "show score for brigade id 3",
+          "name": "show score for brigade id 103",
           "request": {
             "method": "GET",
             "header": [],
@@ -111,7 +111,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "raw": "http://localhost:8080/rest/brigades/103/score",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -120,7 +120,7 @@
               "path": [
                 "rest",
                 "brigades",
-                "3",
+                "103",
                 "score"
               ]
             }
@@ -128,7 +128,7 @@
           "response": []
         },
         {
-          "name": "thumbs up for brigade id 3",
+          "name": "thumbs up for brigade id 103",
           "request": {
             "method": "POST",
             "header": [],
@@ -137,7 +137,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/workers/add/thumbsUp/brigade/1/3",
+              "raw": "http://localhost:8080/rest/workers/add/thumbsUp/brigade/100/103",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -149,8 +149,8 @@
                 "add",
                 "thumbsUp",
                 "brigade",
-                "1",
-                "3"
+                "100",
+                "103"
               ]
             }
           },
@@ -166,7 +166,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "raw": "http://localhost:8080/rest/brigades/103/score",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -175,7 +175,7 @@
               "path": [
                 "rest",
                 "brigades",
-                "3",
+                "103",
                 "score"
               ]
             }
@@ -192,7 +192,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/workers/add/thumbsDown/brigade/1/3",
+              "raw": "http://localhost:8080/rest/workers/add/thumbsDown/brigade/100/103",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -204,8 +204,8 @@
                 "add",
                 "thumbsDown",
                 "brigade",
-                "1",
-                "3"
+                "100",
+                "103"
               ]
             }
           },
@@ -221,7 +221,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "raw": "http://localhost:8080/rest/brigades/103/score",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -230,7 +230,7 @@
               "path": [
                 "rest",
                 "brigades",
-                "3",
+                "103",
                 "score"
               ]
             }
@@ -402,7 +402,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/workers/signOn/brigade/12/1",
+              "raw": "http://localhost:8080/rest/workers/signOn/brigade/12/100",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -414,7 +414,7 @@
                 "signOn",
                 "brigade",
                 "12",
-                "1"
+                "100"
               ]
             }
           },
@@ -457,7 +457,7 @@
               "raw": ""
             },
             "url": {
-              "raw": "http://localhost:8080/rest/brigades/1/workers",
+              "raw": "http://localhost:8080/rest/brigades/100/workers",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -466,7 +466,7 @@
               "path": [
                 "rest",
                 "brigades",
-                "1",
+                "100",
                 "workers"
               ]
             }
