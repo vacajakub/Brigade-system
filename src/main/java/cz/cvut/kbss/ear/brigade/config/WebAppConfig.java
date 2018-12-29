@@ -12,7 +12,10 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -35,14 +38,6 @@ public class WebAppConfig implements WebMvcConfigurer {
         // browser from using cached versions of the static resource files (e.g. bundle.js).
         registry.addResourceHandler("/static/**").addResourceLocations("/static/");
     }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-    }
-
 
 
     @Override
