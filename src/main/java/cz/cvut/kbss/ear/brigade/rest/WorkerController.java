@@ -2,10 +2,8 @@ package cz.cvut.kbss.ear.brigade.rest;
 
 import cz.cvut.kbss.ear.brigade.exception.NotFoundException;
 import cz.cvut.kbss.ear.brigade.model.Brigade;
-import cz.cvut.kbss.ear.brigade.model.User;
 import cz.cvut.kbss.ear.brigade.model.Worker;
 import cz.cvut.kbss.ear.brigade.rest.util.RestUtils;
-import cz.cvut.kbss.ear.brigade.security.model.AuthenticationToken;
 import cz.cvut.kbss.ear.brigade.service.BrigadeService;
 import cz.cvut.kbss.ear.brigade.service.WorkerService;
 import javafx.util.Pair;
@@ -18,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @CrossOrigin
@@ -35,15 +32,6 @@ public class WorkerController {
     public WorkerController(WorkerService workerService, BrigadeService brigadeService) {
         this.workerService = workerService;
         this.brigadeService = brigadeService;
-    }
-
-
-    // TODO - mozna toto taky smazat nevim???
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER', 'ROLE_GUEST')")
-    @RequestMapping(value = "/current", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getCurrent(Principal principal) {
-        final AuthenticationToken auth = (AuthenticationToken) principal;
-        return auth.getPrincipal().getUser();
     }
 
 

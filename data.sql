@@ -18,6 +18,13 @@ INSERT INTO categories (id, name) VALUES (2, 'Legal');
 INSERT INTO categories (id, name) VALUES (3, 'Human Resources');
 INSERT INTO categories (id, name) VALUES (4, 'Marketing');
 
+-- admin
+
+INSERT INTO admins (id, firstName, lastName, username, password, role)
+VALUES (42, 'Ross', 'Smith', 'smith@brigade.com', '$2a$10$ycJlGsmkoKMizaHqlFUiL.sNH1.rEq1hbSTllj9865S',
+        'ADMIN');
+
+
 -- workers
 INSERT INTO workers (id, firstName, lastName, username, password, role)
 VALUES (100, 'Hally', 'Stain', 'hstain@cisco.com', '$2a$10$ycJlGsmkoKMizaHqlFUiL.sNH1.rEq1hbSTllje73RyYVNR55tHWS',

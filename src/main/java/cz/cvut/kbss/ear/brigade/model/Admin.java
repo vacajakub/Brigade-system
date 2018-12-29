@@ -6,4 +6,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Admins")
 public class Admin extends User{
+
+    public Admin() {
+        setRole(Role.ADMIN);
+    }
 }

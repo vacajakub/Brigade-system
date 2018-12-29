@@ -31,10 +31,6 @@ public class PersistenceConfig {
         ds.setJdbcUrl(environment.getRequiredProperty("jdbc.url"));
         ds.setUsername(environment.getRequiredProperty("jdbc.username"));
         ds.setPassword(environment.getRequiredProperty("jdbc.password"));
-
-//        ds.setJdbcUrl("jdbc:postgresql://localhost:5432/ear_localhost");
-//        ds.setUsername("sedlifil");
-//        ds.setPassword("sedlifil");
         return ds;
     }
 
