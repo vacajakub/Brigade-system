@@ -1,0 +1,621 @@
+{
+  "info": {
+    "_postman_id": "1aa4fb84-d8ee-4d44-856f-35f857a0d9d4",
+    "name": "brigade-system",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "rate brigade",
+      "item": [
+        {
+          "name": "authentification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "hstain@cisco.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "test",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/j_spring_security_check",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "j_spring_security_check"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show brigade with id 3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get past brigades for logged in user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/1/brigades/past",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "1",
+                "brigades",
+                "past"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show score for brigade id 3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "3",
+                "score"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "thumbs up for brigade id 3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/add/thumbsUp/brigade/1/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "add",
+                "thumbsUp",
+                "brigade",
+                "1",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show changed rating",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "3",
+                "score"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "try rate thumbs down same brigade id 3",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/add/thumbsDown/brigade/1/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "add",
+                "thumbsDown",
+                "brigade",
+                "1",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show unchanged rating for brigade id 3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/3/score",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "3",
+                "score"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "worker sign on brigade use case",
+      "item": [
+        {
+          "name": "register new worker",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"id\": 12, \"firstName\": \"tst\", \"lastName\": \"test\", \"username\": \"test@test.cz\", \"password\": \"test\"}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "authentification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "test@test.cz",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "test",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/j_spring_security_check",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "j_spring_security_check"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all brigades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get future brigades empty",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/12/brigades/future",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "12",
+                "brigades",
+                "future"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get past brigades empty",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/12/brigades/past",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "12",
+                "brigades",
+                "past"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "sign on brigade id 1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/signOn/brigade/12/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "signOn",
+                "brigade",
+                "12",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get future brigade one result",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/workers/12/brigades/future",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "workers",
+                "12",
+                "brigades",
+                "future"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show all workers for brigade id 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/1/workers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "1",
+                "workers"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "create brigade use case",
+      "item": [
+        {
+          "name": "authentication as employer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "username",
+                  "value": "lost@gmail.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "test",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:8080/j_spring_security_check",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "j_spring_security_check"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create brigade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"testovaci brigada\", \"salaryPerHour\": 160, \"dateFrom\": \"2019-10-10\", \"dateTo\": \"2019-10-10\", \"description\": \"testovaci\", \"position\": \"pozice test\", \"timeFrom\": \"12:30:00\", \"duration\": 2, \"maxWorkers\": 6 }"
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades/add/brigade/1/1?city=Prahaas&street=Vodickova&zipCode=110 00",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades",
+                "add",
+                "brigade",
+                "1",
+                "1"
+              ],
+              "query": [
+                {
+                  "key": "city",
+                  "value": "Prahaas"
+                },
+                {
+                  "key": "street",
+                  "value": "Vodickova"
+                },
+                {
+                  "key": "zipCode",
+                  "value": "110 00"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "show all brigades",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/rest/brigades",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "rest",
+                "brigades"
+              ]
+            },
+            "description": "at the end we can see new brigade with name \"testovaci brigada\""
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "cf181f9d-b10d-42c7-bfe0-07d06510459a",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "8cd9cf9f-ab66-457d-a12d-caa21896929d",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
