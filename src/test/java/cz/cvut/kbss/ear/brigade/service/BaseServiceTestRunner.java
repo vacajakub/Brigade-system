@@ -1,6 +1,5 @@
 package cz.cvut.kbss.ear.brigade.service;
 
-import cz.cvut.kbss.ear.brigade.config.AppConfig;
 import cz.cvut.kbss.ear.brigade.config.PersistenceConfig;
 import cz.cvut.kbss.ear.brigade.config.ServiceConfig;
 import org.junit.Test;

@@ -71,10 +71,10 @@ public class BrigadeService {
         brigade.setCategory(category);
         category.addBrigade(brigade);
         brigade.setAddress(address);
+        addressDao.persist(address);
         brigadeDao.persist(brigade);
         employerDao.update(employer);
         categoryDao.update(category);
-        addressDao.persist(address);
     }
 
 
